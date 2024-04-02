@@ -34,7 +34,7 @@ System.out.println("loginMember : " + loginEmp);
 	PreparedStatement stmt1 = null;
 	ResultSet rs1 = null;
 	
-	String sql1 = "select emp_id from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
+	String sql1 = "select emp_id empId from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
 	
 				
 	
@@ -50,6 +50,7 @@ System.out.println("loginMember : " + loginEmp);
 	
 	if(rs1.next()){
 		System.out.println("로그인에 성공하였습니다.");
+		session.setAttribute("loginEmp",rs1.getString("empId"));
 		response.sendRedirect("/shop/emp/empList.jsp");
 		
 	}else{
