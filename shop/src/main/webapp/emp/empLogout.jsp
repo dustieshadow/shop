@@ -5,6 +5,7 @@
 
 	String sessionId = session.getId();
 	System.out.println("session.getId() : " + session.getId());
+	//세션 종료
 	session.invalidate();
 	response.sendRedirect("/shop/emp/empLoginForm.jsp");
 %>

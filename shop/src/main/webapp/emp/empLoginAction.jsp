@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import ="java.sql.*" %>
+<%@ page import ="java.util.*" %>
 
 
 <%
 	//인증분기 세션 변수 이름 loginEmp
 	System.out.println("---------------empLoginAction.jsp");
 
-String loginEmp = (String) (session.getAttribute("loginEmp"));
-System.out.println("loginMember : " + loginEmp);
 
 	if(session.getAttribute("loginEmp") != null) {
 	response.sendRedirect("/shop/emp/empList.jsp");
@@ -34,7 +33,7 @@ System.out.println("loginMember : " + loginEmp);
 	PreparedStatement stmt1 = null;
 	ResultSet rs1 = null;
 	
-	String sql1 = "select emp_id empId from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
+	String sql1 = "select emp_id empId, emp_name empName, grade from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
 	
 				
 	
@@ -50,14 +49,26 @@ System.out.println("loginMember : " + loginEmp);
 	
 	if(rs1.next()){
 		System.out.println("로그인에 성공하였습니다.");
-		session.setAttribute("loginEmp",rs1.getString("empId"));
+		//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
+		HashMap<String, Object> loginEmp = new HashMap<String, Object>();
+		loginEmp.put("empId", rs1.getString("empId"));
+		loginEmp.put("empName", rs1.getString("empName"));
+		loginEmp.put("grade", rs1.getInt("grade"));
+		
+		session.setAttribute("loginEmp",loginEmp);
 		response.sendRedirect("/shop/emp/empList.jsp");
+		
+		HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+		
+		System.out.println((String)(m.get("empId"))); //로그인 된 empId
+		System.out.println((String)(m.get("empName"))); //로그인 된 empId
+		System.out.println((Integer)(m.get("grade"))); //로그인 된 empId
 		
 	}else{
 		System.out.println("로그인에 실패하였습니다.");
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 	}
-	
+
 %>
 
 <!DOCTYPE html>

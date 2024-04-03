@@ -6,6 +6,7 @@
 <%
 	System.out.println("---------------modifyEmpActive.jsp");
 
+	//쿼리1 실행위한 변수 생성
 	String empId = null;
 	String active = null;
 	
@@ -22,7 +23,7 @@
 	System.out.println("empId : "+empId);
 	System.out.println("active : "+active);
 	
-	
+	//세션 없다면 로그인폼으로 이동
 	if(session.getAttribute("loginEmp")==null){
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
@@ -49,11 +50,8 @@
 			
 		}else{
 			System.out.println("업데이트에 실패하였습니다.");
-			response.sendRedirect("/shop/emp/empLoginForm.jsp");
-			
+			response.sendRedirect("/shop/emp/empLoginForm.jsp");	
 		}
-
-
 	} else{
 		String sql1 = "update emp set active = 'OFF' WHERE emp_id =? and active = 'ON' ";
 		
@@ -69,20 +67,15 @@
 			
 		}else{
 			System.out.println("업데이트에 실패하였습니다.");
-			response.sendRedirect("/shop/emp/empLoginForm.jsp");
-			
-		}
-
-		
+			response.sendRedirect("/shop/emp/empLoginForm.jsp");	
+		}	
 	}
-	
-	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>modifyEmpActive</title>
 </head>
 <body>
 
