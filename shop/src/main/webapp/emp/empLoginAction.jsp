@@ -45,7 +45,7 @@
 	
 	String sql1 = null;
 	
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
 	
 	
 	//고객 로그인 조회 쿼리
@@ -54,9 +54,9 @@
 	
 	if(type.equals("employee")){
 
-		sql1 = "select emp_id empId, emp_name empName, grade from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
+		sql1 = "select emp_id empId, emp_name empName, grade, emp_job empJob from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
 	} else if(type.equals("customer")){
-		sql1 = "select emp_id empId, emp_name empName, grade from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
+		sql1 = "select emp_id empId, emp_name empName, grade, emp_job empJob from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
 	}
 				
 	
@@ -80,6 +80,7 @@
 		loginEmp.put("empId", rs1.getString("empId"));
 		loginEmp.put("empName", rs1.getString("empName"));
 		loginEmp.put("grade", rs1.getInt("grade"));
+		loginEmp.put("empJob", rs1.getString("empJob"));
 		session.setAttribute("loginEmp",loginEmp);
 		
 		HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
@@ -88,6 +89,7 @@
 		System.out.println((String)(m.get("empId"))); //로그인 된 empId
 		System.out.println((String)(m.get("empName"))); //로그인 된 empId
 		System.out.println((Integer)(m.get("grade"))); //로그인 된 empId
+		System.out.println((String)(m.get("empJob"))); //로그인 된 empId
 		//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
 			
 		response.sendRedirect("/shop/emp/empMain.jsp");
