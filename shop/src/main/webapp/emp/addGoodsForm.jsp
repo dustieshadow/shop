@@ -410,11 +410,7 @@ System.out.println("grade : "+grade);
 					<span>추가</span></a>
 				
 			
-			
-			<%if(msg!=null){
-				%><%=msg %><% 
-			}%>
-			
+		
 		
 		
 			
@@ -511,6 +507,7 @@ System.out.println("grade : "+grade);
   					
   					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 				</div>
+				</form>
 				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
 			
 				<%	
@@ -592,7 +589,7 @@ System.out.println("grade : "+grade);
 			
 			<%}}} else if(modify.equals("insert")) {
 				%>
-				<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data">
+				
 				<h2 style="margin-left: 10px; margin-bottom: 30px;">상품 추가</h2>
 		
 				
@@ -604,8 +601,8 @@ System.out.println("grade : "+grade);
 				</div>
 				
 				
-				</form>
-				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
+				
+				<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data">
 					<div style="color: #5D5D5D;  margin-bottom: 10px;">
 						<button type="button" class="btn btn-light border">카테고리</button>
 						<select name="category">
@@ -653,7 +650,7 @@ System.out.println("grade : "+grade);
 					<textarea rows="5" cols="50" name="goodsContent"></textarea>
 				</div>
 				<div>
-					<button type="submit">상품 수정</button>
+					<button type="submit">신규 추가</button>
 				</div>
 				
 				
@@ -665,6 +662,11 @@ System.out.println("grade : "+grade);
 			
 				<%} %>
 			</form>
+				
+			<%if(msg!=null){
+				%><%=msg %><% 
+			}%>
+			
 			</div>
 			<div class="col">
 			
