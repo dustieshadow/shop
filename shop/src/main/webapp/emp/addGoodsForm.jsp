@@ -228,8 +228,7 @@ System.out.println("grade : "+grade);
 	
 	PreparedStatement stmt4 = null;
 	ResultSet rs4 = null;
-	conn = DriverManager.getConnection(
-			"jdbc:mariadb://127.0.0.1:20645/shop", "root", "Tx730fum5");
+	
 	//카테고리 테이블에서 카테고리 항목을 조회
 	String sql4 = "select category from category";
 	stmt4 = conn.prepareStatement(sql4);
@@ -401,10 +400,16 @@ System.out.println("grade : "+grade);
 		    </div>
 		    
 		    <div class="row">
-		    <div class="col">
-		
-			<a href="/shop/emp/addGoodsForm.jsp?modify=modify">수정하기</a>
-			<a href="/shop/emp/addGoodsForm.jsp?modify=insert">추가하기</a>
+		    <div class="col-4" style="background-color: #EBF7FF; height: 1000px; width: 450px" >
+			
+				<a href="/shop/emp/addGoodsForm.jsp?modify=modify" class="btn" style="margin-top: 20px; margin-bottom: 20px; color: #5D5D5D;" >
+					<span class="material-symbols-outlined">edit_square</span>
+					<span>수정</span></a>
+				<a href="/shop/emp/addGoodsForm.jsp?modify=insert" class="btn" style="margin-top: 20px; margin-bottom: 20px; color: #5D5D5D;">
+					<span class="material-symbols-outlined">add</span>
+					<span>추가</span></a>
+				
+			
 			
 			<%if(msg!=null){
 				%><%=msg %><% 
@@ -418,7 +423,7 @@ System.out.println("grade : "+grade);
 			
 			
 				
-					<%
+	<%
 				if((modify == null || modify.equals("modify")) && goodsNo == null){
 					
 					
@@ -426,71 +431,86 @@ System.out.println("grade : "+grade);
 				
 				
 			
-			%>
+	%>
 				<form method="post" action="/shop/emp/addGoodsForm.jsp">
-				<h1>상품정보 수정</h1>
-				<div>
-					<span>goods_no :
-					<input type="number" name="goodsNo"></span>
-					<span><input type="submit"></span>
-				</div>
-				</form>
-				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
-				<div>
-					category :
-					<select name="category">
-						<option value="">선택</option>
-						<%	//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
-							for(String c : categoryList) {
-						%>
-								<option value="<%=c%>"><%=c%></option>
-						<%		
-							}
-						%>
-					</select>
-				</div>
-				<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
-				<div>
-					goodsTitle :
-					<input type="text" name="goodsTitle">
+				<h2 style="margin-left: 10px; margin-bottom: 30px;">상품정보 변경</h2>
+				
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품코드</span>
+  					<input type="number" class="form-control" name="goodsNo">
+  					
+  					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 				</div>
 				
-				<div>
-					goodsImage :
+				
+				</form>
+				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
+					<div style="color: #5D5D5D;  margin-bottom: 10px;">
+						<button type="button" class="btn btn-light border">카테고리</button>
+						<select name="category">
+							<option value="">선택</option>
+	<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+							for(String c : categoryList) {
+	%>
+								<option value="<%=c%>"><%=c%></option>
+	<%		
+							}
+	%>
+					</select>
+
+				</div>
+
+				<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
+	
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품명</span>
+  					<input type="text" class="form-control" name="goodsTitle">
+
+				</div>
+
+				<div style="color: #5D5D5D; margin-bottom: 10px;">
+					<button type="button" class="btn btn-light border">이미지</button>
 					<input type="file" name="goodsImg">
 				</div>
 				
-				<div>
-					goodsPrice :
-					<input type="number" name="goodsPrice">
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품가</span>
+  					<input type="number" class="form-control" name="goodsPrice">
+
 				</div>
-				<div>
-					goodsAmount :
-					<input type="number" name="goodsAmount">
+				
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">보유재고</span>
+  					<input type="number" class="form-control" name="goodsAmount">
+
 				</div>
-				<div>
-					goodsContent :
+				
+				
+				
+				<div style="color: #5D5D5D;">
+					<span class="input-group-text" style="width: 90px;">제품상세</span>
 					<textarea rows="5" cols="50" name="goodsContent"></textarea>
 				</div>
 				<div>
-					<button type="submit">상품정보 수정</button>
+					<button type="submit">상품 수정</button>
 				</div>
 			
 			
-					<%
+	<%
 					}	else if(goodsNo != null){
 					
 				
 			
-			%>
-				<form method="post" action="/shop/emp/addGoodsForm.jsp">
-				<h1>상품정보 수정</h1>
-				<div>
-					<span>goods_no :
-					<input type="number" name="goodsNo" value="<%=goodsNo %>"></span>
-					<span><input type="submit"></span>
+	%>
+					<form method="post" action="/shop/emp/addGoodsForm.jsp">
+					<h2 style="margin-left: 10px; margin-bottom: 30px;">상품정보 변경</h2>
+				
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품코드</span>
+  					<input type="number" class="form-control" name="goodsNo" value="<%=goodsNo %>">
+  					
+  					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 				</div>
-				</form>
 				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
 			
 				<%	
@@ -499,50 +519,67 @@ System.out.println("grade : "+grade);
 					if(targetGoodsNo == Integer.parseInt(goodsNo)){
 						
 					
-				%>
-			
-				<div>
-					category :
-					<select name="category">
-						<option value="<%=(String)(a.get("category"))%>"><%=(String)(a.get("category")) %></option>
-						<%	//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+				%>	
+				
+				<div style="color: #5D5D5D;  margin-bottom: 10px;">
+						<button type="button" class="btn btn-light border">카테고리</button>
+						<select name="category">
+							<option value="<%=(String)(a.get("category"))%>"><%=(String)(a.get("category"))%></option>
+	<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
 							for(String c : categoryList) {
-						%>
+	%>
 								<option value="<%=c%>"><%=c%></option>
-						<%		
+	<%		
 							}
-						%>
+	%>
 					</select>
+
 				</div>
+				
+	
+				
 				<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
 				<div>
 				
 					<input type="hidden" name="goodsNo" value="<%=(Integer)(a.get("goods_no")) %>">
 				</div>
-				<div>
-					goodsTitle :
-					<input type="text" name="goodsTitle" value="<%=(String)(a.get("goods_title")) %>">
+				
+	
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품명</span>
+  					<input type="text" class="form-control" name="goodsTitle" value="<%=(String)(a.get("goods_title")) %>">
+
 				</div>
 				
-				<div>
-					goodsImage :
-					<input type="file" name="goodsImg" value="<%=(String)(a.get("filename")) %>">
+		
+				<div style="color: #5D5D5D; margin-bottom: 10px;">
+					<button type="button" class="btn btn-light border" value="<%=(String)(a.get("filename")) %>">이미지</button>
+					<input type="file" name="goodsImg">
+				</div>
+	
+					<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품가</span>
+  					<input type="number" class="form-control" name="goodsPrice" value="<%=(Integer)(a.get("goods_price")) %>">
+
 				</div>
 				
-				<div>
-					goodsPrice :
-					<input type="number" name="goodsPrice" value="<%=(Integer)(a.get("goods_price")) %>">
+	
+					<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">보유재고</span>
+  					<input type="number" class="form-control" name="goodsAmount" value="<%=(Integer)(a.get("goods_amount")) %>">
+
 				</div>
-				<div>
-					goodsAmount :
-					<input type="number" name="goodsAmount" value="<%=(Integer)(a.get("goods_amount")) %>">
+
+				
+					<div style="color: #5D5D5D;">
+					<span class="input-group-text" style="width: 90px;">제품상세</span>
+					<textarea rows="5" cols="50" name="goodsContent"><%=(String)(a.get("goods_content")) %></textarea>
 				</div>
+				
+				
+				
 				<div>
-					goodsContent :
-					<textarea rows="5" cols="50" name="goodsContent" ><%=(String)(a.get("goods_content")) %></textarea>
-				</div>
-				<div>
-					<button type="submit">상품정보 수정</button>
+					<button type="submit">상품 수정</button>
 				</div>
 			
 			
@@ -556,46 +593,76 @@ System.out.println("grade : "+grade);
 			<%}}} else if(modify.equals("insert")) {
 				%>
 				<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data">
-				<h1>상품 추가</h1>
-				<div>
-					category :
-					<select name="category">
-						<option value="">선택</option>
-						<%	//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
-							for(String c : categoryList) {
-						%>
-								<option value="<%=c%>"><%=c%></option>
-						<%		
-							}
-						%>
-					</select>
-				</div>
-				<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
-				<div>
-					goodsTitle :
-					<input type="text" name="goodsTitle">
+				<h2 style="margin-left: 10px; margin-bottom: 30px;">상품 추가</h2>
+		
+				
+			<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품코드</span>
+  					<input type="number" class="form-control" name="goodsNo" disabled>
+  					
+  					<button type="submit" value="" disabled><span class="material-symbols-outlined">check</span></button>
 				</div>
 				
-				<div>
-					goodsImage :
+				
+				</form>
+				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
+					<div style="color: #5D5D5D;  margin-bottom: 10px;">
+						<button type="button" class="btn btn-light border">카테고리</button>
+						<select name="category">
+							<option value="">선택</option>
+	<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+							for(String c : categoryList) {
+	%>
+								<option value="<%=c%>"><%=c%></option>
+	<%		
+							}
+	%>
+					</select>
+
+				</div>
+
+				<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
+	
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품명</span>
+  					<input type="text" class="form-control" name="goodsTitle">
+
+				</div>
+
+				<div style="color: #5D5D5D; margin-bottom: 10px;">
+					<button type="button" class="btn btn-light border">이미지</button>
 					<input type="file" name="goodsImg">
 				</div>
 				
-				<div>
-					goodsPrice :
-					<input type="number" name="goodsPrice">
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">상품가</span>
+  					<input type="number" class="form-control" name="goodsPrice">
+
 				</div>
-				<div>
-					goodsAmount :
-					<input type="number" name="goodsAmount">
+				
+				<div class="input-group" style="margin-bottom: 10px;">
+  					<span class="input-group-text">보유재고</span>
+  					<input type="number" class="form-control" name="goodsAmount">
+
 				</div>
-				<div>
-					goodsContent :
+				
+				
+				
+				<div style="color: #5D5D5D;">
+					<span class="input-group-text" style="width: 90px;">제품상세</span>
 					<textarea rows="5" cols="50" name="goodsContent"></textarea>
 				</div>
 				<div>
-					<button type="submit">신규 등록</button>
+					<button type="submit">상품 수정</button>
 				</div>
+				
+				
+				
+				
+				
+				
+				
+			
 				<%} %>
 			</form>
 			</div>
@@ -761,6 +828,7 @@ System.out.println("grade : "+grade);
 			
 			</div>
 		
+			</div>
 			</div>
 		</body>
 </html>

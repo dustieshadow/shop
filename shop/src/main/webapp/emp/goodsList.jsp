@@ -10,7 +10,9 @@ System.out.println("---------------goodList.jsp");
 System.out.println("[param]rowPerPage : " + request.getParameter("rowPerPage"));
 System.out.println("[param]currentPage : " + request.getParameter("currentPage"));
 System.out.println("[param]view : "+ request.getParameter("view"));
+System.out.println("[param]category : "+request.getParameter("category"));
 
+String category = null;
 
 // 인증분기	 : 세션변수 이름 - loginEmp
 if (session.getAttribute("loginEmp") == null) {
@@ -23,8 +25,11 @@ if (session.getAttribute("loginEmp") == null) {
 //페이징 관련 변수
 
 
+if(request.getParameter("category")!=null){
+	category = request.getParameter("category");
+}
 
-String category = request.getParameter("category");
+category = request.getParameter("category");
 System.out.println("category : " + category);
 
 //전체행수 검색 변수설정 -------------------------
@@ -73,11 +78,26 @@ Connection conn = null;
 PreparedStatement stmt1 = null;
 ResultSet rs1 = null;
 //쿼리1 - 테이블에 뿌릴 데이터 조회
-String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods limit ?,?";
+
+if(request.getParameter("category")!= null){
+	
+String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category =? limit ?,?";
 conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
 stmt1 = conn.prepareStatement(sql1);
-stmt1.setInt(1,limitStartPage);
-stmt1.setInt(2,rowPerPage);
+stmt1.setString(1,category);
+stmt1.setInt(2,limitStartPage);
+stmt1.setInt(3,rowPerPage);
+
+}else{
+	String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods limit ?,?";
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+	stmt1 = conn.prepareStatement(sql1);
+	
+	stmt1.setInt(1,limitStartPage);
+	stmt1.setInt(2,rowPerPage);
+}
+
+
 rs1 = stmt1.executeQuery();
 
 ArrayList<HashMap<String, Object>> categoryList = new ArrayList<HashMap<String, Object>>();
@@ -153,6 +173,25 @@ rs3.beforeFirst();
 if(rs3.next()){
 	totalRow = rs3.getInt("cnt");
 }
+
+
+PreparedStatement stmt4 = null;
+ResultSet rs4 = null;
+
+//카테고리 테이블에서 카테고리 항목을 조회
+String sql4 = "select category from category";
+stmt4 = conn.prepareStatement(sql4);
+rs4 = stmt4.executeQuery();
+
+ArrayList<String> categoryName =
+		new ArrayList<String>();
+//조회가 된다면 카테고리 칼럼값을 categoryList 리스트에 추가
+while(rs4.next()) {
+	categoryName.add(rs4.getString("category"));
+}
+// 디버깅
+System.out.println("categoryName(ArrayList<String>) : "+ categoryName);
+
 
 
 //페이징 목록 코드
@@ -281,6 +320,13 @@ System.out.println("grade : "+grade);
 		padding: 10px;
 	}
 		
+	.goods:hover{
+		
+		border:solid 1px;
+		padding: 9px;
+		border-radius: 2px;
+		border-color: #B2CCFF;
+	}
 		
 	.box {
 		margin-bottom: 5px;
@@ -372,103 +418,137 @@ System.out.println("grade : "+grade);
 			
 			<div>
 				<div class="row">
-					<div class="col-2">
-					
+					<div class="col-2" style="background-color: #EBF7FF; height: 1000px; width: 250px">		
+						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;">상품 리스트</h2>
 						
-						<h1>상품리스트</h1>
+						
+						<div style="margin-bottom: 50px;">
+							<form method="post" action="/shop/emp/goodsList.jsp">
+							category :
+								<select name="category">
+	<% 
+									if(request.getParameter("category")==null){
+	%>
+										<option value="">선택</option>
+	<%								} else{
+										for(String a : categoryName){
+											if(a.equals(category)){
+	%>											<option value=""><%=a %></option>
+	<% 
+											}
+										}
+									}
+	%>
+	<%							//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+									for(String c : categoryName) {
+	%>
+										<option value="<%=c%>"><%=c%></option>
+	<%		
+									}
+	%>
+								</select>
+								<span>
+									<button type="submit">
+										<span class="material-symbols-outlined">check</span>
+									</button>
+								</span>
+							</form>
+						</div>
+						
+						
+						
+						<div>
+							<nav class="nav a_textColor1" aria-label="Page navigation" style="margin-top: 15px; margin-bottom:100px; height:30px;">
+								<ul class="justify-content-center">			
+	<%		
+									//현재 페이지가 1 이상일때
+									if (currentPage > 1) {
+	%>
+										<li class="floatLeft a_textColor2"  >
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/emp/goodsList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span></li>
+										<li class="floatLeft a_textColor2">
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
+										</li>
+	<%									//현재 페이지가 1보다 작을때
+									} else {
+	%>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/emp/goodsList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span>
+										</li>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
+										</li>
+	<%
+									}		
+										//현재 페이지가 최종페이지가 작을 때
+									if (currentPage < totalPage) {
+	%>
+										<li class="floatLeft">
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span>
+										</li>
+										<li class="floatLeft">
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/emp/goodsList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
+	<%								//현재 페이지가 최종페이지보다 같거나 클 때
+									} else {
+	%>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span></li>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/emp/goodsList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
+	<%
+									}
+	
+	%>
+								</ul>
+							</nav>
+						</div>
+						
+
 					</div>	
 					<div class="col-10">
 						<div class="containerlist" style="height: 800px; margin-top: 100px;">
-							
-												
-							<%
-							    int count = 0;
-							    for(HashMap<String, Object> m4 : categoryList) {
-							        if(count >= 6){
-							        	break;
-							        }
-							%>
-							        <div class="goods">
-							        	<div class="divimg">
-							        	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>"></div>
-							            <div class="box"><%=m4.get("goods_no")%></div>
-							            <div class="box"><%=m4.get("category")%></div>
-							            <div class="box"><%=m4.get("goods_title")%></div>
-							            <div class="box"><%=m4.get("goods_price")%></div>
-							        </div>
-							<%
-							        count++;
-							    }
-							%>
-							</div>
-
-						</div>
-					</div>
-			
-			
-			
-				</div>
-				<div>
-					<nav class="nav a_textColor1" aria-label="Page navigation" style="margin-top: 15px; height:30px;">
-						<ul class="justify-content-center">
-							
-				<%		
-						
-								//현재 페이지가 1 이상일때
-								if (currentPage > 1) {
-				%>
-									<li class="floatLeft a_textColor2"  >
-										<span class="a_marginRight"><a class="page-link"
-										href="/shop/emp/goodsList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span></li>
-									<li class="floatLeft a_textColor2">
-										<span class="a_marginRight"><a class="page-link"
-										href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
-									</li>
-				<%				//현재 페이지가 1보다 작을때
-								} else {
-				%>
-									<li class="page-item floatLeft" style="color: gray;">
-										<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-										href="/shop/emp/goodsList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span>
-									</li>
-									<li class="page-item floatLeft" style="color: gray;">
-									<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-										href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
-									</li>
-				<%
+					
+	<%
+							int count = 0;
+							for(HashMap<String, Object> m4 : categoryList) {
+								if(count >= 6){
+									break;
 								}
-										
-								//현재 페이지가 최종페이지가 작을 때
-								if (currentPage < totalPage) {
-				%>
-									<li class="floatLeft">
-										<span class="a_marginRight"><a class="page-link"
-										href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span>
-									</li>
-									<li class="floatLeft">
-										<span class="a_marginRight"><a class="page-link"
-										href="/shop/emp/goodsList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
-				<%				//현재 페이지가 최종페이지보다 같거나 클 때
-								} else {
-				%>
-									<li class="page-item floatLeft" style="color: gray;">
-										<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-										href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span></li>
-									<li class="page-item floatLeft" style="color: gray;">
-										<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-										href="/shop/emp/goodsList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
-				<%
-								}
+	%>
+								<div class="goods">
 								
-						
-							
-				%>
-				</ul>
-				</nav>
-				
-				
-				</div>
-		
+									<div class="divimg"  style="margin-bottom: 2px;">
+								    	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
+								    </div>
+								    <div class="box" style="font-style: italic; font-size: 14px;">
+								    	상품코드 : <%=m4.get("goods_no")%>
+								    </div>      
+								    <div class="box" style="font-weight: 300;">
+								    	<%=m4.get("goods_title")%>
+								    </div>
+								    <div>
+								    	<span>상품단가 : </span>
+								        <span class="box" style="color: #CC3D3D; font-size: 18px;"><%=m4.get("goods_price")%>원</span>
+								    </div>
+								   
+								</div>
+								
+	<%
+								count++;
+							}
+	%>
+						</div>
 	
+					</div>
+				</div>
+			</div>
 		</body>
 </html>

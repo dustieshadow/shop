@@ -249,7 +249,7 @@
 		            </ul>
 		        </div>
 		    </div>
-			<div><a href="/shop/emp/empLogout.jsp">로그아웃</a></div>
+		
 			<h1>사원 목록</h1>
 			<div class="container mt-3">
 				<table class="table table-hover">
@@ -257,7 +257,7 @@
 						<tr>
 							<th>사원ID</th>
 							<th>사원이름</th>
-							<th>직종분류</th>
+							<th>직급</th>
 							<th>입사날짜</th>
 							<th>회원여부</th>
 						</tr>

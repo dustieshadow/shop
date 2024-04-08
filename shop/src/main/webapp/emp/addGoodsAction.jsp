@@ -92,7 +92,9 @@
 <!-- Controller Layer -->
 <%
     if(row == 1){
-        response.sendRedirect("/shop/emp/goodsList.jsp");
+    	
+        response.sendRedirect("/shop/emp/addGoodsForm.jsp");
+        
     } else {
     	String errMsg = URLEncoder.encode("작성에 실패했습니다. 확인 후 다시 입력하세요.", "utf-8");
     	response.sendRedirect("/shop/emp/addGoodsForm.jsp?errMsg=" + errMsg);
