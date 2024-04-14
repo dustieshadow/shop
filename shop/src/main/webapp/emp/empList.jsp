@@ -11,7 +11,7 @@
 <%
 	// 인증분기	 : 세션변수 이름 - loginEmp
 	if(session.getAttribute("loginEmp") == null) {
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		response.sendRedirect("/shop/emp/loginForm.jsp");
 		return;
 	}
 %>
@@ -113,7 +113,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-	<title>empMain</title>
+	<title>empList</title>
 	<style>
 	.banner{
 		width: 100%;

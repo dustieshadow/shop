@@ -7,13 +7,13 @@
 	System.out.println("session.getId() : " + session.getId());
 	//세션 종료
 	session.invalidate();
-	response.sendRedirect("/shop/emp/empLoginForm.jsp");
+	response.sendRedirect("/shop/emp/loginForm.jsp");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>empLogout</title>
 </head>
 <body>
 

@@ -6,7 +6,7 @@
 
 <%
 	//인증분기 세션 변수 이름 loginEmp
-	System.out.println("---------------empLoginAction.jsp");
+	System.out.println("---------------LoginAction.jsp");
 
 	System.out.println("로그인 타입(사원or고객) : "+request.getParameter("type"));
 	String type = null;
@@ -19,7 +19,7 @@
 	}
 
 	if(session.getAttribute("loginEmp") != null) {
-	response.sendRedirect("/shop/emp/empList.jsp");
+	response.sendRedirect("/shop/emp/empMain.jsp");
 	return;
 	}
 	
@@ -97,7 +97,7 @@
 	}else{
 		System.out.println("로그인에 실패하였습니다.");
 		errMsg = URLEncoder.encode("로그인에 실패하였습니다.","UTF-8");
-		response.sendRedirect("/shop/emp/empLoginForm.jsp?errMsg="+errMsg);
+		response.sendRedirect("/shop/emp/LoginForm.jsp?errMsg="+errMsg);
 	}
 
 %>
@@ -106,7 +106,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>empLoginAction</title>
+	<title>loginAction</title>
 </head>
 <body>
 

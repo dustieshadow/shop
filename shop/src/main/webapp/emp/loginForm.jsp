@@ -4,11 +4,11 @@
 
 <%
 
-System.out.println("---------------empLoginForm.jsp");
+System.out.println("---------------loginForm.jsp");
 
 //인증분기 세션 변수 이름 loginEmp
 if(session.getAttribute("loginEmp") != null) {
-	response.sendRedirect("/shop/emp/empList.jsp");
+	response.sendRedirect("/shop/emp/empMain.jsp");
 	return;
 }
 //로그인 화면에서 받을 에러메세지 변수생성
@@ -35,7 +35,7 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <head>
 <meta charset="UTF-8">
-<title>empLoginForm</title>
+<title>loginForm</title>
 <style>
 	.login{
 		display: flex;
@@ -47,7 +47,7 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 </head>
 	<body style="background-color: #FFEBFE;">
 	
-		<form method="post" action="/shop/emp/empLoginAction.jsp">
+		<form method="post" action="/shop/emp/loginAction.jsp">
 			<div class="row">
 				<div class="col"></div>
 				<div>

@@ -9,7 +9,7 @@
 
 	// 인증분기	 : 세션변수 이름 - loginEmp
 	if (session.getAttribute("loginEmp") == null) {
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		response.sendRedirect("/shop/emp/loginForm.jsp");
 		return;
 	}
 	

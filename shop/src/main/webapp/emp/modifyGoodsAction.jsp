@@ -69,7 +69,7 @@
 	
 	//세션 없다면 로그인폼으로 이동
 	if(session.getAttribute("loginEmp")==null){
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		response.sendRedirect("/shop/emp/loginForm.jsp");
 		return;
 	}
 	

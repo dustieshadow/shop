@@ -25,7 +25,7 @@
 	
 	//세션 없다면 로그인폼으로 이동
 	if(session.getAttribute("loginEmp")==null){
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		response.sendRedirect("/shop/emp/loginForm.jsp");
 		return;
 	}
 	
@@ -33,12 +33,13 @@
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
 	PreparedStatement stmt1 = null;
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
 	
 	if(active.equals("OFF")){
 		
 		String sql1 = "update emp set active = 'ON' WHERE emp_id =? and active = 'OFF' ";
 		
-		conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+		
 		stmt1 = conn.prepareStatement(sql1);
 		stmt1.setString(1,empId);
 		
@@ -55,7 +56,7 @@
 	} else{
 		String sql1 = "update emp set active = 'OFF' WHERE emp_id =? and active = 'ON' ";
 		
-		conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:20645/shop","root","Tx730fum5");
+		
 		stmt1 = conn.prepareStatement(sql1);
 		stmt1.setString(1,empId);
 		

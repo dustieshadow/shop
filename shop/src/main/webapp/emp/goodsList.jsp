@@ -16,7 +16,7 @@ String category = null;
 
 // 인증분기	 : 세션변수 이름 - loginEmp
 if (session.getAttribute("loginEmp") == null) {
-	response.sendRedirect("/shop/emp/empLoginForm.jsp");
+	response.sendRedirect("/shop/emp/loginForm.jsp");
 	return;
 }
 //controller layer
@@ -77,12 +77,13 @@ Class.forName("org.mariadb.jdbc.Driver");
 Connection conn = null;
 PreparedStatement stmt1 = null;
 ResultSet rs1 = null;
+conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
 //쿼리1 - 테이블에 뿌릴 데이터 조회
 
 if(request.getParameter("category")!= null){
 	
 String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category =? limit ?,?";
-conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+
 stmt1 = conn.prepareStatement(sql1);
 stmt1.setString(1,category);
 stmt1.setInt(2,limitStartPage);
@@ -90,7 +91,7 @@ stmt1.setInt(3,rowPerPage);
 
 }else{
 	String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods limit ?,?";
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+	
 	stmt1 = conn.prepareStatement(sql1);
 	
 	stmt1.setInt(1,limitStartPage);
