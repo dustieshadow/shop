@@ -7,10 +7,10 @@
 System.out.println("---------------loginForm.jsp");
 
 //인증분기 세션 변수 이름 loginEmp
-if(session.getAttribute("loginEmp") != null) {
-	response.sendRedirect("/shop/emp/empMain.jsp");
-	return;
-}
+//if(session.getAttribute("loginEmp") != null) {
+	//response.sendRedirect("/shop/emp/empMain.jsp");
+	//return;
+//}
 //로그인 화면에서 받을 에러메세지 변수생성
 String errMsg = null;
 
@@ -73,17 +73,19 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 						</div>
 						
 						<div>
-							<input type="text" class="rounded" style="width: 440px; height: 50px; margin-bottom: 15px; margin-top: 80px;" name="empId" placeholder="id를 입력해주세요">
+							<input type="text" class="rounded" style="width: 440px; height: 50px; margin-bottom: 15px; margin-top: 80px;" name="id" placeholder="id를 입력해주세요">
 						</div>
 						<div>
-							<input type="text" class="rounded" style="width: 440px; height: 50px; margin-bottom: 25px;" name="empPw" placeholder="pw를 입력해주세요">
+							<input type="text" class="rounded" style="width: 440px; height: 50px; margin-bottom: 25px;" name="pw" placeholder="pw를 입력해주세요">
 						</div>
 						<div>
 							<button type="submit" class="btn btn-primary btn-block" style="width: 440px;  height: 40px; margin-bottom: 20px;">로그인</button>
 						</div>
+						</form>
+						<form method="post" action="/shop/emp/addMemberForm.jsp">
 						
 						<div>
-							<button type="button" class="btn btn-primary btn-block" style="width: 440px;  height: 40px; margin-bottom: 15px;">회원가입</button>
+							<button type="submit" class="btn btn-primary btn-block" style="width: 440px;  height: 40px; margin-bottom: 15px;">회원가입</button>
 						</div>
 						<div>
 							<%

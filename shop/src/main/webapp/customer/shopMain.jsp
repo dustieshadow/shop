@@ -7,6 +7,8 @@
 <title>shopMain</title>
 </head>
 <body>
-
+	<form method="post" action="/shop/emp/empLogout.jsp">
+	<button type="submit">로그아웃</button>
+	</form>
 </body>
 </html>

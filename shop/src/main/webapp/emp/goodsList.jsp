@@ -3,6 +3,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import="java.net.*"%>
+<%@ page import="shop.dao.*" %>
 
 <%
 System.out.println("---------------goodList.jsp");
@@ -229,6 +230,13 @@ System.out.println(session.getAttribute("loginEmp"));
 System.out.println("empName : "+empName);
 System.out.println("empJob : "+empJob);
 System.out.println("grade : "+grade);
+
+/*
+int startRow = 0;
+int rowPerPage = 10;
+ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow, rowPerPage);
+*/
+
 
 %>
 <!-- view Layer -->

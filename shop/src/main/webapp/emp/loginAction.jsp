@@ -2,14 +2,18 @@
 <%@ page import ="java.sql.*" %>
 <%@ page import ="java.util.*" %>
 <%@ page import = "java.net.*" %>
+<%@ page import ="shop.dao.*" %>
 
 
 <%
 	//인증분기 세션 변수 이름 loginEmp
-	System.out.println("---------------LoginAction.jsp");
+	System.out.println("---------------LoginAction2.jsp");
 
 	System.out.println("로그인 타입(사원or고객) : "+request.getParameter("type"));
+	System.out.println("loginForm에서 받은 id값 : "+request.getParameter("id"));
+	System.out.println("loginForm에서 받은 pw값 : "+request.getParameter("pw"));
 	String type = null;
+	
 	
 	if(request.getParameter("type")!= null){
 		type = request.getParameter("type");
@@ -17,89 +21,89 @@
 		
 		
 	}
-
-	if(session.getAttribute("loginEmp") != null) {
-	response.sendRedirect("/shop/emp/empMain.jsp");
-	return;
-	}
-	
-	String empId = null;
-	String empPw = null;
-	
-	if(request.getParameter("empId") != null){
-		empId = request.getParameter("empId");
-	}
-	
-	if(request.getParameter("empPw")!=null){
-		empPw = request.getParameter("empPw");
-	}
-	
-	System.out.println("empId : " + empId);
-	System.out.println("empPw : " + empPw);
-	
-	Class.forName("org.mariadb.jdbc.Driver");
-	
-	Connection conn = null;
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null;
-	
-	String sql1 = null;
-	
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	
-	
-	//고객 로그인 조회 쿼리
-	
-	//사원 로그인 조회 쿼리
 	
 	if(type.equals("employee")){
-
-		sql1 = "select emp_id empId, emp_name empName, grade, emp_job empJob from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
-	} else if(type.equals("customer")){
-		sql1 = "select emp_id empId, emp_name empName, grade, emp_job empJob from emp where active = 'ON' and emp_id = ? and emp_pw = password(?)";
+		if(session.getAttribute("loginEmp") != null) {
+		response.sendRedirect("/shop/emp/empMain.jsp");
+		return;
+		}
 	}
-				
 	
-	//select emp_id from emp where active = 'ON' and emp_id = ? and emp_pw = password(?); --값이 있으면 로그인 성공(empList.jsp), 값이 없으면 실패(loginForm.jsp)
-								
-	
-	stmt1 = conn.prepareStatement(sql1);
-	
-	stmt1.setString(1,empId);
-	stmt1.setString(2,empPw);
-	
-	rs1 = stmt1.executeQuery();
-	
+	String id = null;
+	String pw = null;
+
 	String errMsg = null;
 	String msg = null;
 	
-	if(rs1.next()){
-		System.out.println("로그인에 성공하였습니다.");
-		//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
-		HashMap<String, Object> loginEmp = new HashMap<String, Object>();
-		loginEmp.put("empId", rs1.getString("empId"));
-		loginEmp.put("empName", rs1.getString("empName"));
-		loginEmp.put("grade", rs1.getInt("grade"));
-		loginEmp.put("empJob", rs1.getString("empJob"));
-		session.setAttribute("loginEmp",loginEmp);
-		
-		HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
-		
-		
-		System.out.println((String)(m.get("empId"))); //로그인 된 empId
-		System.out.println((String)(m.get("empName"))); //로그인 된 empId
-		System.out.println((Integer)(m.get("grade"))); //로그인 된 empId
-		System.out.println((String)(m.get("empJob"))); //로그인 된 empId
-		//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
-			
-		response.sendRedirect("/shop/emp/empMain.jsp");
-
-	}else{
-		System.out.println("로그인에 실패하였습니다.");
-		errMsg = URLEncoder.encode("로그인에 실패하였습니다.","UTF-8");
-		response.sendRedirect("/shop/emp/LoginForm.jsp?errMsg="+errMsg);
+	
+	if(request.getParameter("id") != null){
+		id = request.getParameter("id");
 	}
-
+	
+	if(request.getParameter("pw")!=null){
+		pw = request.getParameter("pw");
+	}
+	
+	
+	
+	System.out.println("id : " + id);
+	System.out.println("pw : " + pw);
+	
+	
+	if(type.equals("employee")){
+		
+		HashMap<String, Object> memberLogin = EmpDAO.empLogin(id, pw); 
+	
+		if(memberLogin!=null){
+			System.out.println("사원 로그인에 성공하였습니다.");
+			//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
+			
+			session.setAttribute("loginEmp",memberLogin);
+			
+			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+			
+			
+			System.out.println((String)(m.get("empId"))); //로그인 된 empId
+			System.out.println((String)(m.get("empName"))); //로그인 된 empId
+			System.out.println((Integer)(m.get("grade"))); //로그인 된 empId
+			System.out.println((String)(m.get("empJob"))); //로그인 된 empId
+			//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
+				
+			
+			response.sendRedirect("/shop/emp/empMain.jsp");
+	
+		}else{
+			System.out.println("사원 로그인에 실패하였습니다.");
+			errMsg = URLEncoder.encode("로그인에 실패하였습니다.","UTF-8");
+			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
+		}
+	}else if(type.equals("customer")){
+		HashMap<String, Object> memberLogin = EmpDAO.customerLogin(id,pw); 
+		
+		if(memberLogin!=null){
+			System.out.println("고객 로그인에 성공하였습니다.");
+			//하나의 세션변수 안에 여러개의 값을 저장하기 위해 HashMap타입을 사용
+			
+			session.setAttribute("loginCs",memberLogin);
+			
+			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
+			
+			
+			System.out.println((String)(m.get("csMail"))); 
+			System.out.println((String)(m.get("csName")));
+			System.out.println((String)(m.get("csGender"))); 
+			System.out.println((String)(m.get("csBirthDate"))); 
+			System.out.println((String)(m.get("csPhone")));
+			//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
+				
+			
+			response.sendRedirect("/shop/customer/shopMain.jsp");
+		}else{
+			System.out.println("고객 로그인에 실패하였습니다.");
+			errMsg = URLEncoder.encode("로그인에 실패하였습니다.","UTF-8");
+			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
+		}
+	}
 %>
 
 <!DOCTYPE html>
