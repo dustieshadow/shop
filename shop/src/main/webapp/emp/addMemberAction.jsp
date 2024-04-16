@@ -52,7 +52,7 @@
 		System.out.println("memberGender : "+memberGender);
 		System.out.println("memberPhone : "+memberPhone);
 		
-		int customerInsert = EmpDAO.insertMember(memberId, memberPw, memberName, memberBirthDate, memberGender, memberPhone);
+		int customerInsert = CustomerDAO.insertMember(memberId, memberPw, memberName, memberBirthDate, memberGender, memberPhone);
 		
 		if(customerInsert== 1){
 			System.out.println("신규 고객 가입에 성공하였습니다");

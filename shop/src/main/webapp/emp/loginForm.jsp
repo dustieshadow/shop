@@ -72,9 +72,11 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 							<span><input type="radio" name="type" id="employee" value="employee"></span>
 						</div>
 						
+						
 						<div>
 							<input type="text" class="rounded" style="width: 440px; height: 50px; margin-bottom: 15px; margin-top: 80px;" name="id" placeholder="id를 입력해주세요">
 						</div>
+					
 						<div>
 							<input type="text" class="rounded" style="width: 440px; height: 50px; margin-bottom: 25px;" name="pw" placeholder="pw를 입력해주세요">
 						</div>

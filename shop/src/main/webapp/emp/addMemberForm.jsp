@@ -9,6 +9,12 @@
 
 	System.out.println("[param] type : "+request.getParameter("type"));
 	
+	String memberId = null;
+	System.out.println("중복확인 memberId 받은 값 : "+request.getParameter("memberId"));
+	
+	if(request.getParameter("memberId")!=null){
+		memberId = request.getParameter("memberId");
+	}
 	String type = null;
 	
 	if(request.getParameter("type")!= null){
@@ -110,9 +116,8 @@
 				
 			%>
 		
-			<form method="post" action="/shop/emp/addMemberAction.jsp">
+			<form method="post" action="/shop/emp/checkId.jsp">
 				<div class="container border rounded">
-					<input type="hidden" name="type" value="customer">
 					
 					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
@@ -121,11 +126,21 @@
 					 			<span class="text">아이디</span>
 					 		</span>
 					 	</div>
-					 	<div class="col-9 border-left">
+				
+	 	
+					 	<div class="col-8 border-left">
 					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
-					 	</div> 	
-					 </div>
+					 	</div>
+					 	<div class="col-1">
+					 		<button>중복확인</button>
 					 	
+					 	</div>
+					 </div>
+					</form>
+					
+					<form method="post" action="/shop/emp/addMemberAction.jsp">
+						<input type="hidden" name="type" value="customer">
+						<input type="hidden" name="memberId" value="<%=memberId%>">
 					 	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">

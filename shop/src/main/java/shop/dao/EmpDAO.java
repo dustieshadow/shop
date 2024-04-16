@@ -8,26 +8,7 @@ import java.util.HashMap;
 
 // emp 테이블을 CRUD하는 STATIC 메서드의 컨테이너
 public class EmpDAO {
-	public static int insertMember(String memberId, String memberPw, String memberName, String memberBirthDate, String memberGender, String memberPhone )
-			throws Exception {
-		int row = 0;
-		// DB 접근
-		Connection conn = DBHelper.getConnection(); 
-		
-		String sql = "insert into customer(mail, pw, name, birth, gender, phone) values(?,password(?),?,?,?,?)";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, memberId);
-		stmt.setString(2, memberPw);
-		stmt.setString(3, memberName);
-		stmt.setString(4, memberBirthDate);
-		stmt.setString(5, memberGender);
-		stmt.setString(6, memberPhone);
-		
-		row = stmt.executeUpdate();
-		
-		conn.close();
-		return row;
-	}
+
 	
 	
 	
@@ -60,30 +41,5 @@ public class EmpDAO {
 		return resultMap;
 	}
 	
-	public static HashMap<String,Object> customerLogin(String id, String pw) throws Exception{
-		HashMap<String, Object> resultMap = null;
-		
-		Connection conn = DBHelper.getConnection();
-		
-		String sql = "select mail, pw, name, birth, gender, phone, update_date, create_date from customer where mail =? and pw = password(?)";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, id);
-		stmt.setString(2, pw);
-		ResultSet rs = stmt.executeQuery();
-		if(rs.next()) {
-			resultMap = new HashMap<String, Object>();
-			resultMap.put("csMail", rs.getString("mail"));
-			resultMap.put("csName", rs.getString("name"));
-			resultMap.put("csBirthDate", rs.getString("birth"));
-			resultMap.put("csGender", rs.getString("gender"));
-			resultMap.put("csPhone", rs.getString("phone"));
-			resultMap.put("updateDate", rs.getString("update_date"));
-			resultMap.put("createDate", rs.getString("create_date"));
-		}
-		
-		conn.close();
-		return resultMap;
-		
-		
-	}
+	
 }
