@@ -10,12 +10,21 @@
 	System.out.println("[param] type : "+request.getParameter("type"));
 	
 	String memberId = null;
-	System.out.println("중복확인 memberId 받은 값 : "+request.getParameter("memberId"));
+	String msg = null;
+	String type = null;
+	
+	System.out.println("[param]중복확인 memberId : "+request.getParameter("memberId"));
+	System.out.println("[param] msg : "+request.getParameter("msg"));
+	System.out.println("[param] type : "+request.getParameter("type"));
 	
 	if(request.getParameter("memberId")!=null){
 		memberId = request.getParameter("memberId");
 	}
-	String type = null;
+	
+	if(request.getParameter("msg")!=null){
+		msg = request.getParameter("msg");
+	}
+	
 	
 	if(request.getParameter("type")!= null){
 		type = request.getParameter("type");
@@ -109,6 +118,8 @@
 			</div>	
 		
 		
+			<%=msg %>
+		
 			<%
 				if(type == null || type.equals("customer")){
 					
@@ -116,7 +127,7 @@
 				
 			%>
 		
-			<form method="post" action="/shop/emp/checkId.jsp">
+			<form method="post" action="/shop/customer/customerCheckId.jsp">
 				<div class="container border rounded">
 					
 					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
@@ -131,11 +142,13 @@
 					 	<div class="col-8 border-left">
 					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
 					 	</div>
-					 	<div class="col-1">
-					 		<button>중복확인</button>
+					
+					 </div>
+					  	<div class="col-1">
+					 		<button type="submit">중복확인</button>
 					 	
 					 	</div>
-					 </div>
+					 	<input type="hidden" name = type value="customer">
 					</form>
 					
 					<form method="post" action="/shop/emp/addMemberAction.jsp">
@@ -215,11 +228,14 @@
 				 <%
 				} else if(type.equals("employee")){
 					
+					if(memberId==null){
+						
+					
 				 %>
 				
-				<form method="post" action="/shop/emp/addMemberAction.jsp">
+				<form method="post" action="/shop/emp/empCheckId.jsp">
 				<div class="container border rounded">
-					<input type="hidden" name="type" value="customer">
+					<input type="hidden" name="type" value="employee">
 					
 					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
@@ -228,10 +244,15 @@
 					 			<span class="text">아이디</span>
 					 		</span>
 					 	</div>
-					 	<div class="col-9 border-left">
+					 	<div class="col-7 border-left">
 					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
-					 	</div> 	
+					 	</div>
+					 	<div class="col-2 border-left">
+					 	<button type="submit" style="font-style: italic; width: 70px; height: 55px; background-color: #FFF2E6;">중복확인</button>
+					 	</div>
 					 </div>
+					 	</form>
+					 	<form method="post" action="/shop/emp/addMemberAction.jsp">
 					 	
 					 	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
@@ -241,7 +262,7 @@
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name ="memberPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
+					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
 					 	</div> 	
 					 </div>
 					 
@@ -262,7 +283,7 @@
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	<input name="memberName" type="text" class="input-field" placeholder="Name" style="font-style: italic;">
+					 	<input name="empName" type="text" class="input-field" placeholder="Name" style="font-style: italic;">
 					 	</div> 	
 					 </div>
 					 	
@@ -274,7 +295,7 @@
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="memberBirthDate" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;">
+					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;">
 					 	</div> 	
 					 </div>
 					 
@@ -286,18 +307,109 @@
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="memberGender" type="text" class="input-field" placeholder="Gender" style="font-style: italic;">
+					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;">
 					 	</div> 	
 					 </div>
 					 
 					  
 				 </div>
 				
+				<%} else if(memberId != null){
+					
+					%>
+					
+					<form method="post" action="/shop/emp/empCheckId.jsp">
+				<div class="container border rounded">
+					<input type="hidden" name="type" value="employee">
+					
+					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 	<div class="col-3">
+					 		<span style="margin-left: 10px;">
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person</span>
+					 			<span class="text">아이디</span>
+					 		</span>
+					 	</div>
+					 	<div class="col-7 border-left">
+					 	<input name = "empId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId%>">
+					 	
+					 	</div>
+					 	<div class="col-2 border-left">
+					 	<button type="submit" style="font-style: italic; width: 70px; height: 55px; background-color: #FFF2E6;">중복확인</button>
+					 	</div>
+					 </div>
+					 	</form>
+					 	<form method="post" action="/shop/emp/addMemberAction.jsp">
+					 	<input type="hidden" name = "memberId" value="<%=memberId %>">
+					 	
+					 	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
+					 	<div class="col-3">
+					 		<span style="margin-left: 10px;">
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">lock</span>
+					 			<span class="text">비밀번호</span>
+					 		</span>
+					 	</div>
+					 	<div class="col-9 border-left">
+					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
+					 	</div> 	
+					 </div>
+					 
 				
+					 	
 				
 				 
-				 <%
+				 </div>
+					
+						<div class="container border rounded" style="margin-top: 10px; height: 150px; ">
+				<input type="hidden" name="type" value="employee">
+					
+					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 	<div class="col-3">
+					 		<span style="margin-left: 10px;">
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_pin</span>
+					 			<span class="text">성명</span>
+					 		</span>
+					 	</div>
+					 	<div class="col-9 border-left">
+					 	<input name="empName" type="text" class="input-field" placeholder="Name" style="font-style: italic;">
+					 	</div> 	
+					 </div>
+					 	
+					 	 <div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 	<div class="col-3">
+					 		<span style="margin-left: 10px;">
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">calendar_clock</span>
+					 			<span class="text">부서</span>
+					 		</span>
+					 	</div>
+					 	<div class="col-9 border-left">
+					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;">
+					 	</div> 	
+					 </div>
+					 
+					  	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
+					 	<div class="col-3">
+					 		<span style="margin-left: 10px;">
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">wc</span>
+					 			<span class="text">입사날짜</span>
+					 		</span>
+					 	</div>
+					 	<div class="col-9 border-left">
+					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;">
+					 	</div> 	
+					 </div>
+					 
+					  
+				 </div>
+					
+					
+					
+					<% 
+					
+				
+				 
+				 
 				}
+			}
 				 %>
 				
 				 <div style="margin-top : 500px; background-color: green; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;"" >

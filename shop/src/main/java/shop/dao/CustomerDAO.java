@@ -1,9 +1,10 @@
 package shop.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.HashMap;
+
+import java.sql.*;
+import java.util.*;
+import java.net.*;
+
 
 public class CustomerDAO {
 	// 디버깅용 메인 메서드
@@ -168,6 +169,7 @@ public class CustomerDAO {
 		// return : boolean(사용가능하면 true, 불가면 false)
 		public static boolean checkMail(String mail) throws Exception {
 			boolean result = false;
+		
 			
 			Connection conn = DBHelper.getConnection();
 			String sql = "select mail"
@@ -183,4 +185,39 @@ public class CustomerDAO {
 			
 			return result;
 		}
-}
+		
+		public static ArrayList<HashMap<String, Object>> selectCustomerListByPage(
+				int startRow, int rowPerPage) throws Exception {
+			// currentPage + rowPerPage -> startRow를 구하는 알고리즘 코드구현 액션에서...
+			// startRow를 구하는 알고리즘 코드구현을 DAO에 하지 않도록...
+			
+			ArrayList<HashMap<String, Object>> list =
+					new ArrayList<HashMap<String, Object>>();
+			
+			Connection conn = DBHelper.getConnection();
+			String sql = "select "
+					+ "mail,name,birth,gender,update_date updateDate,create_date createDate "
+					+ " from customer"
+					+ " order by mail"
+					+ " offset ? rows fetch next ? rows only";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, startRow);
+			stmt.setInt(2, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			// JDBC Resulst(자바에서 일반적이지 않은 자료구조) 
+			//  -> (자바에서 평이한 자료구조) Collections API 타입 -> List, Set, Map 
+			while(rs.next()) {
+				HashMap<String, Object> m = new HashMap<String, Object>();
+				m.put("mail", rs.getString("mail"));
+				m.put("name", rs.getString("name"));
+				list.add(m);
+			}
+			
+			conn.close();
+			
+			return list;
+		}
+	}
+
+

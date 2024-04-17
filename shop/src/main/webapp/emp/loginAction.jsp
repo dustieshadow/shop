@@ -78,7 +78,7 @@
 			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
 		}
 	}else if(type.equals("customer")){
-		HashMap<String, Object> memberLogin = EmpDAO.customerLogin(id,pw); 
+		HashMap<String, Object> memberLogin = CustomerDAO.customerLogin(id,pw); 
 		
 		if(memberLogin!=null){
 			System.out.println("고객 로그인에 성공하였습니다.");

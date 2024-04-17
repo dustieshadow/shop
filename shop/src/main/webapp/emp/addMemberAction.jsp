@@ -12,6 +12,9 @@
 	
 	String type=null;
 	String errMsg = null;
+	String memberId = null;
+	
+	System.out.println("[param]memberId : " + memberId);
 	
 	
 	if(request.getParameter("type")!=null){
@@ -31,7 +34,7 @@
 	
 	if(type.equals("customer")){
 		
-		String memberId = null;
+		
 		String memberPw = null;
 		String memberName = null;
 		String memberBirthDate = null;

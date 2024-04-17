@@ -41,5 +41,45 @@ public class EmpDAO {
 		return resultMap;
 	}
 	
+	public static boolean checkId(String empId) throws Exception {
+		boolean result = false;
+	
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "select emp_id"
+				+ " from emp"
+				+ " where emp_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empId);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) { // 사용불가
+			result = true;
+		}		
+		conn.close();
+		
+		return result;
+	}
+	
+	public static int insertEmp(String memberId, String memberPw, String memberName, String memberJob, String memberHireDate )
+			throws Exception {
+		int row = 0;
+		// DB 접근
+		Connection conn = DBHelper.getConnection(); 
+		
+		String sql = "insert into emp(emp_id, emp_pw, emp_name, emp_job, hire_date) values(?,password(?),?,?,?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, memberId);
+		stmt.setString(2, memberPw);
+		stmt.setString(3, memberName);
+		stmt.setString(4, memberJob);
+		stmt.setString(5, memberHireDate);
+		
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
 	
 }
