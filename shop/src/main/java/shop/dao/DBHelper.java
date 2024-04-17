@@ -19,6 +19,7 @@ public class DBHelper {
 		String pw = prop.getProperty("pw");
 		
 		Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop",id,pw);
+		
 		return conn;
 	}
 }

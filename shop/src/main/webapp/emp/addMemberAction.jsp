@@ -8,7 +8,7 @@
 <%
 	System.out.println("---------addMemberAction.jsp----------");
 
-	System.out.println("회원가입 타입 : "+request.getParameter("type"));
+	System.out.println("[param]type : "+request.getParameter("type"));
 	
 	String type=null;
 	String errMsg = null;
@@ -93,22 +93,23 @@
 		System.out.println("empJob : "+empJob);
 		System.out.println("hireDate : "+hireDate);
 
-		/*
-		int empInsert = EmpDAO.insertMember(memberId, memberPw, memberName, memberBirthDate, memberGender, memberPhone);
 		
-		if(customerInsert== 1){
-			System.out.println("신규 고객 가입에 성공하였습니다");
-			errMsg = URLEncoder.encode("신규 가입에 성공하였습니다.","UTF-8");
+		
+		int empInsert = EmpDAO.insertEmp(empId, empPw, empName, empJob, hireDate);
+		
+		if(empInsert== 1){
+			System.out.println("신규 사원 가입에 성공하였습니다");
+			errMsg = URLEncoder.encode("신규 사원 가입에 성공하였습니다.","UTF-8");
 			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
 			return;
 		}else{
-			System.out.println("신규 고객 가입에 실패하였습니다.");
-			errMsg = URLEncoder.encode("회원가입에 실패하였습니다.","UTF-8");
+			System.out.println("신규 사원 가입에 실패하였습니다.");
+			errMsg = URLEncoder.encode("신규 사원 가입에 실패하였습니다.","UTF-8");
 			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
 			return;
 		}
 		
-		*/
+		
 	}
 	
 		

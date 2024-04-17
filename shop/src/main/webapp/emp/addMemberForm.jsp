@@ -100,13 +100,12 @@
         width: 100%;
         border: none;
         padding: 0 13px;
-        
+     
     }
     	.input-field:active{
     	  border: 1px solid black;
     	}
-    	
-    
+  
 </style>
 </head>
 		<body>
@@ -139,15 +138,15 @@
 					 	</div>
 				
 	 	
-					 	<div class="col-8 border-left">
+					 	<div class="col-7 border-left">
 					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
 					 	</div>
-					
-					 </div>
-					  	<div class="col-1">
-					 		<button type="submit">중복확인</button>
+						<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
+					 		<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button>
 					 	
 					 	</div>
+					 </div>
+					  
 					 	<input type="hidden" name = type value="customer">
 					</form>
 					
@@ -225,6 +224,12 @@
 					 
 				 </div>
 				 
+				  <button class="rounded" style="margin-top : 430px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+				 	<div>회원가입</div>
+				 
+				 
+				 </button>
+				 
 				 <%
 				} else if(type.equals("employee")){
 					
@@ -247,8 +252,8 @@
 					 	<div class="col-7 border-left">
 					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
 					 	</div>
-					 	<div class="col-2 border-left">
-					 	<button type="submit" style="font-style: italic; width: 70px; height: 55px; background-color: #FFF2E6;">중복확인</button>
+					 	<div class="col-2 border-left"  style="padding-left: 0px; padding-right: 0px;">
+					 	<button type="submit" style=" width: 100%; height: 100%; background-color: #32a852;">중복확인</button>
 					 	</div>
 					 </div>
 					 	</form>
@@ -265,11 +270,7 @@
 					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
 					 	</div> 	
 					 </div>
-					 
-				
-					 	
-				
-				 
+
 				 </div>
 					
 						<div class="container border rounded" style="margin-top: 10px; height: 150px; ">
@@ -290,7 +291,7 @@
 					 	 <div class="article border-bottom row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">calendar_clock</span>
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">home_work</span>
 					 			<span class="text">부서</span>
 					 		</span>
 					 	</div>
@@ -302,7 +303,7 @@
 					  	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">wc</span>
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_apron</span>
 					 			<span class="text">입사날짜</span>
 					 		</span>
 					 	</div>
@@ -333,13 +334,14 @@
 					 	<input name = "empId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId%>">
 					 	
 					 	</div>
-					 	<div class="col-2 border-left">
-					 	<button type="submit" style="font-style: italic; width: 70px; height: 55px; background-color: #FFF2E6;">중복확인</button>
+					 	<div class="col-2 border-left p-0" style="padding-left: 0px;">
+					 	<button type="submit" style=" width: 100%; height: 100%; background-color: #32a852;">중복확인</button>
+					 	
 					 	</div>
 					 </div>
 					 	</form>
 					 	<form method="post" action="/shop/emp/addMemberAction.jsp">
-					 	<input type="hidden" name = "memberId" value="<%=memberId %>">
+					 	<input type="hidden" name = "empId" value="<%=memberId %>">
 					 	
 					 	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
@@ -377,7 +379,7 @@
 					 	 <div class="article border-bottom row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">calendar_clock</span>
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">home_work</span>
 					 			<span class="text">부서</span>
 					 		</span>
 					 	</div>
@@ -389,7 +391,7 @@
 					  	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">wc</span>
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_apron</span>
 					 			<span class="text">입사날짜</span>
 					 		</span>
 					 	</div>
@@ -399,9 +401,13 @@
 					 </div>
 					 
 					  
+					  
+					
+					  
+					  
 				 </div>
 					
-					
+				
 					
 					<% 
 					
@@ -409,15 +415,19 @@
 				 
 				 
 				}
+					
+				  	%>
+					<button class="rounded" style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+					 	<div>회원가입</div>
+					 
+					 
+					 </button>
+					 <%
 			}
 				 %>
+					 
 				
-				 <div style="margin-top : 500px; background-color: green; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;"" >
-				 	<div>회원가입</div>
-				 
-				 
-				 </div>
-				 <button type="submit">회원가입</button>
+				
 			
 				
 			</form>
