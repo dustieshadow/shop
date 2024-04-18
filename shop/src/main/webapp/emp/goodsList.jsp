@@ -30,7 +30,7 @@ if(request.getParameter("category")!=null){
 	category = request.getParameter("category");
 }
 
-category = request.getParameter("category");
+
 System.out.println("category : " + category);
 
 //전체행수 검색 변수설정 -------------------------
@@ -73,7 +73,7 @@ System.out.println("limitStartPage : " + limitStartPage);
 */
 
 //model layer
-
+/*
 Class.forName("org.mariadb.jdbc.Driver");
 Connection conn = null;
 PreparedStatement stmt1 = null;
@@ -120,12 +120,17 @@ while (rs1.next()) {
 
 }
 
+*/
 
 //쿼리2 - 전체 행수 조회용 쿼리
+/*
+
 String sql2 = "select category, count(*) cnt from goods group by category";
 
 PreparedStatement stmt2 = null;
 ResultSet rs2 = null;
+
+
 
 stmt2 = conn.prepareStatement(sql2);
 rs2 = stmt2.executeQuery();
@@ -149,7 +154,7 @@ while (rs2.next()) {
 rs2.beforeFirst();
 
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
-System.out.println("categoryList(리스트에 추가된 칼럼명 목록) : "+categoryList);
+
 System.out.println("categoryCount(리스트에 추가된 카테고리 그룹별 행수 : "+categoryCount);
 
 
@@ -193,11 +198,32 @@ while(rs4.next()) {
 }
 // 디버깅
 System.out.println("categoryName(ArrayList<String>) : "+ categoryName);
+*/
+
+ArrayList<HashMap<String, Object>> selectGoodsList = null;
+ArrayList<HashMap<String, Object>> selectGoodsListCategory = null;
+
+if(request.getParameter("category")== null){
+	selectGoodsList = GoodsDAO.selectGoodsList(limitStartPage, rowPerPage);
+	System.out.println("GoodsDAO.selectGoodsList() 메서드 실행");
+		
+	}else if(request.getParameter("category")!=null){
+	selectGoodsListCategory = GoodsDAO.selectGoodsListCategory(category,limitStartPage, rowPerPage);
+		System.out.println("GoodsDAO.selectGoodsListCategory() 메서드 실행");
+	}
+
+
+ArrayList<HashMap<String, Object>> selectCountGroupByCategory = GoodsDAO.selectCountGroupByCategory();
+System.out.println("GoodsDAO.selectCountGroupByCategory() 메서드 실행");
+int selectCountGoods = GoodsDAO.selectCountGoods();
+System.out.println("GoodsDAO.selectCountGoods() 메서드 실행");
+ArrayList<String> categoryName = GoodsDAO.categoryList();
+System.out.println("categoryName = GoodsDAO.categoryList() 메서드 실행");
 
 
 
 //페이징 목록 코드
-
+totalRow = GoodsDAO.selectCountGoods();
 
 //전체행수가 로우퍼페이지 수로 나눠도 나머지가 남을 때 전체페이지에 +1 해준다
 if (totalRow % rowPerPage != 0) {
@@ -527,7 +553,12 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 					
 	<%
 							int count = 0;
-							for(HashMap<String, Object> m4 : categoryList) {
+								
+	
+							
+								if(category == null){
+									for(HashMap<String, Object> m4 : selectGoodsList) {
+								
 								if(count >= 6){
 									break;
 								}
@@ -552,6 +583,36 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 								
 	<%
 								count++;
+									}}else if(category != null){
+									for(HashMap<String, Object> m4 : selectGoodsListCategory) {
+										
+										if(count >= 6){
+											break;
+										}
+			%>
+										<div class="goods">
+										
+											<div class="divimg"  style="margin-bottom: 2px;">
+										    	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
+										    </div>
+										    <div class="box" style="font-style: italic; font-size: 14px;">
+										    	상품코드 : <%=m4.get("goods_no")%>
+										    </div>      
+										    <div class="box" style="font-weight: 300;">
+										    	<%=m4.get("goods_title")%>
+										    </div>
+										    <div>
+										    	<span>상품단가 : </span>
+										        <span class="box" style="color: #CC3D3D; font-size: 18px;"><%=m4.get("goods_price")%>원</span>
+										    </div>
+										   
+										</div>
+										
+			<%
+										count++;
+									
+								}
+								
 							}
 	%>
 						</div>
