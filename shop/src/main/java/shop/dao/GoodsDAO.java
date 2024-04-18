@@ -1,5 +1,9 @@
 package shop.dao;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,20 +15,17 @@ public class GoodsDAO {
 			throws Exception {
 
 		ArrayList<HashMap<String, Object>> selectGoodsList = new ArrayList<HashMap<String, Object>>();
-		
+
 		Connection conn = DBHelper.getConnection();
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
-		
-	
 
 		//
-		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods limit ?,?";
-		
+		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, limitStartPage);
 		stmt.setInt(2, rowPerPage);
-		
+
 		ResultSet rs = stmt.executeQuery();
 		while (rs.next()) {
 			HashMap<String, Object> m = new HashMap<String, Object>();
@@ -35,10 +36,13 @@ public class GoodsDAO {
 			m.put("goods_title", rs.getString("goods_title"));
 			m.put("goods_price", rs.getInt("goods_Price"));
 			m.put("goods_amount", rs.getInt("goods_amount"));
+			m.put("goods_content", rs.getString("goods_content"));
 			m.put("filename", rs.getString("filename"));
+			m.put("update_date", rs.getString("update_date"));
+			m.put("create_date", rs.getString("create_date"));
 
 			selectGoodsList.add(m);
-		
+
 		}
 		System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : " + selectGoodsList);
 		conn.close();
@@ -153,8 +157,7 @@ public class GoodsDAO {
 
 		return categoryList;
 	}
-	
-/*  ---------미완료지점-----------
+
 	public static int addGoods(String category, String empId, String goodsTitle, String filename, String goodsContent, int goodsPrice, int goodsAmount) throws Exception {
 
 		int addGoods = 0;
@@ -162,27 +165,35 @@ public class GoodsDAO {
 		Connection conn = DBHelper.getConnection();
 
 		//
-		String sql = "intser into"
-				+ "goods("
-				+ "category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount)"
-				+ "values("
-				+ "?,?,?,?,?,?,?)";
+		//String sql = "INSERT INTO goods(category, emp_id, goods_title, filename, goods_content, goods_price, goods_amount, update_date,create_date)values(?,?,?,?,?,?,?,now(),now())";
+		String sql = "INSERT INTO goods(category, emp_id, goods_title, filename, goods_content, goods_price, goods_amount, update_date, create_date) VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
 
+		
+		
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,category);
+		stmt.setString(2,empId);
+		stmt.setString(3,goodsTitle);
+		stmt.setString(4,filename);
+		stmt.setString(5,goodsContent);
+		stmt.setInt(6, goodsPrice);
+		stmt.setInt(7, goodsAmount);
 
+		System.out.println("stmt확인 : " + stmt);
+		
 		addGoods = stmt.executeUpdate();
 		if(addGoods==1) {
 			
 			System.out.println("상품 등록에 성공하였습니다.");
+		
 
+		}else {
+		System.out.println("상품 등록에 실패하였습니다");
 		}
-		System.out.println("totalRow : " + totalRow);
-		conn.close();
 
-		return totalRow;
+		return addGoods;
 	}
-	---------미완료지점-----------
-*/ 
+
 
 
 }

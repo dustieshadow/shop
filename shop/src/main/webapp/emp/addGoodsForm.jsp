@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
+<%@ page import = "shop.dao.*" %>
 
 <%
 System.out.println("---------------addGoodsForm.jsp");
@@ -91,7 +92,7 @@ System.out.println("limitStartPage : " + limitStartPage);
 */
 
 //model layer
-
+/*
 Class.forName("org.mariadb.jdbc.Driver");
 Connection conn = null;
 PreparedStatement stmt1 = null;
@@ -103,9 +104,9 @@ stmt1 = conn.prepareStatement(sql1);
 stmt1.setInt(1,limitStartPage);
 stmt1.setInt(2,rowPerPage);
 rs1 = stmt1.executeQuery();
-
-ArrayList<HashMap<String, Object>> goodsList = new ArrayList<HashMap<String, Object>>();
-
+*/
+ArrayList<HashMap<String, Object>> selectGoodsList = GoodsDAO.selectGoodsList(limitStartPage, rowPerPage);
+/*
 while (rs1.next()) {
 	HashMap<String, Object> m = new HashMap<String, Object>();
 	m.put("category", rs1.getString("category"));
@@ -121,9 +122,10 @@ while (rs1.next()) {
 	goodsList.add(m);
 
 }
-
+*/
 
 //쿼리2 - 전체 행수 조회용 쿼리
+/*
 String sql2 = "select category, count(*) cnt from goods group by category";
 
 PreparedStatement stmt2 = null;
@@ -149,15 +151,18 @@ while (rs2.next()) {
 }
 
 rs2.beforeFirst();
+*/
+ArrayList<HashMap<String, Object>> selectCountGroupByCategory = GoodsDAO.selectCountGroupByCategory();
 
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
-System.out.println("goodsList(리스트에 추가된 칼럼명 목록) : "+goodsList);
-System.out.println("categoryCount(리스트에 추가된 카테고리 그룹별 행수 : "+categoryCount);
+System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
+System.out.println("selectCountGroupByCategory(리스트에 추가된 카테고리 그룹별 행수 : "+selectCountGroupByCategory);
 
 
 
 
 //쿼리3 - 전체 행수 조회용 쿼리
+/*
 String sql3 = "select count(*) cnt from goods";
 
 PreparedStatement stmt3 = null;
@@ -178,7 +183,13 @@ if(rs3.next()){
 	totalRow = rs3.getInt("cnt");
 }
 
+*/
 
+int selectCountGoods = GoodsDAO.selectCountGoods();
+
+	//if(selectCountGoods==1){
+		totalRow = selectCountGoods;
+//	}
 //페이징 목록 코드
 
 
@@ -214,6 +225,9 @@ System.out.println("empName : "+empName);
 System.out.println("empJob : "+empJob);
 System.out.println("grade : "+grade);
 
+System.out.println("totalRow : " + totalRow);
+System.out.println("rowPerPage : " + rowPerPage);
+System.out.println("totalPage : " + totalPage);
 
 %>
 
@@ -223,7 +237,7 @@ System.out.println("grade : "+grade);
 
 <!-- Controller Layer -->
 
-<%
+<% /*
 	Class.forName("org.mariadb.jdbc.Driver");
 	
 	PreparedStatement stmt4 = null;
@@ -240,6 +254,9 @@ System.out.println("grade : "+grade);
 	while(rs4.next()) {
 		categoryList.add(rs4.getString("category"));
 	}
+	*/
+	
+	ArrayList<String> categoryList = GoodsDAO.categoryList();
 	// 디버깅
 	System.out.println("categoryList(ArrayList<String>) : "+ categoryList);
 	
@@ -511,7 +528,7 @@ System.out.println("grade : "+grade);
 				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
 			
 				<%	
-				for(HashMap<String, Object> a : goodsList) {
+				for(HashMap<String, Object> a : selectGoodsList) {
 					int targetGoodsNo = (Integer)(a.get("goods_no"));
 					if(targetGoodsNo == Integer.parseInt(goodsNo)){
 						
@@ -682,7 +699,7 @@ System.out.println("grade : "+grade);
 			<div>
 				<a href="/shop/emp/goodsList.jsp">전체</a>
 	<%
-				for (HashMap m2 : categoryCount) {
+				for (HashMap m2 : selectCountGroupByCategory) {
 	%>
 				<a href="/shop/emp/goodsList.jsp?category=<%=(String)(m2.get("category"))%>">
 	<%=				(String)(m2.get("category"))%>(<%=(Integer)(m2.get("cnt"))%>)
@@ -753,7 +770,7 @@ System.out.println("grade : "+grade);
 					</thead>
 					<tbody>
 	<%					//rs.getString이 아닌 HashMap으로 값을 뿌림
-						for(HashMap<String, Object> m3 : goodsList) {
+						for(HashMap<String, Object> m3 : selectGoodsList) {
 	%>
 							<tr>
 								<td><%=(Integer)(m3.get("goods_no"))%></td>
