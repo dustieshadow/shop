@@ -7,6 +7,8 @@ import java.net.*;
 
 
 public class CustomerDAO {
+	
+	
 	// 디버깅용 메인 메서드
 	//public static void main(String[] args) throws Exception {
 		// 메일 체크 메서드 디버깅

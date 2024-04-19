@@ -2,6 +2,7 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.util.*"%>
 <%@ page import = "shop.dao.*" %>
+<%@ page import="java.net.*" %>
 
 <%
 System.out.println("---------------addGoodsForm.jsp");
@@ -457,7 +458,7 @@ System.out.println("totalPage : " + totalPage);
 				
 				
 				</form>
-				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
+				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data" >
 					<div style="color: #5D5D5D;  margin-bottom: 10px;">
 						<button type="button" class="btn btn-light border">카테고리</button>
 						<select name="category">
@@ -512,7 +513,7 @@ System.out.println("totalPage : " + totalPage);
 	<%
 					}	else if(goodsNo != null){
 					
-				//------------------------------문제지점-------------------------------------
+				
 			
 	%>
 					<form method="post" action="/shop/emp/addGoodsForm.jsp">
@@ -525,7 +526,7 @@ System.out.println("totalPage : " + totalPage);
   					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 				</div>
 				</form>
-				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
+				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data" >
 			
 				<%	
 				for(HashMap<String, Object> a : selectGoodsList) {
@@ -598,12 +599,12 @@ System.out.println("totalPage : " + totalPage);
 			
 			
 
-			<!------------------------------문제지점------------------------------------->
 			
 			
 			
 			
 			
+		
 			<%}}} else if(modify.equals("insert")) {
 				%>
 				
@@ -617,9 +618,9 @@ System.out.println("totalPage : " + totalPage);
   					<button type="submit" value="" disabled><span class="material-symbols-outlined">check</span></button>
 				</div>
 				
-				
-				
-				<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data">
+	<!-- enctype="multipart/form-data" 0   문제원인 multipart에러 form에서 multipart제거하면 정상적으로 param값 전송됨  -->
+												
+				<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data" >
 					<div style="color: #5D5D5D;  margin-bottom: 10px;">
 						<button type="button" class="btn btn-light border">카테고리</button>
 						<select name="category">
@@ -669,14 +670,9 @@ System.out.println("totalPage : " + totalPage);
 				<div>
 					<button type="submit">신규 추가</button>
 				</div>
-				
-				
-				
-				
-				
-				
-				
+		
 			
+		
 				<%} %>
 			</form>
 				
@@ -687,15 +683,7 @@ System.out.println("totalPage : " + totalPage);
 			</div>
 			<div class="col">
 			
-			
-			
-			
-			
-						
-		
-			
-			
-			
+
 			<div>
 				<a href="/shop/emp/goodsList.jsp">전체</a>
 	<%
@@ -844,6 +832,9 @@ System.out.println("totalPage : " + totalPage);
 				%>
 				</ul>
 				</nav>
+			
+			
+			
 			
 			</div>
 		

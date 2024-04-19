@@ -6,6 +6,8 @@
 <%@ page import="java.io.*"%>
 <%@ page import="java.nio.file.*"%>
 <%@ page import ="shop.dao.*" %>
+
+
 <!-- Controller Layer -->
 <%
 System.out.println("---------------addGoodsAction.jsp---------------");
@@ -29,11 +31,22 @@ String empId = null;
 //해쉬맵 변수 스트링변수에 할당
 empId = (String) (m.get("empId"));
 
+System.out.println("[param]category : "+request.getParameter("category"));
+System.out.println("[param]goodsTitle : "+request.getParameter("goodsTitle"));
+System.out.println("[param]goodsPrice : "+request.getParameter("goodsPrice"));
+System.out.println("[param]goodsAmount : "+request.getParameter("goodsAmount"));
+System.out.println("[param]goodsContent : "+request.getParameter("goodsContent"));
+System.out.println("[param]goodsImg : "+request.getParameter("goodsImg"));
+System.out.println("[param]goodsNo : "+request.getParameter("goodsNo"));
+
+
+
 String category = request.getParameter("category");
 String goodsTitle = request.getParameter("goodsTitle");
 int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
 int goodsAmount = Integer.parseInt(request.getParameter("goodsAmount"));
 String goodsContent = request.getParameter("goodsContent");
+
 
 Part part = request.getPart("goodsImg");
 String originalName = part.getSubmittedFileName();
@@ -45,14 +58,15 @@ UUID uuid = UUID.randomUUID();
 String filename = uuid.toString().replace("-", "");
 filename = filename + ext;
 
+
 System.out.println("category : " + category);
 System.out.println("empId : " + empId);
 System.out.println("goodsTitle : " + goodsTitle);
-System.out.println("filename : " + filename);
+//System.out.println("filename : " + filename);
 System.out.println("goodsPrice : " + goodsPrice);
 System.out.println("goodsAmount : " + goodsAmount);
 System.out.println("goodsContent : " + goodsContent);
-/*
+
 Class.forName("org.mariadb.jdbc.Driver");
 String sql = "insert into goods(category, emp_id, goods_title, filename, goods_content, goods_price, goods_amount, update_date, create_date) values(?,?,?,?,?,?,?, now(), now())";
 Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
@@ -64,14 +78,15 @@ stmt.setString(4, filename);
 stmt.setString(5, goodsContent);
 stmt.setInt(6, goodsPrice);
 stmt.setInt(7, goodsAmount);
-*/
+
+System.out.println("stmt확인 : " + stmt);
+
+//int addGoods = GoodsDAO.addGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
+
+int row = stmt.executeUpdate();
 
 
-int addGoods = GoodsDAO.addGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
-
-//int row = stmt.executeUpdate();
-
-if (addGoods == 1) { // insert 성공하면 파일업로드
+if (row == 1) { // insert 성공하면 파일업로드
 	// part -> 1)is -> 2)os -> 3)빈파일
 	// 1)
 	InputStream is = part.getInputStream();
@@ -84,6 +99,7 @@ if (addGoods == 1) { // insert 성공하면 파일업로드
 	os.close();
 	is.close();
 }
+
 /*
 파일 삭제 API
 File df = new File(filePath, rs.getString("filename"));
@@ -93,7 +109,7 @@ df.delete()
 
 <!-- Controller Layer -->
 <%
-if (addGoods == 1) {
+if (row == 1) {
 
 	response.sendRedirect("/shop/emp/addGoodsForm.jsp");
 
