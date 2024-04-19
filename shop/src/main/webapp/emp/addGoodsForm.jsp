@@ -512,7 +512,7 @@ System.out.println("totalPage : " + totalPage);
 	<%
 					}	else if(goodsNo != null){
 					
-				
+				//------------------------------문제지점-------------------------------------
 			
 	%>
 					<form method="post" action="/shop/emp/addGoodsForm.jsp">
@@ -597,8 +597,8 @@ System.out.println("totalPage : " + totalPage);
 				</div>
 			
 			
-			
-			
+
+			<!------------------------------문제지점------------------------------------->
 			
 			
 			

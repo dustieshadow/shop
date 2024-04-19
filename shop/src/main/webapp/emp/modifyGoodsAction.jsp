@@ -5,26 +5,33 @@
 <%@ page import="java.net.*"%>
 <%@ page import="java.io.*" %>
 <%@ page import="java.nio.file.*" %>
+<%@ page import="shop.dao.*" %>
 
 <%
 	System.out.println("----------modifyGoodsAction.jsp----------");
 %>
     <% 
     	//쿼리1 실행위한 변수 생성
-	String goodsNo = null;
+	int goodsNo = 0;
 	String category = null;
 	String goodsTitle = null;
-	String goodsImage = null;
+	String goodsImg = null;
 	int goodsPrice = 0;
 	int goodsAmount = 0;
 	String goodsContent = null;
 	
 	
-	
+	System.out.println("[param]goodsNo : "+ request.getParameter("goodsNo"));
+	System.out.println("[param]category : "+request.getParameter("category"));
+	System.out.println("[param]goodsTitle : "+request.getParameter("goodsTitle"));
+	System.out.println("[param]goodsImg : "+request.getParameter("goodsImg"));
+	System.out.println("[param]goodsPrice : "+request.getParameter("goodsPrice"));
+	System.out.println("[param]goodsAmount : "+request.getParameter("goodsAmount"));
+	System.out.println("[param]goodsContent : "+request.getParameter("goodsContent"));
 	
 	
 	if(request.getParameter("goodsNo")!= null){
-		goodsNo = request.getParameter("goodsNo");
+		goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	}
 	
 
@@ -39,7 +46,7 @@
 	
 
 	if(request.getParameter("goodsImage")!= null){
-		goodsImage = request.getParameter("goodsImage");
+		goodsImg = request.getParameter("goodsImg");
 	}
 	
 	if(request.getParameter("goodsPrice")!= null){
@@ -60,7 +67,7 @@
 	System.out.println("goodsNo : "+goodsNo);
 	System.out.println("category : "+category);
 	System.out.println("goodsTitle : "+goodsTitle);
-	System.out.println("goodsImage : "+goodsImage);
+	System.out.println("goodsImg : "+goodsImg);
 	System.out.println("goodsPrice : "+goodsPrice);
 	System.out.println("goodsAmount : "+goodsAmount);
 	System.out.println("goodsContent : "+goodsContent);
@@ -73,12 +80,7 @@
 		return;
 	}
 	
-
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	PreparedStatement stmt1 = null;
-	
-		 Part part = request.getPart("goodsImg");
+	 Part part = request.getPart("goodsImg");
 	    String originalName = part.getSubmittedFileName();
 	    // 원본이름에서 확장자만 분리
 	    int dotIdx = originalName.lastIndexOf(".");
@@ -90,7 +92,12 @@
 	
 	    System.out.println("filename : "+filename);
 	
-
+	
+/*
+	Class.forName("org.mariadb.jdbc.Driver");
+	Connection conn = null;
+	PreparedStatement stmt1 = null;
+	
 		String sql1 = "update goods set goods_no=?,category=?,goods_title=?,filename=?,goods_price=?,goods_amount=?,goods_content=? where goods_no = ? ";
 		
 		conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
@@ -107,10 +114,24 @@
 		System.out.println(stmt1);
 		
 		
-		int row = stmt1.executeUpdate();
+		int row = stmt1.executeUpdate();	
+		*/
+		
+		int modifyGoods = GoodsDAO.modifyGoods(goodsNo, category, goodsTitle, filename, goodsPrice, goodsAmount, goodsContent );
+		
+		System.out.println("goodsNo : "+goodsNo);
+		System.out.println("category : "+category);
+		System.out.println("goodsTitle : "+goodsTitle);
+		System.out.println("goodsImg : "+goodsImg);
+		System.out.println("goodsPrice : "+goodsPrice);
+		System.out.println("goodsAmount : "+goodsAmount);
+		System.out.println("goodsContent : "+goodsContent);
+		
+		
+		
 		String msg = null;
 		
-		if(row==1){
+		if(modifyGoods==1){
 			
 			
 			// part -> 1)is -> 2)os -> 3)빈파일

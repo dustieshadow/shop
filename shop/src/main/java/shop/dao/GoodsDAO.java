@@ -194,6 +194,43 @@ public class GoodsDAO {
 		return addGoods;
 	}
 
+	
+	public static int modifyGoods(int goodsNo, String category, String goodsTitle, String filename, int goodsPrice, int goodsAmount, String goodsContent) throws Exception {
+
+		int modifyGoods = 0;
+
+		Connection conn = DBHelper.getConnection();
+
+		//
+			
+		String sql = "update goods set goods_no=?,category=?,goods_title=?,filename=?,goods_price=?,goods_amount=?,goods_content=? where goods_no = ? ";
+		
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1,goodsNo);
+		stmt.setString(2,category);
+		stmt.setString(3,goodsTitle);
+		stmt.setString(4,filename);
+		stmt.setInt(5,goodsPrice);
+		stmt.setInt(6, goodsAmount);
+		stmt.setString(7, goodsContent);
+		stmt.setInt(7, goodsNo);
+
+		System.out.println("stmt확인 : " + stmt);
+		
+		modifyGoods = stmt.executeUpdate();
+		if(modifyGoods==1) {
+			
+			System.out.println("상품 내용 수정에 성공하였습니다.");
+		
+
+		}else {
+		System.out.println("상품 내용 수정에 실패하였습니다");
+		}
+
+		return modifyGoods;
+	}
+
 
 
 }
