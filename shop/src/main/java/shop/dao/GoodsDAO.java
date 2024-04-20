@@ -214,7 +214,7 @@ public class GoodsDAO {
 		stmt.setInt(5,goodsPrice);
 		stmt.setInt(6, goodsAmount);
 		stmt.setString(7, goodsContent);
-		stmt.setInt(7, goodsNo);
+		stmt.setInt(8, goodsNo);
 
 		System.out.println("stmt확인 : " + stmt);
 		

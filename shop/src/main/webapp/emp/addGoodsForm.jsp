@@ -17,7 +17,7 @@ System.out.println("[param]msg : " + request.getParameter("msg"));
 String modify = null;
 String goodsNo = null;
 String msg = null;
-
+String deleteGoodsNo = null;
 
 if(request.getParameter("modify")!=null){
 	modify = request.getParameter("modify");
@@ -29,6 +29,12 @@ if(request.getParameter("goodsNo")!=null){
 	goodsNo = request.getParameter("goodsNo");
 	System.out.println("goodsNo : "+ goodsNo);
 }
+
+if(request.getParameter("deleteGoodsNo")!=null){
+	deleteGoodsNo = request.getParameter("deleteGoodsNo");
+	System.out.println("deleteGoodsNo : "+ deleteGoodsNo);
+}
+
 
 if(request.getParameter("msg")!=null){
 	msg = request.getParameter("msg");
@@ -100,7 +106,7 @@ PreparedStatement stmt1 = null;
 ResultSet rs1 = null;
 //쿼리1 - 테이블에 뿌릴 데이터 조회
 String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, update_date, create_date from goods limit ?,?";
-conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+conn = DriverManager.getConnection("");
 stmt1 = conn.prepareStatement(sql1);
 stmt1.setInt(1,limitStartPage);
 stmt1.setInt(2,rowPerPage);
@@ -424,8 +430,11 @@ System.out.println("totalPage : " + totalPage);
 					<span class="material-symbols-outlined">edit_square</span>
 					<span>수정</span></a>
 				<a href="/shop/emp/addGoodsForm.jsp?modify=insert" class="btn" style="margin-top: 20px; margin-bottom: 20px; color: #5D5D5D;">
-					<span class="material-symbols-outlined">add</span>
+					<span class="material-symbols-outlined">note_stack_add</span>
 					<span>추가</span></a>
+				<a href="/shop/emp/addGoodsForm.jsp?modify=delete" class="btn" style="margin-top: 20px; margin-bottom: 20px; color: #5D5D5D;">
+					<span class="material-symbols-outlined">delete</span>
+					<span>삭제</span></a>
 				
 			
 		
@@ -438,7 +447,7 @@ System.out.println("totalPage : " + totalPage);
 			
 				
 	<%
-				if((modify == null || modify.equals("modify")) && goodsNo == null){
+				if((modify == null || modify.equals("modify")) && (goodsNo == null && deleteGoodsNo ==null)){
 					
 					
 					
@@ -447,7 +456,7 @@ System.out.println("totalPage : " + totalPage);
 			
 	%>
 				<form method="post" action="/shop/emp/addGoodsForm.jsp">
-				<h2 style="margin-left: 10px; margin-bottom: 30px;">상품정보 변경</h2>
+				<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">edit_square</span>상품정보 변경</h2>
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품코드</span>
@@ -517,7 +526,7 @@ System.out.println("totalPage : " + totalPage);
 			
 	%>
 					<form method="post" action="/shop/emp/addGoodsForm.jsp">
-					<h2 style="margin-left: 10px; margin-bottom: 30px;">상품정보 변경</h2>
+					<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">edit_square</span>상품정보 변경</h2>
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품코드</span>
@@ -597,18 +606,82 @@ System.out.println("totalPage : " + totalPage);
 					<button type="submit">상품 수정</button>
 				</div>
 			
-			
 
-			
-			
-			
-			
-			
 		
-			<%}}} else if(modify.equals("insert")) {
+			<%}}
+				
+					}else if((deleteGoodsNo != null && modify == null) || modify.equals("delete")){
+		
+
+		%>
+					<form method="post" action="/shop/emp/addGoodsForm.jsp">
+					<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">delete</span>상품 삭제</h2>
+					
+					<div class="input-group" style="margin-bottom: 10px;">
+	  					<span class="input-group-text">상품코드</span>
+	  					<input type="number" class="form-control" name="deleteGoodsNo" value ="<%=deleteGoodsNo%>">
+	  					
+	  					<button type="submit"><span class="material-symbols-outlined">check</span></button>
+					</div>
+					</form>
+					
+					<form method="post" action="/shop/emp/deleteGoodsAction.jsp" enctype="multipart/form-data" >
+						<div style="color: #5D5D5D;  margin-bottom: 10px;">
+							<button type="button" class="btn btn-light border">카테고리</button>
+							<select name="category" disabled>
+								<option value="">선택</option>
+		<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+								for(String c : categoryList) {
+		%>
+									<option value="<%=c%>"><%=c%></option>
+		<%		
+								}
+		%>
+						</select>
+
+					</div>
+
+					<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
+		
+					<div class="input-group" style="margin-bottom: 10px;">
+	  					<span class="input-group-text">상품명</span>
+	  					<input type="text" class="form-control" name="goodsTitle" disabled>
+
+					</div>
+
+					<div style="color: #5D5D5D; margin-bottom: 10px;">
+						<button type="button" class="btn btn-light border">이미지</button>
+						<input type="file" name="goodsImg" disabled>
+					</div>
+					
+					<div class="input-group" style="margin-bottom: 10px;">
+	  					<span class="input-group-text">상품가</span>
+	  					<input type="number" class="form-control" name="goodsPrice" disabled>
+
+					</div>
+					
+					<div class="input-group" style="margin-bottom: 10px;">
+	  					<span class="input-group-text">보유재고</span>
+	  					<input type="number" class="form-control" name="goodsAmount" disabled>
+
+					</div>
+					
+					
+					
+					<div style="color: #5D5D5D;">
+						<span class="input-group-text" style="width: 90px;">제품상세</span>
+						<textarea rows="5" cols="50" name="goodsContent" disabled></textarea>
+					</div>
+					<div>
+						<button type="submit">상품 삭제</button>
+					</div>
+	
+	<!-- ----------------------------- -->
+	
+	<%}  else if(modify.equals("insert")) {
 				%>
 				
-				<h2 style="margin-left: 10px; margin-bottom: 30px;">상품 추가</h2>
+				<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">note_stack_add</span>상품 추가</h2>
 		
 				
 			<div class="input-group" style="margin-bottom: 10px;">
@@ -671,9 +744,12 @@ System.out.println("totalPage : " + totalPage);
 					<button type="submit">신규 추가</button>
 				</div>
 		
-			
+			<!-- --------------------------------------------------------- -->
 		
-				<%} %>
+				<%}%>
+	
+	
+
 			</form>
 				
 			<%if(msg!=null){

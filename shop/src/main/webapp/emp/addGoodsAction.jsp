@@ -62,11 +62,12 @@ filename = filename + ext;
 System.out.println("category : " + category);
 System.out.println("empId : " + empId);
 System.out.println("goodsTitle : " + goodsTitle);
-//System.out.println("filename : " + filename);
+System.out.println("filename : " + filename);
 System.out.println("goodsPrice : " + goodsPrice);
 System.out.println("goodsAmount : " + goodsAmount);
 System.out.println("goodsContent : " + goodsContent);
 
+/*
 Class.forName("org.mariadb.jdbc.Driver");
 String sql = "insert into goods(category, emp_id, goods_title, filename, goods_content, goods_price, goods_amount, update_date, create_date) values(?,?,?,?,?,?,?, now(), now())";
 Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
@@ -80,13 +81,15 @@ stmt.setInt(6, goodsPrice);
 stmt.setInt(7, goodsAmount);
 
 System.out.println("stmt확인 : " + stmt);
+*/
 
-//int addGoods = GoodsDAO.addGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
-
-int row = stmt.executeUpdate();
+int addGoods = GoodsDAO.addGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
 
 
-if (row == 1) { // insert 성공하면 파일업로드
+//int row = stmt.executeUpdate();
+
+
+if (addGoods == 1) { // insert 성공하면 파일업로드
 	// part -> 1)is -> 2)os -> 3)빈파일
 	// 1)
 	InputStream is = part.getInputStream();
@@ -109,7 +112,7 @@ df.delete()
 
 <!-- Controller Layer -->
 <%
-if (row == 1) {
+if (addGoods == 1) {
 
 	response.sendRedirect("/shop/emp/addGoodsForm.jsp");
 
