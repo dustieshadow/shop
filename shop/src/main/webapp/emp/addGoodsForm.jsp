@@ -13,6 +13,7 @@ System.out.println("[param]currentPage : " + request.getParameter("currentPage")
 System.out.println("[param]modify : " + request.getParameter("modify"));
 System.out.println("[param]goodsNo : " + request.getParameter("goodsNo"));
 System.out.println("[param]msg : " + request.getParameter("msg"));
+System.out.println("[param]deleteGoodsNo : " + request.getParameter("deleteGoodsNo"));
 
 String modify = null;
 String goodsNo = null;
@@ -159,12 +160,14 @@ while (rs2.next()) {
 
 rs2.beforeFirst();
 */
-ArrayList<HashMap<String, Object>> selectCountGroupByCategory = GoodsDAO.selectCountGroupByCategory();
-
+ArrayList<HashMap<String, Object>> selectCountGroupByCategory = GoodsDAO.selectGroupByCategory();
+ArrayList<HashMap<String, Object>> selectGoodsNoList = GoodsDAO.selectGoodsNoList(goodsNo);
+ArrayList<HashMap<String, Object>> deleteGoodsNoList = GoodsDAO.deleteGoodsNoList(deleteGoodsNo);
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
 System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
 System.out.println("selectCountGroupByCategory(리스트에 추가된 카테고리 그룹별 행수 : "+selectCountGroupByCategory);
-
+System.out.println("selectGoodsNoList(검색에 필요한 굿즈리스트 : "+selectGoodsNoList);
+System.out.println("deleteGoodsNoList(삭제 검색에 필요한 굿즈리스트 : "+deleteGoodsNoList);
 
 
 
@@ -378,8 +381,8 @@ System.out.println("totalPage : " + totalPage);
 		            <ul class="nav nav-tabs" role="tablist" style="border-color: transparent;">
 		                <li class="nav-item">
 		                    <a class="nav-link" href="/shop/emp/empMain.jsp">
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
-		                        <span>Account</span>
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">monitoring</span>
+		                        <span>Chart</span>
 		                    </a>
 		                </li>
 		
@@ -397,8 +400,8 @@ System.out.println("totalPage : " + totalPage);
 		                </li>
 		                <li class="nav-item">
 		                    <a class="nav-link" href="/shop/emp/categoryList.jsp"> 
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">category</span>
-		                        <span>Items</span>
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">quick_reorder</span>
+		                        <span>Order</span>
 		                    </a>
 		                </li>
 		                <li class="nav-item">
@@ -408,8 +411,8 @@ System.out.println("totalPage : " + totalPage);
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="">
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">alarm</span>
+		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>
 		                </li>
@@ -520,7 +523,7 @@ System.out.println("totalPage : " + totalPage);
 			
 			
 	<%
-					}	else if(goodsNo != null){
+					}	else if(goodsNo != null && deleteGoodsNo == null){
 					
 				
 			
@@ -538,7 +541,7 @@ System.out.println("totalPage : " + totalPage);
 				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data" >
 			
 				<%	
-				for(HashMap<String, Object> a : selectGoodsList) {
+				for(HashMap<String, Object> a : selectGoodsNoList) {
 					int targetGoodsNo = (Integer)(a.get("goods_no"));
 					if(targetGoodsNo == Integer.parseInt(goodsNo)){
 						
@@ -610,7 +613,7 @@ System.out.println("totalPage : " + totalPage);
 		
 			<%}}
 				
-					}else if((deleteGoodsNo != null && modify == null) || modify.equals("delete")){
+					}else if(modify.equals("delete") && deleteGoodsNo == null) {
 		
 
 		%>
@@ -623,6 +626,7 @@ System.out.println("totalPage : " + totalPage);
 	  					
 	  					<button type="submit"><span class="material-symbols-outlined">check</span></button>
 					</div>
+						<input type="hidden" class="form-control" name="modify" value ="delete">
 					</form>
 					
 					<form method="post" action="/shop/emp/deleteGoodsAction.jsp" enctype="multipart/form-data" >
@@ -678,7 +682,100 @@ System.out.println("totalPage : " + totalPage);
 	
 	<!-- ----------------------------- -->
 	
-	<%}  else if(modify.equals("insert")) {
+	<%}  else if(deleteGoodsNo != null && goodsNo== null  ){
+		
+		
+		
+%>
+		<form method="post" action="/shop/emp/addGoodsForm.jsp">
+		<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">delete</span>상품 삭제</h2>
+	
+	<div class="input-group" style="margin-bottom: 10px;">
+			<span class="input-group-text">상품코드</span>
+			<input type="number" class="form-control" name="deleteGoodsNo" value="<%=deleteGoodsNo %>">
+			<input type="hidden" class="form-control" name="modify" value ="delete">
+			<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
+	</div>
+	</form>
+	<form method="post" action="/shop/emp/deleteGoodsAction.jsp" enctype="multipart/form-data" >
+
+	<%	
+	for(HashMap<String, Object> a : deleteGoodsNoList) {
+		int targetGoodsNo = (Integer)(a.get("goods_no"));
+		if(targetGoodsNo == Integer.parseInt(deleteGoodsNo)){
+			
+		
+	%>	
+	
+	<div style="color: #5D5D5D;  margin-bottom: 10px;">
+			<button type="button" class="btn btn-light border">카테고리</button>
+			<select name="category" disabled >
+				<option value="<%=(String)(a.get("category"))%>"><%=(String)(a.get("category"))%></option>
+<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+				for(String c : categoryList) {
+%>
+					<option value="<%=c%>"><%=c%></option>
+<%		
+				}
+%>
+		</select>
+
+	</div>
+	
+
+	
+	<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
+	<div>
+	
+		<input type="hidden" name="goodsNo" disabled value="<%=(Integer)(a.get("goods_no")) %>">
+	</div>
+	
+
+	<div class="input-group" style="margin-bottom: 10px;">
+			<span class="input-group-text">상품명</span>
+			<input type="text" class="form-control" name="goodsTitle" disabled value="<%=(String)(a.get("goods_title")) %>">
+
+	</div>
+	
+
+	<div style="color: #5D5D5D; margin-bottom: 10px;">
+		<button type="button" class="btn btn-light border" disabled value="<%=(String)(a.get("filename")) %>">이미지</button>
+		<input type="file" name="goodsImg">
+	</div>
+
+		<div class="input-group" style="margin-bottom: 10px;">
+			<span class="input-group-text">상품가</span>
+			<input type="number" class="form-control" name="goodsPrice" disabled value="<%=(Integer)(a.get("goods_price")) %>">
+
+	</div>
+	
+
+		<div class="input-group" style="margin-bottom: 10px;">
+			<span class="input-group-text">보유재고</span>
+			<input type="number" class="form-control" name="goodsAmount" disabled value="<%=(Integer)(a.get("goods_amount")) %>">
+
+	</div>
+
+	
+		<div style="color: #5D5D5D;">
+		<span class="input-group-text" style="width: 90px;">제품상세</span>
+		<textarea rows="5" cols="50" name="goodsContent" disabled ><%=(String)(a.get("goods_content")) %></textarea>
+	</div>
+	
+	
+	
+	<div>
+		<button type="submit">상품 삭제</button>
+	</div>
+	
+	<%}}} 
+					
+					
+					
+					
+					
+					
+					else if(modify.equals("insert")) {
 				%>
 				
 				<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">note_stack_add</span>상품 추가</h2>
@@ -820,7 +917,7 @@ System.out.println("totalPage : " + totalPage);
 						</div>
 			<div class="container mt-3">
 				<table class="table table-hover">
-					<thead class="table-success">
+					<thead class="table-primary" >
 						<tr>
 							<th>상품코드</th>
 							<th>카테고리</th>

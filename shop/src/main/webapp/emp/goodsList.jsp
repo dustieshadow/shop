@@ -78,7 +78,7 @@ Class.forName("org.mariadb.jdbc.Driver");
 Connection conn = null;
 PreparedStatement stmt1 = null;
 ResultSet rs1 = null;
-conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1: /", "", "");
 //쿼리1 - 테이블에 뿌릴 데이터 조회
 
 if(request.getParameter("category")!= null){
@@ -203,7 +203,7 @@ System.out.println("categoryName(ArrayList<String>) : "+ categoryName);
 ArrayList<HashMap<String, Object>> selectGoodsList = null;
 ArrayList<HashMap<String, Object>> selectGoodsListCategory = null;
 
-if(request.getParameter("category")== null){
+if(request.getParameter("category")== null || category.equals("1")){
 	selectGoodsList = GoodsDAO.selectGoodsList(limitStartPage, rowPerPage);
 	System.out.println("GoodsDAO.selectGoodsList() 메서드 실행");
 		
@@ -213,8 +213,8 @@ if(request.getParameter("category")== null){
 	}
 
 
-ArrayList<HashMap<String, Object>> selectCountGroupByCategory = GoodsDAO.selectCountGroupByCategory();
-System.out.println("GoodsDAO.selectCountGroupByCategory() 메서드 실행");
+ArrayList<HashMap<String, Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
+System.out.println("GoodsDAO.selectGroupByCategory() 메서드 실행");
 int selectCountGoods = GoodsDAO.selectCountGoods();
 System.out.println("GoodsDAO.selectCountGoods() 메서드 실행");
 ArrayList<String> categoryName = GoodsDAO.categoryList();
@@ -406,8 +406,8 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		            <ul class="nav nav-tabs" role="tablist" style="border-color: transparent;">
 		                <li class="nav-item">
 		                    <a class="nav-link" href="/shop/emp/empMain.jsp">
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
-		                        <span>Account</span>
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">monitoring</span>
+		                        <span>Chart</span>
 		                    </a>
 		                </li>
 		
@@ -425,8 +425,8 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		                </li>
 		                <li class="nav-item">
 		                    <a class="nav-link" href="/shop/emp/categoryList.jsp"> 
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">category</span>
-		                        <span>Items</span>
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">quick_reorder</span>
+		                        <span>Order</span>
 		                    </a>
 		                </li>
 		                <li class="nav-item">
@@ -436,8 +436,8 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="">
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">alarm</span>
+		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>
 		                </li>
@@ -454,7 +454,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 			<div>
 				<div class="row">
 					<div class="col-2" style="background-color: #EBF7FF; height: 1000px; width: 250px">		
-						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;">상품 리스트</h2>
+						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;"><span class="material-symbols-outlined" style="margin-right: 10px;">inventory</span>상품 리스트</h2>
 						
 						
 						<div style="margin-bottom: 50px;">
@@ -462,13 +462,13 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 							category :
 								<select name="category">
 	<% 
-									if(request.getParameter("category")==null){
+									if(request.getParameter("category")==null||category.equals("1")){
 	%>
-										<option value="">선택</option>
+										<option value="1">선택</option>
 	<%								} else{
 										for(String a : categoryName){
 											if(a.equals(category)){
-	%>											<option value=""><%=a %></option>
+	%>											<option value="<%=a %>"><%=a %></option>
 	<% 
 											}
 										}
@@ -556,7 +556,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 								
 	
 							
-								if(category == null){
+								if(category == null ||category.equals("1")){
 									for(HashMap<String, Object> m4 : selectGoodsList) {
 								
 								if(count >= 6){

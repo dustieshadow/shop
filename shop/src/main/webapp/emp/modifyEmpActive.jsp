@@ -2,13 +2,14 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.net.*" %>
 <%@ page import="java.util.*" %>
-
+<%@ page import="shop.dao.*" %>
 <%
 	System.out.println("---------------modifyEmpActive.jsp");
 
 	//쿼리1 실행위한 변수 생성
 	String empId = null;
 	String active = null;
+	String msg = null;
 	
 	
 	if(request.getParameter("empId")!= null){
@@ -29,46 +30,42 @@
 		return;
 	}
 	
-
+ /*
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
 	PreparedStatement stmt1 = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1: / ", "", "");
 	
+	*/
 	if(active.equals("OFF")){
 		
-		String sql1 = "update emp set active = 'ON' WHERE emp_id =? and active = 'OFF' ";
 		
 		
-		stmt1 = conn.prepareStatement(sql1);
-		stmt1.setString(1,empId);
-		
-		int row = stmt1.executeUpdate();
+		int row = EmpDAO.empActiveToOn(empId);
 		
 		if(row==1){
 			System.out.println("업데이트에 성공하였습니다. OFF에서 ON으로 변경");
-			response.sendRedirect("/shop/emp/empList.jsp");
+			msg = URLEncoder.encode("업데이트에 성공하였습니다. OFF에서 ON으로 변경","UTF-8");
+			response.sendRedirect("/shop/emp/empList.jsp?msg="+msg);
 			
 		}else{
 			System.out.println("업데이트에 실패하였습니다.");
-			response.sendRedirect("/shop/emp/empLoginForm.jsp");	
+			msg = URLEncoder.encode("업데이트에 실패하였습니다.","UTF-8");
+			response.sendRedirect("/shop/emp/empLoginForm.jsp?msg="+msg);	
 		}
 	} else{
-		String sql1 = "update emp set active = 'OFF' WHERE emp_id =? and active = 'ON' ";
-		
-		
-		stmt1 = conn.prepareStatement(sql1);
-		stmt1.setString(1,empId);
-		
-		int row = stmt1.executeUpdate();
+	
+		int row = EmpDAO.empActiveToOff(empId);
 		
 		if(row==1){
 			System.out.println("업데이트에 성공하였습니다. ON에서 OFF로 변경");
-			response.sendRedirect("/shop/emp/empList.jsp");
+			msg = URLEncoder.encode("업데이트에 성공하였습니다. ON에서 OFF로 변경","UTF-8");
+			response.sendRedirect("/shop/emp/empList.jsp?msg="+msg);
 			
 		}else{
 			System.out.println("업데이트에 실패하였습니다.");
-			response.sendRedirect("/shop/emp/empLoginForm.jsp");	
+			msg = URLEncoder.encode("업데이트에 실패하였습니다","UTF-8");
+			response.sendRedirect("/shop/emp/empLoginForm.jsp?msg="+msg);	
 		}	
 	}
 %>

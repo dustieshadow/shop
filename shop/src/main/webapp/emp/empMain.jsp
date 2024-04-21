@@ -2,10 +2,26 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import= "java.util.*" %>
 <%@ page import= "java.net.*" %>
+<%@ page import="shop.dao.*" %>
 
 <%
 	System.out.println("---------------empMain.jsp");
 	System.out.println("사원 기본 화면페이지입니다.");
+	
+	System.out.println("[param]category :"+request.getParameter("category"));
+	
+	
+	String category = null;
+	int currentPage = 1;
+	int totalPage = 1;
+	int rowPerPage = 6;
+	
+	if(request.getParameter("category")!= null){
+		category = request.getParameter("category");
+		System.out.println("category : "+category);
+	}
+	
+	
 
 	// 인증분기	 : 세션변수 이름 - loginEmp
 	if (session.getAttribute("loginEmp") == null) {
@@ -36,6 +52,11 @@
 	System.out.println("empName : "+empName);
 	System.out.println("empJob : "+empJob);
 	System.out.println("grade : "+grade);
+	
+	ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
+	ArrayList<String> categoryList = GoodsDAO.categoryList();
+	ArrayList<HashMap<String,Object>> chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
+
 
 %>
 
@@ -116,6 +137,69 @@
    
 }
 
+  .chart-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 800px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+
+.chart-container {
+    display: flex;
+    justify-content:center;
+    align-items: flex-end;
+    height: 300px; 
+    border: 2px solid #000;
+    padding: 10px;
+    background-color: #f4f4f4; 
+    width: 800px;
+    margin-top: 100px;
+    margin-left: 5px;
+
+}
+  .chart-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px; 
+        }
+
+.bar {
+    width: 20%; 
+    background-color: #4CAF50; 
+    color: white; 
+    text-align: center;
+    margin: 0 5px; 
+    transition: all 0.3s ease; 
+    width: 35px;
+    min-height: 21px;
+}
+
+.bar:hover {
+    opacity: 0.8; 
+}
+
+.category-label {
+    margin-top: 5px;
+    margin-right : 30px;
+    font-size: 12px; 
+    color: #333; 
+     writing-mode: vertical-lr;
+    text-align: center;
+}
+
+.chart-group {
+        
+  display: flex;
+  flex-direction: column;
+   align-items: center;
+    margin-right: 20px;
+    }
+
+
+
 	</style>
 </head>
 		<body>
@@ -146,8 +230,8 @@
 		            <ul class="nav nav-tabs" role="tablist" style="border-color: transparent;">
 		                <li class="nav-item">
 		                    <a class="nav-link active" href="/shop/emp/empMain.jsp">
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
-		                        <span>Account</span>
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">monitoring</span>
+		                        <span>Chart</span>
 		                    </a>
 		                </li>
 		
@@ -165,8 +249,8 @@
 		                </li>
 		                <li class="nav-item">
 		                    <a class="nav-link" href="/shop/emp/categoryList.jsp"> 
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">category</span>
-		                        <span>Items</span>
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">quick_reorder</span>
+		                        <span>Order</span>
 		                    </a>
 		                </li>
 		                <li class="nav-item">
@@ -176,8 +260,8 @@
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="">
-		                        <span class="material-symbols-outlined" style="margin-right: 8px;">alarm</span>
+		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>
 		                </li>
@@ -190,10 +274,149 @@
 		            </ul>
 		        </div>
 		    </div>
-		
-		    <div>
-		
-		    </div>
+		    
+		    
+		    		<div class="row">
+					<div class="col-2" style="background-color: #EBF7FF; height: 1000px; width: 250px">		
+						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;"><span class="material-symbols-outlined" style="margin-right: 10px;">monitoring</span>메인 차트</h2>
+						
+						
+						<div style="margin-bottom: 50px;">
+							<form method="post" action="/shop/emp/empMain.jsp">
+							category :
+								<select name="category">
+	<% 
+									if(request.getParameter("category")==null){
+	%>
+										<option value="">선택</option>
+	<%								} else{
+										for(String a : categoryList){
+											if(a.equals(category)){
+	%>											<option value="<%=a %>"><%=a %></option>
+	<% 
+											}
+										}
+									}
+	%>
+	<%							//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+									for(String c : categoryList) {
+	%>
+										<option value="<%=c%>"><%=c%></option>
+	<%		
+									}
+	%>
+								</select>
+								<span>
+									<button type="submit">
+										<span class="material-symbols-outlined">check</span>
+									</button>
+								</span>
+							</form>
+						</div>
+						
+						
+						
+
+					</div>	
+		    
+		    
+		    
+		    <%
+		    if(category == null || category.equals("")){
+		    	
+		    	
+		    	int maxAmount = 0;
+		    	for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+		    		int currentAmount = (Integer) goodsAmountChart.get("goodsAmount");
+		    		if (currentAmount > maxAmount) {
+		    			maxAmount = currentAmount;
+		    		}
+		    	}
+		    	
+	
+   
+%>								
+								   <div class="chart-wrapper">
+        <div class="chart-title">품목별 재고수량 차트</div>
+        <div class="chart-container" style="margin-top: 10px;">
+            <% 
+            
+            
+            
+            for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+                int goodsAmount = (Integer) goodsAmountChart.get("goodsAmount");
+                String categoryName = (String) goodsAmountChart.get("category");
+                double maxHeight = (double) goodsAmount / maxAmount * 100;
+            %>
+            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
+            <div class="category-label"><%=categoryName%></div>
+            <% } %>
+        </div>
+    </div>
+    
+    					   <div class="chart-wrapper">
+        <div class="chart-title">매출 차트</div>
+        <div class="chart-container" style="margin-top: 10px;">
+            <% for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+                int goodsAmount = (Integer) goodsAmountChart.get("goodsAmount");
+                String categoryName = (String) goodsAmountChart.get("category");
+                double maxHeight = (double) goodsAmount / maxAmount * 100;
+            %>
+            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
+            <div class="category-label"><%=categoryName%></div>
+            <% } %>
+        </div>
+    </div>
+    
+    <%}else{
+    	
+    	
+    	int maxAmount = 0;
+    	for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
+    		int currentAmount = (Integer) goodsAmountChart.get("goodsAmount");
+    		if (currentAmount > maxAmount) {
+    			maxAmount = currentAmount;
+    		}
+    	}
+    	%>
+    	
+    			   <div class="chart-wrapper">
+        <div class="chart-title">품목별 재고수량 차트</div>
+        <div class="chart-container" style="margin-top: 10px;">
+            <% for (HashMap<String,Object> chartList : chartGoodsListCategory) {
+                int goodsAmount = (Integer) chartList.get("goodsAmount");
+                String goodsTitle = (String) chartList.get("goodsTitle");
+                double maxHeight = (double) goodsAmount / maxAmount * 100;
+            %>
+          
+            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
+            <div class="category-label"><%=goodsTitle%></div>
+          
+            <% } %>
+        </div>
+    </div>
+    
+    					   <div class="chart-wrapper">
+        <div class="chart-title">매출 차트</div>
+        <div class="chart-container" style="margin-top: 10px;">
+            <% for (HashMap<String,Object> chartList : chartGoodsListCategory) {
+                int goodsAmount = (Integer) chartList.get("goodsAmount");
+                String goodsTitle = (String) chartList.get("goodsTitle");
+                double maxHeight = (double) goodsAmount / maxAmount * 100;
+            %>
+            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
+            <div class="category-label"><%=goodsTitle%></div>
+            <% } %>
+        </div>
+    </div>
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    <%  } %>
 		</body>
 	
 </html>
