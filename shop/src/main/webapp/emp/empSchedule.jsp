@@ -204,10 +204,7 @@ ArrayList<String> arrDiaryDate = new ArrayList<>();
 }
 
 
-.yo {
-	float: left;
-	margin-right: 50px;
-}
+
 
 a {
 	text-decoration: none;
@@ -232,7 +229,7 @@ a:hover {
 
 .floatLeft {
 	float: left;
-	margin-right: 50px;
+	
 }
 
 .red {
@@ -251,11 +248,11 @@ a:hover {
 
 .floatLeft a {
     display: block;
-    width: 50px;; 
-    height: 50px; 
+    width: 100px;; 
+    height: 100px; 
     text-align: center;
     line-height: 50px; 
-    border: 1px solid #ccc; 
+    border: 1px solid #849ec2;
     background-color: #fff;
     color: #333;
     text-decoration: none; 
@@ -275,11 +272,25 @@ a:hover {
     background-color: #b5c9e8; 
 }
 
+.floatLeft a.yo {
+    display: block;
+    width: 100px;; 
+    height: 40px; 
+    text-align: center;
+    line-height: 40px; 
+    border: 1px solid #748cad;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+ 
+}
+
 
 </style>
 <title>empSchedule</title>
 </head>
 <body>
+
 <div class="container-fluid banner">
 		        <div style="margin-bottom: 13px;">
 		            <div>
@@ -352,7 +363,7 @@ a:hover {
 		        </div>
 		    </div>
 		    
-
+		    
 
 
 	<!-- 처음 페이지 진입시 분기 -->
@@ -362,13 +373,13 @@ a:hover {
 
 	<div>
 		<%=tYear%>년
-		<%=tMonth + 1%>월 입니다
+		<%=tMonth + 1%>월
 	</div>
 	<% //페이지를 넘겼을 때 분기
 	} else {
 	%>
 	<%=tYear%>년
-	<%=tMonth + 1%>월 입니다
+	<%=tMonth + 1%>월
 	<%
 	}
 	%>
@@ -377,13 +388,30 @@ a:hover {
 	<h1><%=empName%>님의 일정표
 	</h1>
 
-	<div class="yo">SUN</div>
-	<div class="yo">MON</div>
-	<div class="yo">TUE</div>
-	<div class="yo">WED</div>
-	<div class="yo">THI</div>
-	<div class="yo">FRI</div>
-	<div class="yo">SAT</div>
+
+	
+	<div class="floatClear floatLeft">
+	<a class="yo">SUN</a>
+	</div>
+	<div class="floatLeft">
+	<a class="yo">MON</a>
+	</div>
+	<div class="floatLeft">
+	<a class="yo">TUE</a>
+	</div>
+	<div class="floatLeft">
+	<a class="yo">WED</a>
+	</div>
+	<div class="floatLeft">
+	<a class="yo">THI</a>
+	</div>
+	<div class="floatLeft">
+	<a class="yo">FRI</a>
+	</div>
+	<div class="floatLeft">
+	<a class="yo">SAT</a>
+	</div>
+
 
 
 
@@ -658,21 +686,13 @@ a:hover {
 
 
 	<div class="floatClear floatLeft">
-		<a
+		<a class="yo"
 			href="/shop/emp/empSchedule.jsp?targetYear=<%=tYear%>&targetMonth=<%=tMonth - 1%> ">이전달</a>
 	</div>
 	<div class="floatLeft">
-		<a
+		<a class="yo"
 			href="/shop/emp/empSchedule.jsp?targetYear=<%=tYear%>&targetMonth=<%=tMonth + 1%>">다음달</a>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 </body>
