@@ -89,6 +89,8 @@ public class GoodsDAO {
 		return selectGoodsNoList;
 	}
 	
+	
+	
 	public static ArrayList<HashMap<String, Object>> deleteGoodsNoList(String deleteGoodsNo)
 			throws Exception {
 
@@ -122,10 +124,38 @@ public class GoodsDAO {
 			deleteGoodsNoList.add(m);
 
 		}
-		System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : " + deleteGoodsNoList);
+		System.out.println("deleteGoodsList(리스트에 추가된 칼럼명 목록) : " + deleteGoodsNoList);
 		conn.close();
 
 		return deleteGoodsNoList;
+	}
+	
+	
+	
+	
+	public static int deleteGoodsList(String deleteGoodsNo)
+			throws Exception {
+
+		int deleteGoodsList = 0;
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql = "DELETE from goods WHERE goods_no = ?";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, deleteGoodsNo);
+		
+
+		deleteGoodsList = stmt.executeUpdate();
+		if (deleteGoodsList ==1) {
+		
+		}
+		System.out.println(deleteGoodsNo+"번 항목 삭제에 성공하였습니다. ");
+		conn.close();
+
+		return deleteGoodsList;
 	}
 
 	public static ArrayList<HashMap<String, Object>> selectGoodsListCategory(String category, int limitStartPage,

@@ -11,11 +11,17 @@
 	System.out.println("----------modifyGoodsAction.jsp----------");
 %>
     <% 
+    
+  //세션 없다면 로그인폼으로 이동
+  	if(session.getAttribute("loginEmp")==null){
+  		response.sendRedirect("/shop/emp/loginForm.jsp");
+  		return;
+  	}
     	//쿼리1 실행위한 변수 생성
 	int goodsNo = 0;
 	String category = null;
 	String goodsTitle = null;
-	String goodsImg = null;
+	String goodsImg = "default";
 	int goodsPrice = 0;
 	int goodsAmount = 0;
 	String goodsContent = null;
@@ -24,7 +30,7 @@
 	System.out.println("[param]goodsNo : "+ request.getParameter("goodsNo"));
 	System.out.println("[param]category : "+request.getParameter("category"));
 	System.out.println("[param]goodsTitle : "+request.getParameter("goodsTitle"));
-	System.out.println("[param]goodsImg : "+request.getParameter("goodsImg"));
+	System.out.println("[param]goodsImg : "+request.getPart("goodsImg"));
 	System.out.println("[param]goodsPrice : "+request.getParameter("goodsPrice"));
 	System.out.println("[param]goodsAmount : "+request.getParameter("goodsAmount"));
 	System.out.println("[param]goodsContent : "+request.getParameter("goodsContent"));
@@ -43,11 +49,7 @@
 	if(request.getParameter("goodsTitle")!= null){
 		goodsTitle = request.getParameter("goodsTitle");
 	}
-	
 
-	if(request.getParameter("goodsImage")!= null){
-		goodsImg = request.getParameter("goodsImg");
-	}
 	
 	if(request.getParameter("goodsPrice")!= null){
 		goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
@@ -63,36 +65,38 @@
 		goodsContent = request.getParameter("goodsContent");
 	}
 	
+	String filename = null;
+	Part part = null;
+	
+	part = request.getPart("goodsImg");
+	String originalName = part.getSubmittedFileName();
+	
+	String exe = null;
+	int dotIdx = originalName.lastIndexOf(".");
+	
+	if(dotIdx != -1){
+		exe = originalName.substring(dotIdx);
+	}
+	
 	
 	System.out.println("goodsNo : "+goodsNo);
 	System.out.println("category : "+category);
 	System.out.println("goodsTitle : "+goodsTitle);
-	System.out.println("goodsImg : "+goodsImg);
 	System.out.println("goodsPrice : "+goodsPrice);
 	System.out.println("goodsAmount : "+goodsAmount);
 	System.out.println("goodsContent : "+goodsContent);
 	
-	
-	
-	//세션 없다면 로그인폼으로 이동
-	if(session.getAttribute("loginEmp")==null){
-		response.sendRedirect("/shop/emp/loginForm.jsp");
-		return;
-	}
-	
-	 Part part = request.getPart("goodsImg");
-	    String originalName = part.getSubmittedFileName();
-	    // 원본이름에서 확장자만 분리
-	    int dotIdx = originalName.lastIndexOf(".");
-	    String ext = originalName.substring(dotIdx); // .png
-	    
 	    UUID uuid = UUID.randomUUID();
-	    String filename = uuid.toString().replace("-", "");
-	    filename = filename + ext;
+	    filename = uuid.toString().replace("-", "");
+	    filename = filename + exe;
 	
 	    System.out.println("filename : "+filename);
 	
-	
+	    int row = 0;
+	    if(dotIdx == -1){
+	    	filename = "default.png";
+	    	System.out.println(filename);
+	    }
 /*
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = null;
@@ -149,13 +153,14 @@
 			
 			System.out.println("업데이트에 성공하였습니다. 상품정보가 변경되었습니다.");
 			msg = URLEncoder.encode("업데이트에 성공하였습니다. 상품정보가 변경되었습니다.","UTF-8");
-			response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg="+msg);
+			response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg="+msg+"&modify=modify");
 			
 			
 		}else{
 			System.out.println("업데이트에 실패하였습니다.");
 			msg = URLEncoder.encode("업데이트에 실패하였습니다.","UTF-8");
-			response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg="+msg);	
+			response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg="+msg+"&modify=modify");
+			return;
 		}
 	
 %>

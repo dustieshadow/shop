@@ -163,12 +163,12 @@ rs2.beforeFirst();
 ArrayList<HashMap<String, Object>> selectCountGroupByCategory = GoodsDAO.selectGroupByCategory();
 ArrayList<HashMap<String, Object>> selectGoodsNoList = GoodsDAO.selectGoodsNoList(goodsNo);
 ArrayList<HashMap<String, Object>> deleteGoodsNoList = GoodsDAO.deleteGoodsNoList(deleteGoodsNo);
+
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
 System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
 System.out.println("selectCountGroupByCategory(리스트에 추가된 카테고리 그룹별 행수 : "+selectCountGroupByCategory);
 System.out.println("selectGoodsNoList(검색에 필요한 굿즈리스트 : "+selectGoodsNoList);
 System.out.println("deleteGoodsNoList(삭제 검색에 필요한 굿즈리스트 : "+deleteGoodsNoList);
-
 
 
 //쿼리3 - 전체 행수 조회용 쿼리
@@ -463,7 +463,7 @@ System.out.println("totalPage : " + totalPage);
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품코드</span>
-  					<input type="number" class="form-control" name="goodsNo">
+  					<input type="number" class="form-control" name="goodsNo" required>
   					
   					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 				</div>
@@ -473,7 +473,7 @@ System.out.println("totalPage : " + totalPage);
 				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data" >
 					<div style="color: #5D5D5D;  margin-bottom: 10px;">
 						<button type="button" class="btn btn-light border">카테고리</button>
-						<select name="category">
+						<select name="category" required>
 							<option value="">선택</option>
 	<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
 							for(String c : categoryList) {
@@ -490,7 +490,7 @@ System.out.println("totalPage : " + totalPage);
 	
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품명</span>
-  					<input type="text" class="form-control" name="goodsTitle">
+  					<input type="text" class="form-control" name="goodsTitle" required>
 
 				</div>
 
@@ -501,13 +501,13 @@ System.out.println("totalPage : " + totalPage);
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품가</span>
-  					<input type="number" class="form-control" name="goodsPrice">
+  					<input type="number" class="form-control" name="goodsPrice" required>
 
 				</div>
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">보유재고</span>
-  					<input type="number" class="form-control" name="goodsAmount">
+  					<input type="number" class="form-control" name="goodsAmount" required>
 
 				</div>
 				
@@ -533,7 +533,7 @@ System.out.println("totalPage : " + totalPage);
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품코드</span>
-  					<input type="number" class="form-control" name="goodsNo" value="<%=goodsNo %>">
+  					<input type="number" class="form-control" name="goodsNo" value="<%=goodsNo %>" required>
   					
   					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 				</div>
@@ -550,7 +550,7 @@ System.out.println("totalPage : " + totalPage);
 				
 				<div style="color: #5D5D5D;  margin-bottom: 10px;">
 						<button type="button" class="btn btn-light border">카테고리</button>
-						<select name="category">
+						<select name="category" required>
 							<option value="<%=(String)(a.get("category"))%>"><%=(String)(a.get("category"))%></option>
 	<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
 							for(String c : categoryList) {
@@ -574,7 +574,7 @@ System.out.println("totalPage : " + totalPage);
 	
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품명</span>
-  					<input type="text" class="form-control" name="goodsTitle" value="<%=(String)(a.get("goods_title")) %>">
+  					<input type="text" class="form-control" name="goodsTitle" value="<%=(String)(a.get("goods_title")) %>" required>
 
 				</div>
 				
@@ -586,14 +586,14 @@ System.out.println("totalPage : " + totalPage);
 	
 					<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품가</span>
-  					<input type="number" class="form-control" name="goodsPrice" value="<%=(Integer)(a.get("goods_price")) %>">
+  					<input type="number" class="form-control" name="goodsPrice" value="<%=(Integer)(a.get("goods_price")) %>" required>
 
 				</div>
 				
 	
 					<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">보유재고</span>
-  					<input type="number" class="form-control" name="goodsAmount" value="<%=(Integer)(a.get("goods_amount")) %>">
+  					<input type="number" class="form-control" name="goodsAmount" value="<%=(Integer)(a.get("goods_amount")) %>" required>
 
 				</div>
 
@@ -697,7 +697,7 @@ System.out.println("totalPage : " + totalPage);
 			<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
 	</div>
 	</form>
-	<form method="post" action="/shop/emp/deleteGoodsAction.jsp" enctype="multipart/form-data" >
+	<form method="post" action="/shop/emp/deleteGoodsAction.jsp">
 
 	<%	
 	for(HashMap<String, Object> a : deleteGoodsNoList) {
@@ -727,7 +727,8 @@ System.out.println("totalPage : " + totalPage);
 	<!-- emp_id값은 action쪽에서 세션변수에서 바인딩 -->
 	<div>
 	
-		<input type="hidden" name="goodsNo" disabled value="<%=(Integer)(a.get("goods_no")) %>">
+		<input type="hidden" name="deleteGoodsNo" value="<%=(Integer)(a.get("goods_no")) %>">
+		
 	</div>
 	
 
@@ -793,7 +794,7 @@ System.out.println("totalPage : " + totalPage);
 				<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data" >
 					<div style="color: #5D5D5D;  margin-bottom: 10px;">
 						<button type="button" class="btn btn-light border">카테고리</button>
-						<select name="category">
+						<select name="category" required>
 							<option value="">선택</option>
 	<%						//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
 							for(String c : categoryList) {
@@ -810,7 +811,7 @@ System.out.println("totalPage : " + totalPage);
 	
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품명</span>
-  					<input type="text" class="form-control" name="goodsTitle">
+  					<input type="text" class="form-control" name="goodsTitle" required>
 
 				</div>
 
@@ -821,13 +822,13 @@ System.out.println("totalPage : " + totalPage);
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">상품가</span>
-  					<input type="number" class="form-control" name="goodsPrice">
+  					<input type="number" class="form-control" name="goodsPrice" required>
 
 				</div>
 				
 				<div class="input-group" style="margin-bottom: 10px;">
   					<span class="input-group-text">보유재고</span>
-  					<input type="number" class="form-control" name="goodsAmount">
+  					<input type="number" class="form-control" name="goodsAmount" required>
 
 				</div>
 				

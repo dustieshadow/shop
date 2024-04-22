@@ -36,9 +36,8 @@ System.out.println("[param]goodsTitle : "+request.getParameter("goodsTitle"));
 System.out.println("[param]goodsPrice : "+request.getParameter("goodsPrice"));
 System.out.println("[param]goodsAmount : "+request.getParameter("goodsAmount"));
 System.out.println("[param]goodsContent : "+request.getParameter("goodsContent"));
-System.out.println("[param]goodsImg : "+request.getParameter("goodsImg"));
+System.out.println("[param]goodsImg : "+request.getPart("goodsImg"));
 System.out.println("[param]goodsNo : "+request.getParameter("goodsNo"));
-
 
 
 String category = request.getParameter("category");
@@ -47,17 +46,34 @@ int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
 int goodsAmount = Integer.parseInt(request.getParameter("goodsAmount"));
 String goodsContent = request.getParameter("goodsContent");
 
+String filename = null;
+Part part = null;
 
-Part part = request.getPart("goodsImg");
+//이미지 파일 받는 코드
+part = request.getPart("goodsImg");
 String originalName = part.getSubmittedFileName();
 // 원본이름에서 확장자만 분리
+String exe = null;
 int dotIdx = originalName.lastIndexOf(".");
-String ext = originalName.substring(dotIdx); // .png
+
+if(dotIdx != -1){
+	exe = originalName.substring(dotIdx);
+}
+
 
 UUID uuid = UUID.randomUUID();
-String filename = uuid.toString().replace("-", "");
-filename = filename + ext;
+filename = uuid.toString().replace("-", "");
+filename = filename + exe;
+System.out.println(filename);
 
+int row = 0;
+if(dotIdx == -1){
+	filename = "default.png";
+	System.out.println(filename);
+}
+
+
+int addGoods = GoodsDAO.addGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
 
 System.out.println("category : " + category);
 System.out.println("empId : " + empId);
@@ -83,8 +99,6 @@ stmt.setInt(7, goodsAmount);
 System.out.println("stmt확인 : " + stmt);
 */
 
-int addGoods = GoodsDAO.addGoods(category, empId, goodsTitle, filename, goodsContent, goodsPrice, goodsAmount);
-
 
 //int row = stmt.executeUpdate();
 
@@ -108,17 +122,17 @@ if (addGoods == 1) { // insert 성공하면 파일업로드
 File df = new File(filePath, rs.getString("filename"));
 df.delete()
 */
-%>
 
-<!-- Controller Layer -->
-<%
 if (addGoods == 1) {
-
-	response.sendRedirect("/shop/emp/addGoodsForm.jsp");
+	System.out.println("상품등록에 성공하였습니다.");
+	String msg = URLEncoder.encode("상품등록에 성공하였습니다.", "UTF-8");
+	response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg=" + msg+"&modify=insert");
+	
 
 } else {
-	String errMsg = URLEncoder.encode("작성에 실패했습니다. 확인 후 다시 입력하세요.", "utf-8");
-	response.sendRedirect("/shop/emp/addGoodsForm.jsp?errMsg=" + errMsg);
+	System.out.println("상품등록에 실패하였습니다.");
+	String msg = URLEncoder.encode("작성에 실패했습니다. 확인 후 다시 입력하세요.", "UTF-8");
+	response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg=" + msg+"&modify=insert");
 	return;
 }
 %>
