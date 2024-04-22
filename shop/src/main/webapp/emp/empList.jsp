@@ -198,6 +198,20 @@ System.out.println("grade : " + grade);
 	display: table-row;
 }
 
+
+
+button:hover {
+    background-color: #d9e9fc;
+ 
+}
+
+
+button:active {
+    color: #2b2d36;
+ 
+}
+
+
 </style>
 <title>empList</title>
 </head>

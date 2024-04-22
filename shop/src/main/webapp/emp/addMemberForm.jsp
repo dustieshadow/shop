@@ -106,6 +106,23 @@
     	  border: 1px solid black;
     	}
     	
+    	button {
+text-decoration: none;
+color: #a6a6a6;
+}
+
+button:hover {
+    background-color: #d9e9fc;
+ 
+}
+
+
+button:active {
+    color: #2b2d36;
+ 
+}
+    	
+    	
     	
   
 </style>

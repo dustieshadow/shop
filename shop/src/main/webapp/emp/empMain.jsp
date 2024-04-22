@@ -198,6 +198,22 @@
     margin-right: 20px;
     }
 
+button {
+text-decoration: none;
+color: #616161;
+}
+
+button:hover {
+    background-color: #d9e9fc;
+ 
+}
+
+
+button:active {
+    color: #000000;
+ 
+}
+
 
 
 	</style>

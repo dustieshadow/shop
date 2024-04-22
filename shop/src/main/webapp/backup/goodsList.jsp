@@ -12,13 +12,8 @@ System.out.println("[param]rowPerPage : " + request.getParameter("rowPerPage"));
 System.out.println("[param]currentPage : " + request.getParameter("currentPage"));
 System.out.println("[param]view : "+ request.getParameter("view"));
 System.out.println("[param]category : "+request.getParameter("category"));
-System.out.println("[param]order : "+request.getParameter("order"));
-System.out.println("[param]goods_no : "+request.getParameter("goods_no"));
 
 String category = null;
-int order = 0;
-int goods_no = 0;
-
 
 // 인증분기	 : 세션변수 이름 - loginEmp
 if (session.getAttribute("loginEmp") == null) {
@@ -36,21 +31,7 @@ if(request.getParameter("category")!=null){
 }
 
 
-if(request.getParameter("goods_no")!=null){
-	goods_no = Integer.parseInt(request.getParameter("goods_no"));
-}
-
-if(request.getParameter("order")!=null){
-
-	if(request.getParameter("order").equals("")){
-		response.sendRedirect("/shop/emp/goodsList.jsp?currentPage="+request.getParameter("currentPage")+"&rowPerPage="+ request.getParameter("rowPerPage"));
-	}else if(request.getParameter("order")!=null){
-		order = Integer.parseInt(request.getParameter("order"));
-	}
-}
-
 System.out.println("category : " + category);
-System.out.println("order : " + order);
 
 //전체행수 검색 변수설정 -------------------------
 int totalRow = 0;			//조회쿼리 전체행수
@@ -395,84 +376,6 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 	.img{
 		height: 300px;
 	}
-	
-
-input[type="number"] {
-
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    height: 40px;
-    width: 70px;
-    text-align: center;
-}
-
-
-input[type="number"]:focus {
-    border-color: #888;
-}
-
-
-button {
-text-decoration: none;
-color: #616161;
-}
-
-button:hover {
-    background-color: #d9e9fc;
- 
-}
-
-
-button:active {
-    color: #000000;
- 
-}
-
-
-
-
-
-
-button.purchase  {
-text-decoration: none;
-color: #6ea2f5;
-}
-
-button.purchase:hover {
-    color:#4287f5;
-    text-decoration: underline;
-}
-
-
-button.purchase:active {
-    
-    background-color: #c2d9ff; 
-}
-
-.paymentfont{
-	color: #5c5a5a;
-	font-size: 20px;
-	
-}
-
-.payment{
-	color: #ff4747;
-	font-size: 25px;
-	
-}
-
-.paymentbutton{
-	color: #5e5e5e;
-	font-size: 10px;
-	width: 60px;
-	height: 30px;
-	background-color: gray;
-	border: 1px solid;
-	
-	
-}
-
-
 	</style>
 </head>
 		<body>
@@ -649,14 +552,14 @@ button.purchase:active {
 						<div class="containerlist" style="height: 800px; margin-top: 100px;">
 					
 	<%
-							int count = 1;
+							int count = 0;
 								
 	
 							
 								if(category == null ||category.equals("1")){
 									for(HashMap<String, Object> m4 : selectGoodsList) {
 								
-								if(count >= 7){
+								if(count >= 6){
 									break;
 								}
 	%>
@@ -665,8 +568,6 @@ button.purchase:active {
 									<div class="divimg"  style="margin-bottom: 2px;">
 								    	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
 								    </div>
-								    <div class="row">
-								    <div class="col-5">
 								    <div class="box" style="font-style: italic; font-size: 14px;">
 								    	상품코드 : <%=m4.get("goods_no")%>
 								    </div>      
@@ -677,51 +578,7 @@ button.purchase:active {
 								    	<span>상품단가 : </span>
 								        <span class="box" style="color: #CC3D3D; font-size: 18px;"><%=m4.get("goods_price")%>원</span>
 								    </div>
-								   	</div>
-								   	<div class="col-2">
-								   	<form method="post" action="/shop/emp/goodsList.jsp">
-							   		<div style="margin-bottom: 10px; margin-left: 0px;">
-							   		
-							   		<button class="purchase" style="border: none; background: none; margin-left: opx; padding-left: 0px;">
-							   		구매수량</button></div>
-								   			
-								   		<input type="hidden" name="currentPage" value="<%=currentPage%>">
-								   		<input type="hidden" name="rowPerPage" value="<%=rowPerPage%>">
-								   		<input type="hidden" name="goods_no" value="<%=m4.get("goods_no")%>">
-								   			<input type="number" style="width: 50px; margin-left: 2px;" name="order"
-								   			<%
-								   				if(request.getParameter("goods_no") != null){
-								   				%>	value="<%=goods_no == (Integer)m4.get("goods_no") ? order : "" %>"
-								   				<%
-								   				}else{
-								   				%>
-								   				 
-								   				<%	
-								   				}
-								   			%>
-								   			>
-
-								   		
-								   		</form>
-								   	</div>
-								   	
-								   	
-								   	
-								  
-								
-								   	
-								   	<div class="col-5">
-    <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
-        <div class="paymentfont">결제하실 금액</div>
-        <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/orderList.jsp" class="btn btn-primary purchase-button">바로구매
-            <span class="material-symbols-outlined">shopping_cart</span>
-        </a>
-    <% } %>
-</div>
-								   	
-								   	
-								   	</div>
+								   
 								</div>
 								
 	<%
@@ -729,73 +586,27 @@ button.purchase:active {
 									}}else if(category != null){
 									for(HashMap<String, Object> m4 : selectGoodsListCategory) {
 										
-										if(count >= 7){
+										if(count >= 6){
 											break;
 										}
 			%>
-											<div class="goods">
-								
-									<div class="divimg"  style="margin-bottom: 2px;">
-								    	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
-								    </div>
-								    <div class="row">
-								    <div class="col-5">
-								    <div class="box" style="font-style: italic; font-size: 14px;">
-								    	상품코드 : <%=m4.get("goods_no")%>
-								    </div>      
-								    <div class="box" style="font-weight: 300;">
-								    	<%=m4.get("goods_title")%>
-								    </div>
-								    <div>
-								    	<span>상품단가 : </span>
-								        <span class="box" style="color: #CC3D3D; font-size: 18px;"><%=m4.get("goods_price")%>원</span>
-								    </div>
-								   	</div>
-								   	<div class="col-2">
-								   	<form method="post" action="/shop/emp/goodsList.jsp">
-							   		<div style="margin-bottom: 10px; margin-left: 0px;">
-							   		
-							   		<button class="purchase" style="border: none; background: none; margin-left: opx; padding-left: 0px;">
-							   		구매수량</button></div>
-								   		<input type="hidden" name="category" value="<%=category%>">
-								   		<input type="hidden" name="currentPage" value="<%=currentPage%>">
-								   		<input type="hidden" name="rowPerPage" value="<%=rowPerPage%>">
-								   		<input type="hidden" name="goods_no" value="<%=m4.get("goods_no")%>">
-								   			<input type="number" style="width: 50px; margin-left: 2px;" name="order"
-								   			<%
-								   				if(request.getParameter("goods_no") != null){
-								   				%>	value="<%=goods_no == (Integer)m4.get("goods_no") ? order : "" %>"
-								   				<%
-								   				}else{
-								   				%>
-								   				 
-								   				<%	
-								   				}
-								   			%>
-								   			>
-
-								   		
-								   		</form>
-								   	</div>
-								   	
-								   	
-								   	
-								  
-								
-								   	
-								   	<div class="col-5">
-    <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
-        <div class="paymentfont">결제하실 금액</div>
-        <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/orderList.jsp" class="btn btn-primary purchase-button">바로구매
-            <span class="material-symbols-outlined">shopping_cart</span>
-        </a>
-    <% } %>
-</div>
-								   	
-								   	
-								   	</div>
-								</div>
+										<div class="goods">
+										
+											<div class="divimg"  style="margin-bottom: 2px;">
+										    	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
+										    </div>
+										    <div class="box" style="font-style: italic; font-size: 14px;">
+										    	상품코드 : <%=m4.get("goods_no")%>
+										    </div>      
+										    <div class="box" style="font-weight: 300;">
+										    	<%=m4.get("goods_title")%>
+										    </div>
+										    <div>
+										    	<span>상품단가 : </span>
+										        <span class="box" style="color: #CC3D3D; font-size: 18px;"><%=m4.get("goods_price")%>원</span>
+										    </div>
+										   
+										</div>
 										
 			<%
 										count++;
