@@ -15,10 +15,11 @@ public class DBHelper {
 		//System.out.println(prop.getProperty("id"));
 		//System.out.println(prop.getProperty("pw"));
 		
+		String db = prop.getProperty("db");
 		String id = prop.getProperty("id");
 		String pw = prop.getProperty("pw");
 		
-		Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:20645/shop",id,pw);
+		Connection conn = DriverManager.getConnection(db,id,pw);
 		
 		return conn;
 	}
