@@ -294,7 +294,7 @@ button:active {
 		    
 		    		<div class="row">
 					<div class="col-2" style="background-color: #EBF7FF; height: 1000px; width: 250px">		
-						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;"><span class="material-symbols-outlined" style="margin-right: 10px;">monitoring</span>메인 차트</h2>
+						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;"><span class="material-symbols-outlined" style="margin-right: 10px;">quick_reorder</span>주문 내역</h2>
 						
 						
 						<div style="margin-bottom: 50px;">

@@ -356,6 +356,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		color: #262b33; 
 		text-decoration: none;
 	}
+	
 	.nav-link:hover {
 		background-color: #ebf3ff;
 		height: 40px;
@@ -396,82 +397,66 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		height: 300px;
 	}
 	
-
-input[type="number"] {
-
-    background-color: #f8f8f8;
-    border: 1px solid #ccc;
-    height: 40px;
-    width: 70px;
-    text-align: center;
-}
-
-
-input[type="number"]:focus {
-    border-color: #888;
-}
-
-
-button {
-text-decoration: none;
-color: #616161;
-}
-
-button:hover {
-    background-color: #d9e9fc;
- 
-}
-
-
-button:active {
-    color: #000000;
- 
-}
-
-
-
-
-
-
-button.purchase  {
-text-decoration: none;
-color: #6ea2f5;
-}
-
-button.purchase:hover {
-    color:#4287f5;
-    text-decoration: underline;
-}
-
-
-button.purchase:active {
-    
-    background-color: #c2d9ff; 
-}
-
-.paymentfont{
-	color: #5c5a5a;
-	font-size: 20px;
+	input[type="number"] {
 	
-}
+	    background-color: #f8f8f8;
+	    border: 1px solid #ccc;
+	    height: 40px;
+	    width: 70px;
+	    text-align: center;
+	}
 
-.payment{
-	color: #ff4747;
-	font-size: 25px;
-	
-}
+	input[type="number"]:focus {
+	    border-color: #888;
+	}
 
-.paymentbutton{
-	color: #5e5e5e;
-	font-size: 10px;
-	width: 60px;
-	height: 30px;
-	background-color: gray;
-	border: 1px solid;
+	button {
+	text-decoration: none;
+	color: #616161;
+	}
 	
+	button:hover {
+	    background-color: #d9e9fc;
+	 
+	}
 	
-}
+	button:active {
+	    color: #000000; 
+	}
 
+	button.purchase  {
+	text-decoration: none;
+	color: #6ea2f5;
+	}
+	
+	button.purchase:hover {
+	    color:#4287f5;
+	    text-decoration: underline;
+	}
+	
+	button.purchase:active {
+	    
+	    background-color: #c2d9ff; 
+	}
+	
+	.paymentfont{
+		color: #5c5a5a;
+		font-size: 20px;
+	}
+	
+	.payment{
+		color: #ff4747;
+		font-size: 25px;
+	}
+	
+	.paymentbutton{
+		color: #5e5e5e;
+		font-size: 10px;
+		width: 60px;
+		height: 30px;
+		background-color: gray;
+		border: 1px solid;
+	}
 
 	</style>
 </head>
@@ -571,7 +556,7 @@ button.purchase:active {
 										}
 									}
 	%>
-	<%							//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
+	<%								//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
 									for(String c : categoryName) {
 	%>
 										<option value="<%=c%>"><%=c%></option>
@@ -642,36 +627,31 @@ button.purchase:active {
 								</ul>
 							</nav>
 						</div>
-						
-
+			
 					</div>	
 					<div class="col-10">
 						<div class="containerlist" style="height: 800px; margin-top: 100px;">
-					
 	<%
 							int count = 1;
+
+							if(category == null ||category.equals("1")){
+								for(HashMap<String, Object> m4 : selectGoodsList) {
 								
-	
-							
-								if(category == null ||category.equals("1")){
-									for(HashMap<String, Object> m4 : selectGoodsList) {
-								
-								if(count >= 7){
-									break;
-								}
+									if(count >= 7){
+										break;
+									}
 	%>
-								<div class="goods">
-								
-									<div class="divimg"  style="margin-bottom: 2px;">
-								    	<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
-								    </div>
-								    <div class="row">
-								    <div class="col-5">
-								    <div class="box" style="font-style: italic; font-size: 14px;">
-								    	상품코드 : <%=m4.get("goods_no")%>
-								    </div>      
-								    <div class="box" style="font-weight: 300;">
-								    	<%=m4.get("goods_title")%>
+									<div class="goods">
+										<div class="divimg"  style="margin-bottom: 2px;">
+								    		<img class = "img" src="/shop/upload/<%=m4.get("filename") %>">
+								   	 	</div>
+								   		<div class="row">
+								    		<div class="col-5">
+								  				<div class="box" style="font-style: italic; font-size: 14px;">
+								    				상품코드 : <%=m4.get("goods_no")%>
+								   				</div>      
+												<div class="box" style="font-weight: 300;">
+								  				<%=m4.get("goods_title")%>
 								    </div>
 								    <div>
 								    	<span>상품단가 : </span>
@@ -714,7 +694,8 @@ button.purchase:active {
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/orderList.jsp" class="btn btn-primary purchase-button">바로구매
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=category%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
+        class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>
     <% } %>
@@ -787,7 +768,8 @@ button.purchase:active {
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/orderList.jsp" class="btn btn-primary purchase-button">바로구매
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=category%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
+        class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>
     <% } %>

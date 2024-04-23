@@ -220,6 +220,34 @@ public class CustomerDAO {
 			
 			return list;
 		}
+		
+		public static ArrayList<HashMap<String, Object>> selectCustomerList() throws Exception {
+			// currentPage + rowPerPage -> startRow를 구하는 알고리즘 코드구현 액션에서...
+			// startRow를 구하는 알고리즘 코드구현을 DAO에 하지 않도록...
+			
+			ArrayList<HashMap<String, Object>> selectCustomerList =
+					new ArrayList<HashMap<String, Object>>();
+			
+			Connection conn = DBHelper.getConnection();
+			String sql = "select "
+					+ "mail,name,phone "
+					+ " from customer"
+					+ " order by create_date desc";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String, Object> m = new HashMap<String, Object>();
+				m.put("mail", rs.getString("mail"));
+				m.put("name", rs.getString("name"));
+				m.put("phone", rs.getString("phone"));
+				selectCustomerList.add(m);
+			}
+			
+			conn.close();
+			
+			return selectCustomerList;
+		}
 	}
 
 
