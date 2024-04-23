@@ -6,7 +6,7 @@
 
 <%
 	System.out.println("----------addMemberForm.jsp---------");
-
+	System.out.println("세션 ID: " + session.getId());
 	System.out.println("[param] type : "+request.getParameter("type"));
 	
 	String memberId = null;

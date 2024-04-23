@@ -7,7 +7,7 @@
 
 <%
 System.out.println("---------------goodList.jsp");
-
+System.out.println("세션 ID: " + session.getId());
 System.out.println("[param]rowPerPage : " + request.getParameter("rowPerPage"));
 System.out.println("[param]currentPage : " + request.getParameter("currentPage"));
 System.out.println("[param]view : "+ request.getParameter("view"));
@@ -15,12 +15,17 @@ System.out.println("[param]category : "+request.getParameter("category"));
 System.out.println("[param]order : "+request.getParameter("order"));
 System.out.println("[param]goods_no : "+request.getParameter("goods_no"));
 System.out.println("[param]type : "+request.getParameter("type"));
+System.out.println("[param]msg : "+request.getParameter("msg"));
 
 String type = null;
 String category = null;
 int order = 0;
 int goods_no = 0;
 String errMsg = null;
+String msg = null;
+
+
+
 
 // 인증분기	 : 세션변수 이름 - loginEmp
 if (session.getAttribute("loginEmp") == null) {
@@ -29,7 +34,17 @@ if (session.getAttribute("loginEmp") == null) {
 	errMsg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
 	response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
 	return;
-}}
+	}else if(session.getAttribute("loginCs") != null){
+		type = "customer";
+	}
+}
+
+
+if(type==null){
+	type = "employee";
+}
+
+System.out.println("type : " + type);
 
 //controller layer
 //String s = "SELECT * FROM category";
@@ -46,8 +61,8 @@ if(request.getParameter("goods_no")!=null){
 	goods_no = Integer.parseInt(request.getParameter("goods_no"));
 }
 
-if(request.getParameter("type")!=null){
-	type = request.getParameter("type");
+if(request.getParameter("msg")!=null){
+	msg = request.getParameter("msg");
 }
 
 
@@ -232,16 +247,16 @@ System.out.println("categoryName(ArrayList<String>) : "+ categoryName);
 
 ArrayList<HashMap<String, Object>> selectGoodsList = null;
 ArrayList<HashMap<String, Object>> selectGoodsListCategory = null;
-
+//-------------------------문제지점 확인------------------------------------------------------------------------
 if(request.getParameter("category")== null || category.equals("1")){
 	selectGoodsList = GoodsDAO.selectGoodsList(limitStartPage, rowPerPage);
 	System.out.println("GoodsDAO.selectGoodsList() 메서드 실행");
 		
-	}else if(request.getParameter("category")!=null){
+}else if(request.getParameter("category")!=null && !(category.equals("1"))){
 	selectGoodsListCategory = GoodsDAO.selectGoodsListCategory(category,limitStartPage, rowPerPage);
-		System.out.println("GoodsDAO.selectGoodsListCategory() 메서드 실행");
-	}
-
+	System.out.println("GoodsDAO.selectGoodsListCategory() 메서드 실행");
+}
+//-------------------------문제지점 확인------------------------------------------------------------------------
 
 ArrayList<HashMap<String, Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
 System.out.println("GoodsDAO.selectGroupByCategory() 메서드 실행");
@@ -266,30 +281,40 @@ if (totalRow % rowPerPage != 0) {
 //세션 변수 loginEmp값 받을 HashMap 변수 m 생성
 HashMap<String,Object> m = new HashMap<>();
 
-//변수할당
-if(type.equals("employee")){
-	m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
-}else if(type.equals("customer")){
-	m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
-}
 
-String empName = null;
+String name = null;
 String empJob = null;
 int grade = 0;
 String admin = null;
-//해쉬맵 변수 스트링변수에 할당
-empName = (String)(m.get("empName"));
-empJob = (String)(m.get("empJob"));
-grade = (int)(m.get("grade"));
+String mail = null;
+//변수할당
+if(type.equals("employee")){
+	m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+	name = (String)(m.get("empName"));
+	empJob = (String)(m.get("empJob"));
+	grade = (int)(m.get("grade"));
+	if(grade==1){
+		admin = "Administrator";
+	}
+	System.out.println(session.getAttribute("loginEmp"));
+	System.out.println("empName : "+name);
+	System.out.println("empJob : "+empJob);
+	System.out.println("grade : "+grade);
 
-if(grade==1){
-	admin = "Administrator";
+}else if(type.equals("customer")){
+	m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
+	name = (String)(m.get("name"));
+	mail = (String)(m.get("mail"));
+	System.out.println("name : "+name);
+	System.out.println("mail : "+mail);
 }
 
-System.out.println(session.getAttribute("loginEmp"));
-System.out.println("empName : "+empName);
-System.out.println("empJob : "+empJob);
-System.out.println("grade : "+grade);
+
+//해쉬맵 변수 스트링변수에 할당
+
+
+
+
 
 /*
 int startRow = 0;
@@ -480,14 +505,14 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		        <div style="margin-bottom: 13px;">
 		            <div>
 		                <span class="material-symbols-outlined" style="margin-right: 3px;">face</span>
-		                <span style="margin-right: 5px; color: #000000;"><%=empName%> / <%=empJob %></span>
+		                <span style="margin-right: 5px; color: #000000;"><%=name%> / <%=empJob %></span>
 		                <span style="margin-right: 30px;"> 
 		                    <% if(admin!=null){ %>
 		                        &lt;<%=admin %>&gt;
 		                    <% } %>
 		                </span>
 		                <span style="margin-right: 1px; font-style: italic; font-size: 25px; color: #204675;">
-		                    <%=empName%>님 반갑습니다. 오늘도 좋은 하루 되십시오. &#x1F338;
+		                    <%=name%>님 반갑습니다. 오늘도 좋은 하루 되십시오. &#x1F338;
 		                </span>
 		                <span>
 		                    <a href="/shop/emp/empLogout.jsp" class="btn" style="font-weight: bold;">로그아웃
@@ -642,7 +667,13 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 								</ul>
 							</nav>
 						</div>
-			
+						<div>
+							<%
+								if(request.getParameter("msg")!= null){
+									%> <%=msg %>
+							<% 	}
+							%>
+						</div>
 					</div>	
 					<div class="col-10">
 						<div class="containerlist" style="height: 800px; margin-top: 100px;">

@@ -62,7 +62,9 @@
 			
 			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 			
+			m.put("type","employee");
 			
+			System.out.println("[세션에 주입한 type] - "+ m.get("type"));
 			System.out.println((String)(m.get("empId"))); //로그인 된 empId
 			System.out.println((String)(m.get("empName"))); //로그인 된 empId
 			System.out.println((Integer)(m.get("grade"))); //로그인 된 empId
@@ -87,8 +89,10 @@
 			session.setAttribute("loginCs",memberLogin);
 			
 			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
-			
-			
+			m.put("type","customer");
+
+
+			System.out.println("[세션에 주입한 type] - "+ m.get("type"));
 			System.out.println("[세션에서 할당한 HashMap - csMail]"+(String)(m.get("csMail"))); 
 			System.out.println("[세션에서 할당한 HashMap - csName]"+(String)(m.get("csName")));
 			System.out.println("[세션에서 할당한 HashMap - csGender]"+(String)(m.get("csGender"))); 

@@ -11,11 +11,21 @@
 <!-- Controller Layer -->
 <%
 System.out.println("---------------addGoodsAction.jsp---------------");
-
+System.out.println("세션 ID: " + session.getId());
 request.setCharacterEncoding("UTF-8");
-// 인증분기  : 세션변수 이름 - loginEmp
-if (session.getAttribute("loginEmp") == null) {
-	response.sendRedirect("/shop/emp/loginForm.jsp");
+
+String msg = null;
+
+
+if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
+	System.out.println("비정상적 접근입니다.");
+	msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+	response.sendRedirect("/shop/emp/loginForm.jsp?msg="+msg);
+	return;
+} else if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") != null){
+	System.out.println("사원만 접근 가능한 페이지입니다.");
+	msg = URLEncoder.encode("사원만 접근 가능한 페이지입니다.","UTF-8");
+		response.sendRedirect("/shop/emp/goodsList.jsp?msg="+msg);
 	return;
 }
 %>
@@ -125,13 +135,13 @@ df.delete()
 
 if (addGoods == 1) {
 	System.out.println("상품등록에 성공하였습니다.");
-	String msg = URLEncoder.encode("상품등록에 성공하였습니다.", "UTF-8");
+	msg = URLEncoder.encode("상품등록에 성공하였습니다.", "UTF-8");
 	response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg=" + msg+"&modify=insert");
 	
 
 } else {
 	System.out.println("상품등록에 실패하였습니다.");
-	String msg = URLEncoder.encode("작성에 실패했습니다. 확인 후 다시 입력하세요.", "UTF-8");
+	msg = URLEncoder.encode("작성에 실패했습니다. 확인 후 다시 입력하세요.", "UTF-8");
 	response.sendRedirect("/shop/emp/addGoodsForm.jsp?msg=" + msg+"&modify=insert");
 	return;
 }

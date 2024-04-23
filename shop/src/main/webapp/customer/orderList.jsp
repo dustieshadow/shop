@@ -5,9 +5,36 @@
 <%@ page import="shop.dao.*" %>
 
 <%
-	System.out.println("---------------empMain.jsp");
-	System.out.println("사원 기본 화면페이지입니다.");
+	System.out.println("---------------orderList.jsp----------");
 	
+	System.out.println("세션 ID: " + session.getId());
+	
+	
+	String errMsg = null;
+	String type = null;
+	String msg = null;
+
+
+
+	
+
+
+	if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
+		System.out.println("비정상적 접근입니다.");
+		msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+		response.sendRedirect("/shop/emp/loginForm.jsp?msg="+msg);
+		return;
+	} else if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") != null){
+		type = "customer";
+	
+	}
+	
+	if(type==null){
+		type = "employee";
+	}
+	
+	System.out.println("type : " + type);
+
 	System.out.println("[param]category :"+request.getParameter("category"));
 	
 	
@@ -22,36 +49,38 @@
 	}
 	
 	
-
-	// 인증분기	 : 세션변수 이름 - loginEmp
-	if (session.getAttribute("loginEmp") == null) {
-		response.sendRedirect("/shop/emp/loginForm.jsp");
-		return;
-	}
 	
 	//세션 변수 loginEmp값 받을 HashMap 변수 m 생성
 	HashMap<String,Object> m = new HashMap<>();
-	
-	//변수할당
-	m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
-	
-	String empName = null;
+
+
+	String name = null;
 	String empJob = null;
 	int grade = 0;
 	String admin = null;
-	//해쉬맵 변수 스트링변수에 할당
-	empName = (String)(m.get("empName"));
-	empJob = (String)(m.get("empJob"));
-	grade = (int)(m.get("grade"));
-	
-	if(grade==1){
-		admin = "Administrator";
+	String mail = null;
+	//변수할당
+	if(type.equals("employee")){
+		m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+		name = (String)(m.get("empName"));
+		empJob = (String)(m.get("empJob"));
+		grade = (int)(m.get("grade"));
+		if(grade==1){
+			admin = "Administrator";
+		}
+		System.out.println(session.getAttribute("loginEmp"));
+		System.out.println("empName : "+name);
+		System.out.println("empJob : "+empJob);
+		System.out.println("grade : "+grade);
+
+	}else if(type.equals("customer")){
+		m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
+		name = (String)(m.get("name"));
+		mail = (String)(m.get("mail"));
+		System.out.println("name : "+name);
+		System.out.println("mail : "+mail);
 	}
-	
-	System.out.println(session.getAttribute("loginEmp"));
-	System.out.println("empName : "+empName);
-	System.out.println("empJob : "+empJob);
-	System.out.println("grade : "+grade);
+
 	
 	ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
 	ArrayList<String> categoryList = GoodsDAO.categoryList();
@@ -223,14 +252,14 @@ button:active {
 		        <div style="margin-bottom: 13px;">
 		            <div>
 		                <span class="material-symbols-outlined" style="margin-right: 3px;">face</span>
-		                <span style="margin-right: 5px; color: #000000;"><%=empName%> / <%=empJob %></span>
+		                <span style="margin-right: 5px; color: #000000;"><%=name%> / <%=empJob %></span>
 		                <span style="margin-right: 30px;"> 
 		                    <% if(admin!=null){ %>
 		                        &lt;<%=admin %>&gt;
 		                    <% } %>
 		                </span>
 		                <span style="margin-right: 1px; font-style: italic; font-size: 25px; color: #204675;">
-		                    <%=empName%>님 반갑습니다. 오늘도 좋은 하루 되십시오. &#x1F338;
+		                    <%=name%>님 반갑습니다. 오늘도 좋은 하루 되십시오. &#x1F338;
 		                </span>
 		                <span>
 		                    <a href="/shop/emp/empLogout.jsp" class="btn" style="font-weight: bold;">로그아웃

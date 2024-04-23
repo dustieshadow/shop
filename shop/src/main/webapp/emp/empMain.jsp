@@ -7,7 +7,7 @@
 <%
 	System.out.println("---------------empMain.jsp");
 	System.out.println("사원 기본 화면페이지입니다.");
-	
+	System.out.println("세션 ID: " + session.getId());
 	System.out.println("[param]category :"+request.getParameter("category"));
 	
 	
@@ -15,6 +15,7 @@
 	int currentPage = 1;
 	int totalPage = 1;
 	int rowPerPage = 6;
+	String msg = null;
 	
 	if(request.getParameter("category")!= null){
 		category = request.getParameter("category");
@@ -23,12 +24,20 @@
 	
 	
 
-	// 인증분기	 : 세션변수 이름 - loginEmp
-	if (session.getAttribute("loginEmp") == null) {
-		response.sendRedirect("/shop/emp/loginForm.jsp");
-		return;
+	
+	if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
+		System.out.println("비정상적 접근입니다.");
+		msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+    	response.sendRedirect("/shop/emp/loginForm.jsp?msg="+msg);
+   		return;
+	} else if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") != null){
+		System.out.println("사원만 접근 가능한 페이지입니다.");
+		msg = URLEncoder.encode("사원만 접근 가능한 페이지입니다.","UTF-8");
+ 		response.sendRedirect("/shop/emp/goodsList.jsp?msg="+msg);
+    	return;
 	}
 	
+		
 	//세션 변수 loginEmp값 받을 HashMap 변수 m 생성
 	HashMap<String,Object> m = new HashMap<>();
 	

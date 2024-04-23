@@ -8,14 +8,24 @@
 <%
 System.out.println("---------------empList.jsp");
 System.out.println("---사원리스트를 조회하는 페이지입니다---");
-
+System.out.println("세션 ID: " + session.getId());
 System.out.println("[param]msg :"+request.getParameter("msg"));
 %>
 <!-- Controller Layer -->
 <%
-// 인증분기	 : 세션변수 이름 - loginEmp
-if (session.getAttribute("loginEmp") == null) {
-	response.sendRedirect("/shop/emp/loginForm.jsp");
+
+String msg = null;
+
+
+if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
+	System.out.println("비정상적 접근입니다.");
+	msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+	response.sendRedirect("/shop/emp/loginForm.jsp?msg="+msg);
+	return;
+} else if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") != null){
+	System.out.println("사원만 접근 가능한 페이지입니다.");
+	msg = URLEncoder.encode("사원만 접근 가능한 페이지입니다.","UTF-8");
+		response.sendRedirect("/shop/emp/goodsList.jsp?msg="+msg);
 	return;
 }
 %>
@@ -94,7 +104,7 @@ String admin = null;
 empName = (String) (m.get("empName"));
 empJob = (String) (m.get("empJob"));
 grade = (int) (m.get("grade"));
-String msg = null;
+
 
 if(request.getParameter("msg")!=null){
 	msg = request.getParameter("msg");

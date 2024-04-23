@@ -6,19 +6,30 @@
 
 <%
 System.out.println("----------empSchedule.jsp----------");
+System.out.println("세션 ID: " + session.getId());
+
+
+
+String msg = null;
+
+
+if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
+	System.out.println("비정상적 접근입니다.");
+	msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+	response.sendRedirect("/shop/emp/loginForm.jsp?msg="+msg);
+	return;
+} else if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") != null){
+	System.out.println("사원만 접근 가능한 페이지입니다.");
+	msg = URLEncoder.encode("사원만 접근 가능한 페이지입니다.","UTF-8");
+		response.sendRedirect("/shop/emp/goodsList.jsp?msg="+msg);
+	return;
+}
 
 //memberId,msg 변수관리
 String memberId = request.getParameter("memberId");
-String msg = request.getParameter("msg");
+msg = request.getParameter("msg");
 System.out.println("memberId : " + memberId);
 System.out.println("msg : " + msg);
-
-
-// 인증분기	 : 세션변수 이름 - loginEmp
-if (session.getAttribute("loginEmp") == null) {
-	response.sendRedirect("/shop/emp/loginForm.jsp");
-	return;
-}
 
 
 //세션 변수 loginEmp값 받을 HashMap 변수 m 생성

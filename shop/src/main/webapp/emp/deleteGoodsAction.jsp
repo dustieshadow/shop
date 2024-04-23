@@ -6,7 +6,23 @@
     
     <%
     System.out.println("----------deleteGoodsAction.jsp----------");
+    System.out.println("세션 ID: " + session.getId());
     
+    String msg = null;
+
+
+	if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
+		System.out.println("비정상적 접근입니다.");
+		msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+		response.sendRedirect("/shop/emp/loginForm.jsp?msg="+msg);
+		return;
+	} else if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") != null){
+		System.out.println("사원만 접근 가능한 페이지입니다.");
+		msg = URLEncoder.encode("사원만 접근 가능한 페이지입니다.","UTF-8");
+			response.sendRedirect("/shop/emp/goodsList.jsp?msg="+msg);
+		return;
+	}
+	
     String deleteGoodsNo = null;
     
     System.out.println("[param]deleteGoodsNo : " + request.getParameter("deleteGoodsNo"));
@@ -18,7 +34,7 @@
     
    int deleteGoodsList = GoodsDAO.deleteGoodsList(deleteGoodsNo);
    System.out.println("deleteGoodsList(삭제 쿼리 : "+deleteGoodsList);
-	String msg = null;
+	
    	if(deleteGoodsList == 1){
 	msg = URLEncoder.encode("상품항목 삭제에 성공하였습니다.","UTF-8");
 	System.out.println("상품항목 삭제에 성공하였습니다.");
