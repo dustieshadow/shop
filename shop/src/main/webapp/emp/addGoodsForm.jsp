@@ -402,7 +402,7 @@ System.out.println("totalPage : " + totalPage);
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="/shop/emp/categoryList.jsp"> 
+		                    <a class="nav-link" href="/shop/customer/orderList.jsp"> 
 		                        <span class="material-symbols-outlined" style="margin-right: 8px;">quick_reorder</span>
 		                        <span>Order</span>
 		                    </a>
