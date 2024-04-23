@@ -23,6 +23,7 @@ int order = 0;
 int goods_no = 0;
 String errMsg = null;
 String msg = null;
+String encodedCategory = null;
 
 
 
@@ -54,7 +55,10 @@ System.out.println("type : " + type);
 
 if(request.getParameter("category")!=null){
 	category = request.getParameter("category");
+	encodedCategory = URLEncoder.encode(category, "UTF-8");
 }
+
+
 
 
 if(request.getParameter("goods_no")!=null){
@@ -69,11 +73,19 @@ if(request.getParameter("msg")!=null){
 if(request.getParameter("order")!=null){
 
 	if(request.getParameter("order").equals("")){
-		response.sendRedirect("/shop/emp/goodsList.jsp?currentPage="+request.getParameter("currentPage")+"&rowPerPage="+ request.getParameter("rowPerPage"));
+		//response.sendRedirect("/shop/emp/goodsList.jsp?currentPage="+request.getParameter("currentPage")+"&rowPerPage="+ request.getParameter("rowPerPage"));
+		order = 0;
 	}else if(request.getParameter("order")!=null){
 		order = Integer.parseInt(request.getParameter("order"));
 	}
 }
+
+
+
+
+
+
+
 
 System.out.println("category : " + category);
 System.out.println("order : " + order);
@@ -740,7 +752,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=category%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
         class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>
@@ -814,7 +826,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=category%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
         class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>
