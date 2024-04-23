@@ -14,17 +14,23 @@ System.out.println("[param]view : "+ request.getParameter("view"));
 System.out.println("[param]category : "+request.getParameter("category"));
 System.out.println("[param]order : "+request.getParameter("order"));
 System.out.println("[param]goods_no : "+request.getParameter("goods_no"));
+System.out.println("[param]type : "+request.getParameter("type"));
 
+String type = null;
 String category = null;
 int order = 0;
 int goods_no = 0;
-
+String errMsg = null;
 
 // 인증분기	 : 세션변수 이름 - loginEmp
 if (session.getAttribute("loginEmp") == null) {
-	response.sendRedirect("/shop/emp/loginForm.jsp");
+	if(session.getAttribute("loginCs") == null){
+	System.out.println("세션값이 존재하지 않습니다.");
+	errMsg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
+	response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
 	return;
-}
+}}
+
 //controller layer
 //String s = "SELECT * FROM category";
 
@@ -39,6 +45,11 @@ if(request.getParameter("category")!=null){
 if(request.getParameter("goods_no")!=null){
 	goods_no = Integer.parseInt(request.getParameter("goods_no"));
 }
+
+if(request.getParameter("type")!=null){
+	type = request.getParameter("type");
+}
+
 
 if(request.getParameter("order")!=null){
 
@@ -256,7 +267,11 @@ if (totalRow % rowPerPage != 0) {
 HashMap<String,Object> m = new HashMap<>();
 
 //변수할당
-m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+if(type.equals("employee")){
+	m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+}else if(type.equals("customer")){
+	m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
+}
 
 String empName = null;
 String empJob = null;

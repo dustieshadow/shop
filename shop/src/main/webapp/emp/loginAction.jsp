@@ -70,7 +70,7 @@
 			//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
 				
 			
-			response.sendRedirect("/shop/emp/empMain.jsp");
+			response.sendRedirect("/shop/emp/empMain.jsp?type=employee");
 	
 		}else{
 			System.out.println("사원 로그인에 실패하였습니다.");
@@ -89,15 +89,15 @@
 			HashMap<String, Object> m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
 			
 			
-			System.out.println((String)(m.get("csMail"))); 
-			System.out.println((String)(m.get("csName")));
-			System.out.println((String)(m.get("csGender"))); 
-			System.out.println((String)(m.get("csBirthDate"))); 
-			System.out.println((String)(m.get("csPhone")));
+			System.out.println("[세션에서 할당한 HashMap - csMail]"+(String)(m.get("csMail"))); 
+			System.out.println("[세션에서 할당한 HashMap - csName]"+(String)(m.get("csName")));
+			System.out.println("[세션에서 할당한 HashMap - csGender]"+(String)(m.get("csGender"))); 
+			System.out.println("[세션에서 할당한 HashMap - csBirthDate]"+(String)(m.get("csBirthDate"))); 
+			System.out.println("[세션에서 할당한 HashMap - csPhone]"+(String)(m.get("csPhone")));
 			//msg = URLEncoder.encode((String)(m.get("empName"))+"님 반갑습니다.","UTF-8");
 				
 			
-			response.sendRedirect("/shop/customer/shopMain.jsp");
+			response.sendRedirect("/shop/emp/goodsList.jsp?type=customer");
 		}else{
 			System.out.println("고객 로그인에 실패하였습니다.");
 			errMsg = URLEncoder.encode("로그인에 실패하였습니다.","UTF-8");
