@@ -16,10 +16,6 @@
 	String filename = null;
 
 
-
-	
-
-
 	if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
 		System.out.println("비정상적 접근입니다.");
 		msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
@@ -40,9 +36,7 @@
 	
 	
 	String category = null;
-	int currentPage = 1;
-	int totalPage = 1;
-	int rowPerPage = 6;
+
 	
 	if(request.getParameter("category")!= null){
 		category = request.getParameter("category");
@@ -92,12 +86,59 @@
 		
 	}
 
+
+	//페이지 변수
+	//전체행수 검색 변수설정 -------------------------
+	int totalRow = 0;			//조회쿼리 전체행수
+	int rowPerPage = 30; 		//페이지당 행수
+	int totalPage = 1;			//전체 페이지수
+
+	int currentPage = 1;		//현재 페이지수
+	int limitStartPage = 0;		//limit쿼리 시작행
+
+	int startRow = (currentPage-1)*rowPerPage;
+
+
+	System.out.println("totalRow : " + totalRow);
+	System.out.println("rowPerPage : " + rowPerPage);
+	System.out.println("totalRow % rowPerPage : " + totalRow % rowPerPage);
+	System.out.println("totalPage : " + totalPage);
+	//현재 페이지 값이 넘어왔을 때 커런트 페이지 값을 넘겨받는다
+	if (request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		System.out.println("currentPage : " + currentPage);
+	}
+	//로우퍼 페이지 값이 넘어왔을때 로우퍼 페이지 값을 넘겨받는다
+	if (request.getParameter("rowPerPage") != null) {
+		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
+		System.out.println("rowPerPage : " + rowPerPage);
+	}
+	//limit쿼리 시작행수는 현재 페이지에 1을 뺀 수에서 로우퍼페이지를 곱을 한 값이다
+	limitStartPage = (currentPage - 1) * rowPerPage;
+	System.out.println("limitStartPage : " + limitStartPage);
+
+
+	
+	//페이징 목록 코드
+	totalRow = GoodsDAO.selectCountGoods();
+
+	//전체행수가 로우퍼페이지 수로 나눠도 나머지가 남을 때 전체페이지에 +1 해준다
+	if (totalRow % rowPerPage != 0) {
+		totalPage = totalRow / rowPerPage + 1;
+	//전체행수가 로우퍼페이지 수에 딱 떨어지는 수일 때 전체페이지에 +1 해준다
+	} else {
+		totalPage = totalRow / rowPerPage;
+	}
+
+	
 	
 	ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
 	ArrayList<String> categoryList = GoodsDAO.categoryList();
 	ArrayList<HashMap<String,Object>> chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
 
+	ArrayList<HashMap<String,Object>> selectOrderList = OrderDAO.selectOrderList(limitStartPage, rowPerPage);	
 
+	System.out.println("selectOrderList(오더 전체목록 ArrayList<HashMap> ) :"+selectOrderList);
 %>
 
 
@@ -400,6 +441,37 @@ button:active {
 						</div>
 
 					</div>	
+					
+					<div>
+					
+					<h1>리스트 test 미완료</h1>
+					<table border="1">
+		<tr>
+			<th>
+				mail
+		
+			</th>
+		
+		</tr>
+		
+		<%
+			for(HashMap<String, Object> m2 : selectOrderList) {
+		%>
+				<tr>
+					<td><%=m.get("mail")%></td>
+					
+				</tr>
+		<%		
+			}
+		%>
+	</table>
+					
+			
+					
+					
+					
+				
+					</div>
 
 		</body>
 	

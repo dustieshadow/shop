@@ -82,11 +82,6 @@ if(request.getParameter("order")!=null){
 
 
 
-
-
-
-
-
 System.out.println("category : " + category);
 System.out.println("order : " + order);
 
