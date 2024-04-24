@@ -299,6 +299,7 @@ String empJob = null;
 int grade = 0;
 String admin = null;
 String mail = null;
+String gender = null;
 //변수할당
 if(type.equals("employee")){
 	m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
@@ -315,10 +316,14 @@ if(type.equals("employee")){
 
 }else if(type.equals("customer")){
 	m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
-	name = (String)(m.get("name"));
-	mail = (String)(m.get("mail"));
+	name = (String)(m.get("csName"));
+	mail = (String)(m.get("csMail"));
+	gender = (String)(m.get("csGender"));
+	
+	System.out.println(session.getAttribute("loginCs"));
 	System.out.println("name : "+name);
 	System.out.println("mail : "+mail);
+	System.out.println("gender : "+gender);
 }
 
 
@@ -516,8 +521,34 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 			  <div class="container-fluid banner">
 		        <div style="margin-bottom: 13px;">
 		            <div>
-		                <span class="material-symbols-outlined" style="margin-right: 3px;">face</span>
-		                <span style="margin-right: 5px; color: #000000;"><%=name%> / <%=empJob %></span>
+		                <span class="material-symbols-outlined" style="margin-right: 3px;">
+		                
+		                <%
+		                if(type.equals("customer")){
+	     
+		                	if(gender.equals("남")){
+		                		%>face<%
+		                	}else{
+		                		%>face_3<%
+		                	}
+		                }else{
+		                	%>face<%
+		                }
+		                %>
+		                
+		                </span>
+		                <span style="margin-right: 5px; color: #000000;"><%=name%> / 
+		                
+		                <%
+		                if(type.equals("customer")){
+	     
+		                	%>고객님<%
+		                }else{
+		                %>	<%=empJob %> <%
+		                } 
+		                %>
+		                
+		                </span>
 		                <span style="margin-right: 30px;"> 
 		                    <% if(admin!=null){ %>
 		                        &lt;<%=admin %>&gt;
@@ -826,7 +857,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>&filename=<%=m4.get("filename") %>" 
         class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>

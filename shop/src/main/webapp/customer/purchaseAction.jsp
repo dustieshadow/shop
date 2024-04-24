@@ -30,6 +30,7 @@
 	int currentPage = 0;
 	int rowPerPage = 0;
 	String category = null;
+	String filename = null;
 	
 	//ArrayList<HashMap<String, Object>> selectCustomerList = CustomerDAO.selectCustomerList();
 
@@ -68,6 +69,14 @@
 		category = request.getParameter("category");
 		System.out.println("category : "+category);
 	}
+	
+
+	if(request.getParameter("filename")!= null){
+		filename = request.getParameter("filename");
+		System.out.println("filename : "+filename);
+	}
+
+	
 
 	
 	String errMsg = null;
@@ -106,7 +115,7 @@
 		System.out.println("mail : "+mail);
 		
 		
-	int insertOrder = OrderDAO.insertOrder(mail,goodsNo,totalPrice,orderQuantity,name);
+	int insertOrder = OrderDAO.insertOrder(mail,goodsNo,totalPrice,orderQuantity,name,filename);
 	
 	
 	if(insertOrder ==1 ){

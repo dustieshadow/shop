@@ -13,6 +13,7 @@
 	String errMsg = null;
 	String type = null;
 	String msg = null;
+	String filename = null;
 
 
 
@@ -48,6 +49,10 @@
 		System.out.println("category : "+category);
 	}
 	
+	if(request.getParameter("filename")!= null){
+		filename = request.getParameter("filename");
+		System.out.println("filename : "+filename);
+	}
 	
 	
 	//세션 변수 loginEmp값 받을 HashMap 변수 m 생성
@@ -59,6 +64,7 @@
 	int grade = 0;
 	String admin = null;
 	String mail = null;
+	String gender = null;
 	//변수할당
 	if(type.equals("employee")){
 		m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
@@ -75,10 +81,15 @@
 
 	}else if(type.equals("customer")){
 		m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
-		name = (String)(m.get("name"));
-		mail = (String)(m.get("mail"));
+		name = (String)(m.get("csName"));
+		mail = (String)(m.get("csMail"));
+		gender = (String)(m.get("csGender"));
+		
+		System.out.println(session.getAttribute("loginCs"));
 		System.out.println("name : "+name);
 		System.out.println("mail : "+mail);
+		System.out.println("gender : "+gender);
+		
 	}
 
 	
@@ -249,8 +260,39 @@ button:active {
 		    <div class="container-fluid banner">
 		        <div style="margin-bottom: 13px;">
 		            <div>
-		                <span class="material-symbols-outlined" style="margin-right: 3px;">face</span>
-		                <span style="margin-right: 5px; color: #000000;"><%=name%> / <%=empJob %></span>
+		                <span class="material-symbols-outlined" style="margin-right: 3px;">
+		                
+		                <%
+		                if(type.equals("customer")){
+	     
+		                	if(gender.equals("남")){
+		                		%>face<%
+		                	}else{
+		                		%>face_3<%
+		                	}
+		                }else{
+		                	%>face<%
+		                }
+		                %>
+		                
+		                
+		          
+		              </span>
+		                <span style="margin-right: 5px; color: #000000;"><%=name%> / 
+		                
+		                    
+		                <%
+		                if(type.equals("customer")){
+	     
+		                	%>고객님<%
+		                }else{
+		                %>	<%=empJob %> <%
+		                } 
+		                %>
+		                
+		                
+		                
+		                </span>
 		                <span style="margin-right: 30px;"> 
 		                    <% if(admin!=null){ %>
 		                        &lt;<%=admin %>&gt;
