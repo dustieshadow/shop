@@ -12,19 +12,27 @@
 	String memberId = null;
 	String msg = null;
 	String type = null;
+	String check = null;
 	
+	System.out.println("[param]check : "+check);
 	System.out.println("[param]중복확인 memberId : "+request.getParameter("memberId"));
 	System.out.println("[param] msg : "+request.getParameter("msg"));
 	System.out.println("[param] type : "+request.getParameter("type"));
 	
 	if(request.getParameter("memberId")!=null){
 		memberId = request.getParameter("memberId");
+		System.out.println("memberId : "+ memberId);
 	}
 	
 	if(request.getParameter("msg")!=null){
 		msg = request.getParameter("msg");
+		System.out.println("msg : "+ msg);
 	}
 	
+	if(request.getParameter("check")!=null){
+		check = request.getParameter("check");
+		System.out.println("check : "+ check);
+	}
 	
 	if(request.getParameter("type")!= null){
 		type = request.getParameter("type");
@@ -108,19 +116,9 @@
     	
     	button {
 text-decoration: none;
-color: #a6a6a6;
+color: white;
 }
 
-button:hover {
-    background-color: #d9e9fc;
- 
-}
-
-
-button:active {
-    color: #2b2d36;
- 
-}
     	
     	
     	
@@ -134,20 +132,22 @@ button:active {
 			<div>
 				<a href="/shop/emp/addMemberForm.jsp?type=employee">사원</a>
 			</div>	
+		<%=msg %>
 		
-		
-			<%=msg %>
+			
 		
 			<%
 				if(type == null || type.equals("customer")){
-					
-					
-				
-			%>
-		
-			<form method="post" action="/shop/customer/customerCheckId.jsp">
+					%>
+					<form method="post" action="/shop/customer/customerCheckId.jsp">
 				<div class="container border rounded">
+					<% 
 					
+					if(request.getParameter("memberId")==null){
+						
+		
+			%>
+	
 					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
@@ -158,7 +158,7 @@ button:active {
 				
 	 	
 					 	<div class="col-7 border-left">
-					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
+					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" required>
 					 	</div>
 						<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
 					 		<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button>
@@ -168,7 +168,30 @@ button:active {
 					  
 					 	<input type="hidden" name = type value="customer">
 					</form>
-					
+					<%}else if(request.getParameter("memberId")!= null){
+						%>
+						<form method="post" action="/shop/emp/addMemberAction.jsp">
+						<div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 	<div class="col-3">
+					 		<span style="margin-left: 10px;">
+					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person</span>
+					 			<span class="text">아이디</span>
+					 		</span>
+					 	</div>
+				
+	 	
+					 	<div class="col-7 border-left">
+					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId %>" required>
+					 	</div>
+						<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
+					 		<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button>
+					 	
+					 	</div>
+					 </div>
+					 </form>
+						<% 
+					}
+					%>
 					<form method="post" action="/shop/emp/addMemberAction.jsp">
 						<input type="hidden" name="type" value="customer">
 						<input type="hidden" name="memberId" value="<%=memberId%>">
@@ -180,7 +203,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name ="memberPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
+					 	  <input name ="memberPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -201,7 +224,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	<input name="memberName" type="text" class="input-field" placeholder="Name" style="font-style: italic;">
+					 	<input name="memberName" type="text" class="input-field" placeholder="Name" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 	
@@ -213,7 +236,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="memberBirthDate" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;">
+					 	  <input name="memberBirthDate" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -225,7 +248,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="memberGender" type="text" class="input-field" placeholder="Gender" style="font-style: italic;">
+					 	  <input name="memberGender" type="text" class="input-field" placeholder="Gender" style="font-style: italic;"required>
 					 	</div> 	
 					 </div>
 					 
@@ -237,17 +260,38 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="memberPhone" type="text" class="input-field" placeholder="Phone number" style="font-style: italic;">
+					 	  <input name="memberPhone" type="text" class="input-field" placeholder="Phone number" style="font-style: italic;"required>
 					 	</div> 	
 					 </div>
 					 
 				 </div>
+				 <!--  -->
 				 
-				  <button class="rounded" style="margin-top : 430px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
-				 	<div>회원가입</div>
+				 <%
 				 
+					if(check == null ||check.equals("1") ){
+						
+				
+					
+				  	%>
+					<button class="rounded" disabled style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+					 	<div>회원가입</div>
+					 
+					 
+					 </button>
+					 <%
+					}else{
+						%>
+						<button class="rounded" style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+						 	<div>회원가입</div>
+						 
+						 
+						 </button>
+						 <%
+					}
 				 
-				 </button>
+				 %>
+				 <!--  -->
 				 
 				 <%
 				} else if(type.equals("employee")){
@@ -269,7 +313,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-7 border-left">
-					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;">
+					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" required>
 					 	</div>
 					 	<div class="col-2 border-left"  style="padding-left: 0px; padding-right: 0px;">
 					 	<button type="submit" style=" width: 100%; height: 100%; background-color: #32a852;">중복확인</button>
@@ -286,7 +330,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
+					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 
@@ -303,7 +347,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	<input name="empName" type="text" class="input-field" placeholder="Name" style="font-style: italic;">
+					 	<input name="empName" type="text" class="input-field" placeholder="Name" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 	
@@ -315,7 +359,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;">
+					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -327,7 +371,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;">
+					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -336,6 +380,10 @@ button:active {
 				
 				<%} else if(memberId != null){
 					
+					%>
+					
+					
+					<% 					
 					%>
 					
 					<form method="post" action="/shop/emp/empCheckId.jsp">
@@ -350,7 +398,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-7 border-left">
-					 	<input name = "empId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId%>">
+					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId%>" required>
 					 	
 					 	</div>
 					 	<div class="col-2 border-left p-0" style="padding-left: 0px;">
@@ -370,14 +418,11 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;">
+					 	  <input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
-				
-					 	
-				
-				 
+
 				 </div>
 					
 						<div class="container border rounded" style="margin-top: 10px; height: 150px; ">
@@ -391,7 +436,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	<input name="empName" type="text" class="input-field" placeholder="Name" style="font-style: italic;">
+					 	<input name="empName" type="text" class="input-field" placeholder="Name" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 	
@@ -403,7 +448,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;">
+					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -415,7 +460,7 @@ button:active {
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;">
+					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -435,13 +480,27 @@ button:active {
 				 
 				}
 					
+					if(check == null ||check.equals("1") ){
+						
+				
+					
 				  	%>
-					<button class="rounded" style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+					<button class="rounded" disabled style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
 					 	<div>회원가입</div>
 					 
 					 
 					 </button>
 					 <%
+					}else{
+						%>
+						<button class="rounded" style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+						 	<div>회원가입</div>
+						 
+						 
+						 </button>
+						 <%
+					}
+					 
 			}
 				 %>
 					 

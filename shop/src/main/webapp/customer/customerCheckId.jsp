@@ -7,9 +7,15 @@
     	System.out.println("----------customer.customerCheckId.jsp----------");
     
     	String memberId = null;
+    	String type = null;
     	
     	System.out.println("[param]중복확인 memberID : "+request.getParameter("memberId"));
+    
     	
+
+  
+    	
+    	  	
     	if(request.getParameter("memberId")!=null){
     		memberId = request.getParameter("memberId");
     	}
@@ -23,16 +29,19 @@
     	
     	boolean checkMail = CustomerDAO.checkMail(memberId);
     	String msg = null;
+    	String check = null;
     	
     	if(checkMail){
+    		check = "1";
     		System.out.println("중복된 아이디. 고객신규가입 불가");
     		msg = URLEncoder.encode("중복된 아이디입니다. 다른 아이디로 입력하세요.","UTF-8");
-    		response.sendRedirect("/shop/emp/addMemberForm.jsp?memberId="+memberId+"&msg="+msg);
+    		response.sendRedirect("/shop/emp/addMemberForm.jsp?memberId="+memberId+"&msg="+msg+"&check="+check);
     		
     	}else if(!checkMail){
+    		check = "2";
     		System.out.println("중복된 아이디가 없음. 고객신규가입 가능");
     		msg = URLEncoder.encode("가입 가능한 아이디입니다.","UTF-8");
-    		response.sendRedirect("/shop/emp/addMemberForm.jsp?memberId="+memberId+"&msg="+msg);
+    		response.sendRedirect("/shop/emp/addMemberForm.jsp?memberId="+memberId+"&msg="+msg+"&check="+check);
     	}
     	
     %>

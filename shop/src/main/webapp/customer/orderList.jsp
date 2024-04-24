@@ -243,8 +243,6 @@ button:active {
  
 }
 
-
-
 	</style>
 </head>
 		<body>
@@ -358,17 +356,9 @@ button:active {
 								</span>
 							</form>
 						</div>
-						
-						
-						
 
 					</div>	
-		    
-		    
-		    
-		
 
-    
 		</body>
 	
 </html>

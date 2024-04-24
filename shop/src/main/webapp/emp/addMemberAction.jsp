@@ -7,10 +7,20 @@
 
 <%
 	System.out.println("---------addMemberAction.jsp----------");
-
+	System.out.println("[param]type : "+ request.getParameter("type"));
+	
+	String type = null;
+	
+	if(request.getParameter("type")!=null){
+		type = request.getParameter("type");
+		System.out.println("type : "+ type);
+	}
+	
 String msg = null;
 
 
+
+/*
 if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
 	System.out.println("비정상적 접근입니다.");
 	msg = URLEncoder.encode("비정상적 접근입니다.","UTF-8");
@@ -24,19 +34,16 @@ if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") 
 }
 
 	System.out.println("세션 ID: " + session.getId());
-	System.out.println("[param]type : "+request.getParameter("type"));
+	*/
 	
-	String type=null;
+	
 	String errMsg = null;
 	String memberId = null;
 	
 	System.out.println("[param]memberId : " + memberId);
 	
 	
-	if(request.getParameter("type")!=null){
-		type = request.getParameter("type");
-		System.out.println("type : "+ type);
-	}
+	
 	
 
 	
