@@ -38,8 +38,12 @@ public class OrderDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, EXTRACT(year from order_date) year, EXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) hour, EXTRACT(minute from order_date) minute from orders order by order_date desc limit ?,?";
+		//String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, EXTRACT(year from order_date) year, EXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) hour, EXTRACT(minute from order_date) minute from orders order by order_date desc limit ?,?";
 
+		
+		String sql = "SELECT o.mail, o.orders_no ,o.goods_no, o.total_price, o.state , o.filename, o.order_quantity, o.NAME, EXTRACT(year from order_date) YEAR, eXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) HOUR, EXTRACT(minute from order_date) MINUTE, g.goods_title goodsTitle from orders o INNER JOIN goods g on o.goods_no = g.goods_no order by order_date desc limit ?,?";
+
+		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, limitStartPage);
 		stmt.setInt(2, rowPerPage);
@@ -49,18 +53,19 @@ public class OrderDAO {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 
 			m.put("mail", rs.getString("mail"));
+			m.put("ordersNo", rs.getInt("orders_no"));
 			m.put("goodsNo", rs.getInt("goods_no"));
 			m.put("totalPrice", rs.getInt("total_price"));
 			m.put("state", rs.getString("state"));
 			m.put("filename", rs.getString("filename"));
 			m.put("orderQuantity", rs.getString("order_quantity"));
-			m.put("name", rs.getString("name"));
-			m.put("orderDate", rs.getString("order_date"));
-			m.put("year", rs.getString("year"));
+			m.put("listName", rs.getString("name"));
+			m.put("year", rs.getString("YEAR"));
 			m.put("month", rs.getString("MONTH"));
 			m.put("day", rs.getString("DAY"));
-			m.put("hour", rs.getString("hour"));
-			m.put("minute", rs.getString("minute"));
+			m.put("hour", rs.getString("HOUR"));
+			m.put("minute", rs.getString("MINUTE"));
+			m.put("goodsTitle", rs.getString("goodsTitle"));
 
 			selectOrderList.add(m);
 

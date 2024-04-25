@@ -10,11 +10,39 @@
 	System.out.println("세션 ID: " + session.getId());
 	
 	
-	String errMsg = null;
+	//배너 - 세션값에서 주입할 변수
+	//고객
 	String type = null;
 	String msg = null;
-	String filename = null;
+	String mail = null;
+	String name = null;
+
+	//배너 - 세션값에서 주입할 변수
+	//사원
+	String empJob = null;
+	int grade = 0;
+	String admin = null;
+	String gender = null;
+	
 	String state = null;
+	/*
+	//오더 리스트 상품정보
+	String goodsNo = null;
+	String totalPrice = null;
+	String orderQuantity = null;
+	String category = null;
+	String filename = null;
+	
+	String listName = null;
+	//오더리스트 주문날짜 정보
+	String year = null;
+	String month = null;
+	String day = null;
+	String hour = null;
+	String minute = null;
+	String goodsTitle = null;
+	*/
+
 
 
 	if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
@@ -35,12 +63,71 @@
 
 	System.out.println("[param]state :"+request.getParameter("state"));
 	
-	String category = null;
+	/*
+	if(request.getParameter("orderQuantity")!= null){
+		orderQuantity = request.getParameter("orderQuantity");
+		System.out.println("orderQuantity : "+orderQuantity);
+	}
+	
+	if(request.getParameter("listName")!= null){
+		listName = request.getParameter("listName");
+		System.out.println("listName : "+listName);
+	}
+	
+	if(request.getParameter("goodsTitle")!= null){
+		goodsTitle = request.getParameter("goodsTitle");
+		System.out.println("goodsTitle : "+goodsTitle);
+	}
+	
+	if(request.getParameter("year")!= null){
+		year = request.getParameter("year");
+		System.out.println("year : "+year);
+	}
+	
+	if(request.getParameter("month")!= null){
+		month = request.getParameter("month");
+		System.out.println("month : "+month);
+	}
+	
+	if(request.getParameter("day")!= null){
+		day = request.getParameter("day");
+		System.out.println("day : "+day);
+	}
+	
+	if(request.getParameter("hour")!= null){
+		hour = request.getParameter("hour");
+		System.out.println("hour : "+hour);
+	}
+	
+	if(request.getParameter("minute")!= null){
+		minute = request.getParameter("minute");
+		System.out.println("minute : "+minute);
+	}
+	*/
+	
 
 	
-	if(request.getParameter("category")!= null){
-		category = request.getParameter("category");
-		System.out.println("category : "+category);
+	if(request.getParameter("msg")!= null){
+		msg = request.getParameter("msg");
+		System.out.println("msg : "+msg);
+	}
+	
+	if(request.getParameter("mail")!= null){
+		mail = request.getParameter("mail");
+		System.out.println("mail : "+mail);
+	}
+	
+	/*
+	if(request.getParameter("goodsNo")!= null){
+		goodsNo = request.getParameter("goodsNo");
+		System.out.println("goodsNo : "+goodsNo);
+	}
+	
+	
+	
+	if(request.getParameter("totalPrice")!= null){
+		totalPrice = request.getParameter("totalPrice");
+		System.out.println("totalPrice : "+totalPrice);
 	}
 	
 	if(request.getParameter("filename")!= null){
@@ -52,19 +139,14 @@
 		state = request.getParameter("state");
 		System.out.println("state : "+state);
 	}
-	
+	*/
 	
 	
 	//세션 변수 loginEmp값 받을 HashMap 변수 m 생성
 	HashMap<String,Object> m = new HashMap<>();
 
 
-	String name = null;
-	String empJob = null;
-	int grade = 0;
-	String admin = null;
-	String mail = null;
-	String gender = null;
+	
 	//변수할당
 	if(type.equals("employee")){
 		m = (HashMap<String,Object>)(session.getAttribute("loginEmp"));
@@ -82,7 +164,6 @@
 	}else if(type.equals("customer")){
 		m = (HashMap<String,Object>)(session.getAttribute("loginCs"));
 		name = (String)(m.get("csName"));
-		mail = (String)(m.get("csMail"));
 		gender = (String)(m.get("csGender"));
 		
 		System.out.println(session.getAttribute("loginCs"));
@@ -230,7 +311,7 @@
 .ordercontainer{
 	display: flex;
 	flex-wrap: wrap;
-	width: 1100px;
+	width: 1800px;
 }
 
 .ordercolumn{
@@ -268,96 +349,23 @@
 }
 
 
-<!--                                                                -->	
-	.goods {
-		flex: 0 0 33.333%;
-		box-sizing: border-box;
-		padding: 10px;
-	}
-		
-	.goods:hover{
-		
-		border:solid 1px;
-		padding: 9px;
-		border-radius: 2px;
-		border-color: #B2CCFF;
-	}
-		
-	.box {
-		margin-bottom: 5px;
-	}
-		
-	.divimg{
-		width: 400px;
-		height: 300px;
-		overflow: hidden;
-	}		
-		
-	.img{
-		height: 300px;
-	}
-	
-	input[type="number"] {
-	
-	    background-color: #f8f8f8;
-	    border: 1px solid #ccc;
-	    height: 40px;
-	    width: 70px;
-	    text-align: center;
-	}
+.divimg {
+    margin-top: 5px;
+    width: 110px; 
+    height: 110px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-	input[type="number"]:focus {
-	    border-color: #888;
-	}
+.img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+}
 
-	button {
-	text-decoration: none;
-	color: #616161;
-	}
-	
-	button:hover {
-	    background-color: #d9e9fc;
-	 
-	}
-	
-	button:active {
-	    color: #000000; 
-	}
 
-	button.purchase  {
-	text-decoration: none;
-	color: #6ea2f5;
-	}
-	
-	button.purchase:hover {
-	    color:#4287f5;
-	    text-decoration: underline;
-	}
-	
-	button.purchase:active {
-	    
-	    background-color: #c2d9ff; 
-	}
-	
-	.paymentfont{
-		color: #5c5a5a;
-		font-size: 20px;
-	}
-	
-	.payment{
-		color: #ff4747;
-		font-size: 25px;
-	}
-	
-	.paymentbutton{
-		color: #5e5e5e;
-		font-size: 10px;
-		width: 60px;
-		height: 30px;
-		background-color: gray;
-		border: 1px solid;
-	}
-  
 
 
 
@@ -513,13 +521,12 @@
 							
 							<div class="orderbanner">
 								<div class="row">
-									<div class="ordercolumn col-2" style="margin-left: 60px;">주문일
+									<div class="ordercolumn col-2" style="margin-left: 130px;">결제
 									</div>
-									<div class="ordercolumn col-4" style="margin-left: 200px;">상품명/상품번호
+									<div class="ordercolumn col-4" style="margin-left: 120px;">상품명/상품번호
 									</div>
-									<div class="ordercolumn col-2">주문번호
-									</div>
-									<div class="ordercolumn col">주문상태
+									
+									<div class="ordercolumn col" style="margin-left: 120px;">주문상태
 									</div>
 								</div>
 							</div>
@@ -531,100 +538,108 @@
 										<% for(HashMap<String, Object> m2 : selectOrderList){
 											%>
 									
-										<div class="orderdate">
-										<div>주문날짜</div>
-										<div style="text-align: right; font-size: 20px; color: #F361A6;"><%=m2.get("orderDate") %></div>
+											<div class="orderdate">
+												<div style="margin-left: 10px;">결제일자</div>
+												<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #F361A6;"><%=m2.get("year") %>-<%=m2.get("month") %>-<%=m2.get("day") %> &nbsp;<%=m2.get("hour") %>:<%=m2.get("minute") %></div>
 									
-										</div>
-										<div class="orderpayment">
-										<div >결제금액</div>
-										<div style="text-align: right; font-size: 20px; color: #F361A6;"><%=m2.get("totalPrice") %></div>
+											</div>
+											<div class="orderpayment">
+												<div style="margin-left: 10px;">결제금액</div>
+												<div style="text-align: right; font-size: 25px; color: #F361A6;"><%=m2.get("totalPrice") %>원</div>
 										
-										</div>
+											</div>
 									</div>
-									<div class="col-4">이미지
+									<div class="col-3 row" style="border-right: 1px solid #EAEAEA;">
+									<div class="divimg col"  style="margin-bottom: 2px;">
+								    	<img class = "img" src="/shop/upload/<%=m2.get("filename") %>">
+								    </div>
+								    <div class="col-6" style="font-size: 15px; text-align: center; align-items: center; display: flex; color: #5c5c5c; padding-left: 0px; padding-right: 0px;">
+								    <%=m2.get("goodsTitle") %>
+								    </div>
+								  		    
 									</div>
-									<div class="col-2">주문번호
+									  <div class="orderdatepayment col-1">							
+											<div class="orderdate">
+												<div style="margin-left: 10px;">상품번호</div>
+												<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #5c5c5c;"><%=m2.get("goodsNo") %></div>
+									
+											</div>
+											<div class="orderpayment">
+											<div style="margin-left: 10px;">주문번호</div>
+												<div style="text-align: right;  font-size: 20px; color: #5c5c5c;"><%=m2.get("ordersNo") %></div>
+										
+											</div>
 									</div>
-									<div class="col">결제완료
+									
+									<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+    									<div><span class="material-symbols-outlined btn
+    									<%if(m2.get("filename").equals("결제완료")){
+    										%>btn-light
+    									<% }else{
+    										%>btn-primary<%
+    									}%>
+    									  purchase-button" style="font-size: 60px;">credit_card</span>
+   										<div style="margin-left: 13px;">결제완료</div>
+   										</div>
+   										
+   										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+   										<div>
+   										<span class="material-symbols-outlined btn 
+   										<%if(m2.get("filename").equals("출하지시")){
+    										%>btn-light
+    									<% }else{
+    										%>btn-primary<%
+    									}%>
+   										btn-light purchase-button" style="font-size: 60px;">chat_paste_go</span>
+   										<div style="margin-left: 13px;">출하지시</div>
+   										</div>
+   										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  										<div>
+  										<span class="material-symbols-outlined btn 
+  										<%if(m2.get("filename").equals("배송시작")){
+    										%>btn-light
+    									<% }else{
+    										%>btn-primary<%
+    									}%>
+  										btn-light purchase-button" style="font-size: 60px;">conveyor_belt</span>
+  										<div style="margin-left: 13px;">배송시작</div>
+   										</div>
+  										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  										<div>
+  										<span class="material-symbols-outlined btn 
+  										<%if(m2.get("filename").equals("배송완료")){
+    										%>btn-light
+    									<% }else{
+    										%>btn-primary<%
+    									}%>
+    									btn-light purchase-button" style="font-size: 60px;">approval_delegation</span>
+ 										<div style="margin-left: 13px;">배송완료</div>
+   										</div>
+ 										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  										<div>
+  										<span class="material-symbols-outlined btn 
+  										<%if(m2.get("filename").equals("구매승인")){
+    										%>btn-light
+    									<% }else{
+    										%>btn-primary<%
+    									}%>
+    									btn-light purchase-button" style="font-size: 60px;">trackpad_input</span>
+										<div style="margin-left: 13px;">구매승인</div>
+   										</div>
+									
 									</div>
+									
+							
 								</div>
 							</div>
+							
 	<%
 							} 
 	%>
 						
 						</div>
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					<!-- 
-					<h1>리스트 test 미완료</h1>
-					<table border="1">
-		<tr>
-			<th>Mail</th>
-			<th>goodsNo</th>
-			<th>totalPrice</th>
-			<th>state</th>
-			<th>filename</th>
-			<th>orderQuantity</th>
-			<th>name</th>
-			<th>orderDate</th>
-			
-			
 		
-		</tr>
-		
-		<%
-			for(HashMap<String, Object> m2 : selectOrderList) {
-		%>
-				<tr>
-					<td><%=m2.get("mail")%></td>
-					<td><%=m2.get("goodsNo")%></td>
-					<td><%=m2.get("totalPrice")%></td>
-					<td><%=m2.get("state")%></td>
-					<td><%=m2.get("filename")%></td>
-					<td><%=m2.get("orderQuantity")%></td>
-					<td><%=m2.get("name")%></td>
-					<td><%=m2.get("orderDate")%></td>
-					
-				</tr>
-		<%		
-			}
-		%>
-	</table>
-	-->
-					
-			
-					
-					
-					
-				
 					</div>
 				</div>
 		</body>
