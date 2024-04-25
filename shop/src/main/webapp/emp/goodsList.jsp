@@ -24,6 +24,7 @@ int goods_no = 0;
 String errMsg = null;
 String msg = null;
 String encodedCategory = null;
+String filename = null;
 
 
 
@@ -720,7 +721,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 
 							if(category == null ||category.equals("1")){
 								for(HashMap<String, Object> m4 : selectGoodsList) {
-								
+									filename = (String)m4.get("filename");
 									if(count >= 7){
 										break;
 									}
@@ -778,7 +779,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>" 
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>&filename=<%=filename %>" 
         class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>
@@ -793,6 +794,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 								count++;
 									}}else if(category != null){
 									for(HashMap<String, Object> m4 : selectGoodsListCategory) {
+										filename = (String)m4.get("filename");
 										
 										if(count >= 7){
 											break;
@@ -852,7 +854,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
     <% if(request.getParameter("goods_no") != null && goods_no == (Integer)m4.get("goods_no") && order >0) { %>
         <div class="paymentfont">결제하실 금액</div>
         <div class="payment"><%= (Integer)(m4.get("goods_price")) * order + "원" %></div>
-        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>&filename=<%=m4.get("filename") %>" 
+        <a href="/shop/customer/purchaseAction.jsp?currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>&category=<%=encodedCategory%>&order_quantity=<%=order %>&total_price=<%= (Integer)(m4.get("goods_price")) * order%>&goods_no=<%=goods_no %>&filename=<%=filename %>" 
         class="btn btn-primary purchase-button">바로구매
             <span class="material-symbols-outlined">shopping_cart</span>
         </a>

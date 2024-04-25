@@ -41,7 +41,7 @@ public class OrderDAO {
 		//String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, EXTRACT(year from order_date) year, EXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) hour, EXTRACT(minute from order_date) minute from orders order by order_date desc limit ?,?";
 
 		
-		String sql = "SELECT o.mail, o.orders_no ,o.goods_no, o.total_price, o.state , o.filename, o.order_quantity, o.NAME, EXTRACT(year from order_date) YEAR, eXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) HOUR, EXTRACT(minute from order_date) MINUTE, g.goods_title goodsTitle from orders o INNER JOIN goods g on o.goods_no = g.goods_no order by order_date desc limit ?,?";
+		String sql = "SELECT o.mail mail, o.orders_no orders_no ,o.goods_no goods_no, o.total_price total_price, o.state state , o.filename filename, o.order_quantity order_quantity, o.NAME name, EXTRACT(year from order_date) YEAR, eXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) HOUR, EXTRACT(minute from order_date) MINUTE, g.goods_title goods_title from orders o INNER JOIN goods g on o.goods_no = g.goods_no order by order_date desc limit ?,?";
 
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -65,7 +65,7 @@ public class OrderDAO {
 			m.put("day", rs.getString("DAY"));
 			m.put("hour", rs.getString("HOUR"));
 			m.put("minute", rs.getString("MINUTE"));
-			m.put("goodsTitle", rs.getString("goodsTitle"));
+			m.put("goodsTitle", rs.getString("goods_title"));
 
 			selectOrderList.add(m);
 

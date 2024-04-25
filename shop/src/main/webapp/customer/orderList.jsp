@@ -117,6 +117,7 @@
 		System.out.println("mail : "+mail);
 	}
 	
+	
 	/*
 	if(request.getParameter("goodsNo")!= null){
 		goodsNo = request.getParameter("goodsNo");
@@ -134,12 +135,12 @@
 		filename = request.getParameter("filename");
 		System.out.println("filename : "+filename);
 	}
-	
+	*/
 	if(request.getParameter("state")!= null){
 		state = request.getParameter("state");
 		System.out.println("state : "+state);
 	}
-	*/
+	
 	
 	
 	//세션 변수 loginEmp값 받을 HashMap 변수 m 생성
@@ -530,116 +531,146 @@
 									</div>
 								</div>
 							</div>
-							
-							<div class="orderlist">
-								<div class="row">
-									<div class="orderdatepayment col-2">
-									
-										<% for(HashMap<String, Object> m2 : selectOrderList){
-											%>
-									
-											<div class="orderdate">
-												<div style="margin-left: 10px;">결제일자</div>
-												<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #F361A6;"><%=m2.get("year") %>-<%=m2.get("month") %>-<%=m2.get("day") %> &nbsp;<%=m2.get("hour") %>:<%=m2.get("minute") %></div>
-									
+	<% 						for(HashMap<String, Object> m2 : selectOrderList){
+								String listState =	(String)m2.get("state");
+								System.out.println("listState : "+listState);										
+	%>
+									<div class="orderlist">
+										<div class="row">
+											<div class="orderdatepayment col-2">				
+												<div class="orderdate">
+													<div style="margin-left: 10px;">결제일자</div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #8eb0bf;"><%=m2.get("year") %>-<%=m2.get("month") %>-<%=m2.get("day") %> &nbsp;<%=m2.get("hour") %>:<%=m2.get("minute") %></div>
+												</div>
+												<div class="orderpayment">
+														<div style="margin-left: 10px;">결제금액</div>
+														<div style="text-align: right; font-size: 25px; color: #F361A6;"><%=m2.get("totalPrice") %>원</div>
+												</div>
 											</div>
-											<div class="orderpayment">
-												<div style="margin-left: 10px;">결제금액</div>
-												<div style="text-align: right; font-size: 25px; color: #F361A6;"><%=m2.get("totalPrice") %>원</div>
-										
-											</div>
-									</div>
-									<div class="col-3 row" style="border-right: 1px solid #EAEAEA;">
-									<div class="divimg col"  style="margin-bottom: 2px;">
-								    	<img class = "img" src="/shop/upload/<%=m2.get("filename") %>">
-								    </div>
-								    <div class="col-6" style="font-size: 15px; text-align: center; align-items: center; display: flex; color: #5c5c5c; padding-left: 0px; padding-right: 0px;">
-								    <%=m2.get("goodsTitle") %>
-								    </div>
+											<div class="col-3 row" style="border-right: 1px solid #EAEAEA;">
+												<div class="divimg col"  style="margin-bottom: 2px;">
+								    				<img class = "img" src="/shop/upload/<%=m2.get("filename") %>">
+								    			</div>
+								   				<div class="col-6" style="font-size: 15px; text-align: center; align-items: center; display: flex; color: #5c5c5c; padding-left: 0px; padding-right: 0px;">
+													<%=m2.get("goodsTitle") %>
+								    			</div>
 								  		    
-									</div>
-									  <div class="orderdatepayment col-1">							
-											<div class="orderdate">
-												<div style="margin-left: 10px;">상품번호</div>
-												<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #5c5c5c;"><%=m2.get("goodsNo") %></div>
-									
 											</div>
-											<div class="orderpayment">
-											<div style="margin-left: 10px;">주문번호</div>
-												<div style="text-align: right;  font-size: 20px; color: #5c5c5c;"><%=m2.get("ordersNo") %></div>
+									  		<div class="orderdatepayment col-1">							
+												<div class="orderdate">
+													<div style="margin-left: 10px;">상품번호</div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #5c5c5c;"><%=m2.get("goodsNo") %></div>
+												</div>
+												<div class="orderpayment">
+													<div style="margin-left: 10px;">주문번호</div>
+													<div style="text-align: right;  font-size: 20px; color: #5c5c5c;"><%=m2.get("ordersNo") %></div>
 										
+												</div>
 											</div>
-									</div>
 									
-									<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
-    									<div><span class="material-symbols-outlined btn
-    									<%if(m2.get("filename").equals("결제완료")){
-    										%>btn-light
-    									<% }else{
-    										%>btn-primary<%
-    									}%>
-    									  purchase-button" style="font-size: 60px;">credit_card</span>
-   										<div style="margin-left: 13px;">결제완료</div>
-   										</div>
+											<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+    											<div>
+    												<span class="material-symbols-outlined btn
+	<%													if(listState.equals("결제완료")){
+    %>														btn-primary
+    <% 													}else{
+    %>														btn-light<%
+    													}
+    %>
+    									 				purchase-button" style="font-size: 60px;">credit_card</span>
+   													<div style="margin-left: 13px;">결제완료</div>
+   												</div>
    										
-   										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
-   										<div>
-   										<span class="material-symbols-outlined btn 
-   										<%if(m2.get("filename").equals("출하지시")){
-    										%>btn-light
-    									<% }else{
-    										%>btn-primary<%
-    									}%>
-   										btn-light purchase-button" style="font-size: 60px;">chat_paste_go</span>
-   										<div style="margin-left: 13px;">출하지시</div>
-   										</div>
-   										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
-  										<div>
-  										<span class="material-symbols-outlined btn 
-  										<%if(m2.get("filename").equals("배송시작")){
-    										%>btn-light
-    									<% }else{
-    										%>btn-primary<%
-    									}%>
-  										btn-light purchase-button" style="font-size: 60px;">conveyor_belt</span>
-  										<div style="margin-left: 13px;">배송시작</div>
-   										</div>
-  										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
-  										<div>
-  										<span class="material-symbols-outlined btn 
-  										<%if(m2.get("filename").equals("배송완료")){
-    										%>btn-light
-    									<% }else{
-    										%>btn-primary<%
-    									}%>
-    									btn-light purchase-button" style="font-size: 60px;">approval_delegation</span>
- 										<div style="margin-left: 13px;">배송완료</div>
-   										</div>
- 										<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
-  										<div>
-  										<span class="material-symbols-outlined btn 
-  										<%if(m2.get("filename").equals("구매승인")){
-    										%>btn-light
-    									<% }else{
-    										%>btn-primary<%
-    									}%>
-    									btn-light purchase-button" style="font-size: 60px;">trackpad_input</span>
-										<div style="margin-left: 13px;">구매승인</div>
-   										</div>
-									
-									</div>
-									
-							
-								</div>
-							</div>
+   												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+   												<div>
+   													<span class="material-symbols-outlined btn 
+   	<%													if(listState.equals("출하지시")){
+    %>														btn-primary
+    <% 													}else{
+    %>														btn-light<%
+    													}
+    %>
+   										 					purchase-button" style="font-size: 60px;">chat_paste_go</span>
+   													<div style="margin-left: 13px;">출하지시</div>
+   												</div>
+   												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  													<div>
+  														<span class="material-symbols-outlined btn 
+  	<%														if(listState.equals("배송시작")){
+    %>															btn-primary
+    <% 														}else{
+   	%>															btn-light<%
+    														}
+    %>
+  										 						purchase-button" style="font-size: 60px;">conveyor_belt</span>
+  														<div style="margin-left: 13px;">배송시작</div>
+   													</div>
+  													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  													<div>
+  														<span class="material-symbols-outlined btn 
+  	<%														if(listState.equals("배송완료")){
+    %>															btn-primary
+   	<% 														}else{
+    %>															btn-light<%
+    														}
+    %>
+    									 						purchase-button" style="font-size: 60px;">approval_delegation</span>
+ 														<div style="margin-left: 13px;">배송완료</div>
+   													</div>
+ 													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  													<div>
+  														<span class="material-symbols-outlined btn 
+  	<%														if(listState.equals("구매승인")){
+    %>															btn-primary
+    <% 														}else{
+   	%>															btn-light<%
+    														}
+    %>
+    															purchase-button" style="font-size: 60px;">trackpad_input</span>
+														<div style="margin-left: 13px;">구매승인</div>
+   													</div>
+   										
+   													<div>
+   	<%													if(listState.equals("결제완료")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
+   															<div style="text-align: center;">상품준비단계</div>
+    <%
+    													}else if(listState.equals("출하지시")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
+   															<div style="text-align: center;">배송준비단계</div>
+    <%
+    													}else if(listState.equals("배송시작")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
+   															<div style="text-align: center;">날짜데이터</div>
+    <%
+    													}else if(listState.equals("배송완료")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송상태</div>
+   															<div style="text-align: center;">배송완료</div>
+    <%
+    													}else if(listState.equals("구매승인")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송상태</div>
+   															<div style="text-align: center;">구매확정</div>
+    <%
+    													}
+    %>
+   													</div>
+												</div>
+
+											</div>
+								
+										</div>
 							
 	<%
-							} 
+								} 
 	%>
-						
+
 						</div>
-					
-		
+
 					</div>
 				</div>
 		</body>

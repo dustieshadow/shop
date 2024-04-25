@@ -11,6 +11,7 @@
 	String type = null;
 	String msg = null;
 
+
 	
 	
 
@@ -21,6 +22,7 @@
 	System.out.println("[param]currentPage : "+request.getParameter("currentPage"));
 	System.out.println("[param]rowPerPage : "+request.getParameter("rowPerPage"));
 	System.out.println("[param]category : "+request.getParameter("category"));
+	System.out.println("[param]filename : "+request.getParameter("filename"));
 	
 	String name = null;
 	String mail = null;
