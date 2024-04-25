@@ -38,7 +38,7 @@ public class OrderDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, order_date from orders limit ?,?";
+		String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, EXTRACT(year from order_date) year, EXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) hour, EXTRACT(minute from order_date) minute from orders order by order_date desc limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, limitStartPage);
@@ -56,6 +56,11 @@ public class OrderDAO {
 			m.put("orderQuantity", rs.getString("order_quantity"));
 			m.put("name", rs.getString("name"));
 			m.put("orderDate", rs.getString("order_date"));
+			m.put("year", rs.getString("year"));
+			m.put("month", rs.getString("MONTH"));
+			m.put("day", rs.getString("DAY"));
+			m.put("hour", rs.getString("hour"));
+			m.put("minute", rs.getString("minute"));
 
 			selectOrderList.add(m);
 
@@ -66,6 +71,89 @@ public class OrderDAO {
 		return selectOrderList;
 	}
 	
+
+	public static int selectCountOrders() throws Exception {
+
+		int totalRow = 0;
+
+		Connection conn = DBHelper.getConnection();
+
+		//
+		String sql = "select" + " count(*) cnt " + "from orders";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			totalRow = rs.getInt("cnt");
+
+		}
+		System.out.println("totalRow : " + totalRow);
+		conn.close();
+
+		return totalRow;
+	}
 	
+	public static ArrayList<HashMap<String, String>> selectOrderState(String state)
+			throws Exception {
+
+		ArrayList<HashMap<String, String>> selectOrderState = new ArrayList<HashMap<String, String>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql = "select state from orderstate where state = ?";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, state);
+	
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, String> m = new HashMap<String, String>();
+
+			m.put("state", rs.getString("state"));
+		
+
+
+			selectOrderState.add(m);
+
+		}
+		
+		System.out.println("selectOrderState(오더 테이블 칼럼명 목록) : " + selectOrderState);
+		conn.close();
+
+		return selectOrderState;
+	}
+	
+	
+	public static ArrayList<HashMap<String, String>> selectOrderStateNull()
+			throws Exception {
+
+		ArrayList<HashMap<String, String>> selectOrderStateNull = new ArrayList<HashMap<String, String>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql = "select state from orderstate";
+
+		PreparedStatement stmt = conn.prepareStatement(sql);
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, String> m = new HashMap<String, String>();
+
+			m.put("state", rs.getString("state"));
+			selectOrderStateNull.add(m);
+
+		}
+		
+		System.out.println("selectOrderState(오더 테이블 칼럼명 목록) : " + selectOrderStateNull);
+		conn.close();
+
+		return selectOrderStateNull;
+	}
 
 }

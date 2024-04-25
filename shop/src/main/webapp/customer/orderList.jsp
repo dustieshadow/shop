@@ -14,6 +14,7 @@
 	String type = null;
 	String msg = null;
 	String filename = null;
+	String state = null;
 
 
 	if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") == null) {
@@ -32,8 +33,7 @@
 	
 	System.out.println("type : " + type);
 
-	System.out.println("[param]category :"+request.getParameter("category"));
-	
+	System.out.println("[param]state :"+request.getParameter("state"));
 	
 	String category = null;
 
@@ -47,6 +47,12 @@
 		filename = request.getParameter("filename");
 		System.out.println("filename : "+filename);
 	}
+	
+	if(request.getParameter("state")!= null){
+		state = request.getParameter("state");
+		System.out.println("state : "+state);
+	}
+	
 	
 	
 	//세션 변수 loginEmp값 받을 HashMap 변수 m 생성
@@ -90,29 +96,26 @@
 	//페이지 변수
 	//전체행수 검색 변수설정 -------------------------
 	int totalRow = 0;			//조회쿼리 전체행수
-	int rowPerPage = 30; 		//페이지당 행수
+	int rowPerPage = 10; 		//페이지당 행수
 	int totalPage = 1;			//전체 페이지수
 
 	int currentPage = 1;		//현재 페이지수
 	int limitStartPage = 0;		//limit쿼리 시작행
 
-	int startRow = (currentPage-1)*rowPerPage;
+	//int startRow = (currentPage-1)*rowPerPage;
 
-
-	System.out.println("totalRow : " + totalRow);
-	System.out.println("rowPerPage : " + rowPerPage);
-	System.out.println("totalRow % rowPerPage : " + totalRow % rowPerPage);
-	System.out.println("totalPage : " + totalPage);
 	//현재 페이지 값이 넘어왔을 때 커런트 페이지 값을 넘겨받는다
 	if (request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		System.out.println("currentPage : " + currentPage);
 	}
 	//로우퍼 페이지 값이 넘어왔을때 로우퍼 페이지 값을 넘겨받는다
+	
 	if (request.getParameter("rowPerPage") != null) {
 		rowPerPage = Integer.parseInt(request.getParameter("rowPerPage"));
 		System.out.println("rowPerPage : " + rowPerPage);
 	}
+	
 	//limit쿼리 시작행수는 현재 페이지에 1을 뺀 수에서 로우퍼페이지를 곱을 한 값이다
 	limitStartPage = (currentPage - 1) * rowPerPage;
 	System.out.println("limitStartPage : " + limitStartPage);
@@ -120,7 +123,7 @@
 
 	
 	//페이징 목록 코드
-	totalRow = GoodsDAO.selectCountGoods();
+	totalRow = OrderDAO.selectCountOrders();
 
 	//전체행수가 로우퍼페이지 수로 나눠도 나머지가 남을 때 전체페이지에 +1 해준다
 	if (totalRow % rowPerPage != 0) {
@@ -130,15 +133,20 @@
 		totalPage = totalRow / rowPerPage;
 	}
 
+	System.out.println("[오더 테이블 전체 주문 숫자-OrderDAO.selectCountOrders()]-totalRow : "+totalRow);
+	System.out.println("totalRow % rowPerPage : " + totalRow % rowPerPage);
+	System.out.println("[오더리스트 최종페이지]totalPage : " + totalPage);
 	
-	
-	ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
-	ArrayList<String> categoryList = GoodsDAO.categoryList();
-	ArrayList<HashMap<String,Object>> chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
+	//ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
+	//ArrayList<String> categoryList = GoodsDAO.categoryList();
+	//ArrayList<HashMap<String,Object>> chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
 
 	ArrayList<HashMap<String,Object>> selectOrderList = OrderDAO.selectOrderList(limitStartPage, rowPerPage);	
-
+	ArrayList<HashMap<String,String>> selectOrderState = OrderDAO.selectOrderState(state);	
+	ArrayList<HashMap<String,String>> selectOrderStateNull = OrderDAO.selectOrderStateNull();	
 	System.out.println("selectOrderList(오더 전체목록 ArrayList<HashMap> ) :"+selectOrderList);
+	System.out.println("selectOrderState(목록 조회용 오더상태 전체목록 ArrayList<HashMap> ) :"+selectOrderState);
+	System.out.println("selectOrderStateNull(목록 조회용 오더상태 전체목록 ArrayList<HashMap> ) :"+selectOrderStateNull);
 %>
 
 
@@ -218,82 +226,140 @@
    
 }
 
-  .chart-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 800px;
-            margin: 0 auto;
-            margin-top: 50px;
-        }
 
-
-.chart-container {
-    display: flex;
-    justify-content:center;
-    align-items: flex-end;
-    height: 300px; 
-    border: 2px solid #000;
-    padding: 10px;
-    background-color: #f4f4f4; 
-    width: 800px;
-    margin-top: 100px;
-    margin-left: 5px;
-
-}
-  .chart-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px; 
-        }
-
-.bar {
-    width: 20%; 
-    background-color: #4CAF50; 
-    color: white; 
-    text-align: center;
-    margin: 0 5px; 
-    transition: all 0.3s ease; 
-    width: 35px;
-    min-height: 21px;
+.ordercontainer{
+	display: flex;
+	flex-wrap: wrap;
+	width: 1100px;
 }
 
-.bar:hover {
-    opacity: 0.8; 
+.ordercolumn{
+	margin-top: 10px;
 }
 
-.category-label {
-    margin-top: 5px;
-    margin-right : 30px;
-    font-size: 12px; 
-    color: #333; 
-     writing-mode: vertical-lr;
-    text-align: center;
+.orderlist{
+	width: 100%;
+	height: 120px;
+	border-bottom: 1px solid #BDBDBD;
+	
 }
 
-.chart-group {
-        
-  display: flex;
-  flex-direction: column;
-   align-items: center;
-    margin-right: 20px;
-    }
-
-button {
-text-decoration: none;
-color: #616161;
+.orderbanner{
+	width: 100%;
+	height: 50px;
+	background-color: #B2CCFF;
+	margin-top: 10px;
+	border-top: 2px solid #5D5D5D;
+	border-bottom: 1px solid #8C8C8C;
 }
 
-button:hover {
-    background-color: #d9e9fc;
- 
+.orderdatepayment{
+	border-right: 1px solid #EAEAEA;
+	height: 120px;
+}
+
+.orderdate{
+	height: 60px;
+	border-bottom: 1px solid #EAEAEA;
+}
+
+.orderpayment{
+	height: 60px;
 }
 
 
-button:active {
-    color: #000000;
- 
-}
+<!--                                                                -->	
+	.goods {
+		flex: 0 0 33.333%;
+		box-sizing: border-box;
+		padding: 10px;
+	}
+		
+	.goods:hover{
+		
+		border:solid 1px;
+		padding: 9px;
+		border-radius: 2px;
+		border-color: #B2CCFF;
+	}
+		
+	.box {
+		margin-bottom: 5px;
+	}
+		
+	.divimg{
+		width: 400px;
+		height: 300px;
+		overflow: hidden;
+	}		
+		
+	.img{
+		height: 300px;
+	}
+	
+	input[type="number"] {
+	
+	    background-color: #f8f8f8;
+	    border: 1px solid #ccc;
+	    height: 40px;
+	    width: 70px;
+	    text-align: center;
+	}
+
+	input[type="number"]:focus {
+	    border-color: #888;
+	}
+
+	button {
+	text-decoration: none;
+	color: #616161;
+	}
+	
+	button:hover {
+	    background-color: #d9e9fc;
+	 
+	}
+	
+	button:active {
+	    color: #000000; 
+	}
+
+	button.purchase  {
+	text-decoration: none;
+	color: #6ea2f5;
+	}
+	
+	button.purchase:hover {
+	    color:#4287f5;
+	    text-decoration: underline;
+	}
+	
+	button.purchase:active {
+	    
+	    background-color: #c2d9ff; 
+	}
+	
+	.paymentfont{
+		color: #5c5a5a;
+		font-size: 20px;
+	}
+	
+	.payment{
+		color: #ff4747;
+		font-size: 25px;
+	}
+	
+	.paymentbutton{
+		color: #5e5e5e;
+		font-size: 10px;
+		width: 60px;
+		height: 30px;
+		background-color: gray;
+		border: 1px solid;
+	}
+  
+
+
 
 	</style>
 </head>
@@ -408,26 +474,26 @@ button:active {
 						
 						
 						<div style="margin-bottom: 50px;">
-							<form method="post" action="/shop/emp/empMain.jsp">
-							category :
-								<select name="category">
+							<form method="post" action="/shop/customer/orderList.jsp">
+							배송상태 :
+								<select name="state">
 	<% 
-									if(request.getParameter("category")==null){
+									if(request.getParameter("state")==null || state.equals("1")){
 	%>
-										<option value="">선택</option>
+										<option value="1">선택</option>
 	<%								} else{
-										for(String a : categoryList){
-											if(a.equals(category)){
-	%>											<option value="<%=a %>"><%=a %></option>
+										for(HashMap<String, String> a : selectOrderState){
+											if(a.get("state").equals(state)){
+	%>											<option value="<%=a.get("state") %>"><%=a.get("state") %></option>
 	<% 
 											}
 										}
 									}
 	%>
 	<%							//category 칼럼값이 포함된 categoryList 리스트에서 foreach문으로 출력
-									for(String c : categoryList) {
+									for(HashMap<String, String> a : selectOrderStateNull) {
 	%>
-										<option value="<%=c%>"><%=c%></option>
+										<option value="<%=a.get("state")%>"><%=a.get("state")%></option>
 	<%		
 									}
 	%>
@@ -442,15 +508,95 @@ button:active {
 
 					</div>	
 					
-					<div>
+					<div class="col-10">
+						<div class="ordercontainer">
+							
+							<div class="orderbanner">
+								<div class="row">
+									<div class="ordercolumn col-2" style="margin-left: 60px;">주문일
+									</div>
+									<div class="ordercolumn col-4" style="margin-left: 200px;">상품명/상품번호
+									</div>
+									<div class="ordercolumn col-2">주문번호
+									</div>
+									<div class="ordercolumn col">주문상태
+									</div>
+								</div>
+							</div>
+							
+							<div class="orderlist">
+								<div class="row">
+									<div class="orderdatepayment col-2">
+									
+										<% for(HashMap<String, Object> m2 : selectOrderList){
+											%>
+									
+										<div class="orderdate">
+										<div>주문날짜</div>
+										<div style="text-align: right; font-size: 20px; color: #F361A6;"><%=m2.get("orderDate") %></div>
+									
+										</div>
+										<div class="orderpayment">
+										<div >결제금액</div>
+										<div style="text-align: right; font-size: 20px; color: #F361A6;"><%=m2.get("totalPrice") %></div>
+										
+										</div>
+									</div>
+									<div class="col-4">이미지
+									</div>
+									<div class="col-2">주문번호
+									</div>
+									<div class="col">결제완료
+									</div>
+								</div>
+							</div>
+	<%
+							} 
+	%>
+						
+						</div>
 					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					<!-- 
 					<h1>리스트 test 미완료</h1>
 					<table border="1">
 		<tr>
-			<th>
-				mail
-		
-			</th>
+			<th>Mail</th>
+			<th>goodsNo</th>
+			<th>totalPrice</th>
+			<th>state</th>
+			<th>filename</th>
+			<th>orderQuantity</th>
+			<th>name</th>
+			<th>orderDate</th>
+			
+			
 		
 		</tr>
 		
@@ -458,13 +604,21 @@ button:active {
 			for(HashMap<String, Object> m2 : selectOrderList) {
 		%>
 				<tr>
-					<td><%=m.get("mail")%></td>
+					<td><%=m2.get("mail")%></td>
+					<td><%=m2.get("goodsNo")%></td>
+					<td><%=m2.get("totalPrice")%></td>
+					<td><%=m2.get("state")%></td>
+					<td><%=m2.get("filename")%></td>
+					<td><%=m2.get("orderQuantity")%></td>
+					<td><%=m2.get("name")%></td>
+					<td><%=m2.get("orderDate")%></td>
 					
 				</tr>
 		<%		
 			}
 		%>
 	</table>
+	-->
 					
 			
 					
@@ -472,7 +626,7 @@ button:active {
 					
 				
 					</div>
-
+				</div>
 		</body>
 	
 </html>
