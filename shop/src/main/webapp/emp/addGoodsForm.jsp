@@ -481,7 +481,7 @@ System.out.println("totalPage : " + totalPage);
   					<span class="input-group-text">상품코드</span>
   					<input type="number" class="form-control" name="goodsNo" required>
   					
-  					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
+  					<button type="submit" value="" style="margin-left: 0px;"><span class="material-symbols-outlined">check</span></button>
 				</div>
 				
 				
@@ -551,7 +551,7 @@ System.out.println("totalPage : " + totalPage);
   					<span class="input-group-text">상품코드</span>
   					<input type="number" class="form-control" name="goodsNo" value="<%=goodsNo %>" required>
   					
-  					<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
+  					<button type="submit" value="" style="margin-left: 0px;"><span class="material-symbols-outlined">check</span></button>
 				</div>
 				</form>
 				<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data" >
@@ -640,7 +640,7 @@ System.out.println("totalPage : " + totalPage);
 	  					<span class="input-group-text">상품코드</span>
 	  					<input type="number" class="form-control" name="deleteGoodsNo" value ="<%=deleteGoodsNo%>">
 	  					
-	  					<button type="submit"><span class="material-symbols-outlined">check</span></button>
+	  					<button type="submit" style="margin-left: 0px;"><span class="material-symbols-outlined">check</span></button>
 					</div>
 						<input type="hidden" class="form-control" name="modify" value ="delete">
 					</form>
@@ -706,11 +706,11 @@ System.out.println("totalPage : " + totalPage);
 		<form method="post" action="/shop/emp/addGoodsForm.jsp">
 		<h2 style="margin-left: 10px; margin-bottom: 30px;"><span class="material-symbols-outlined" style="margin-right: 10px;">delete</span>상품 삭제</h2>
 	
-	<div class="input-group" style="margin-bottom: 10px;">
+	<div class="input-group" style="margin-bottom: 10px;;>
 			<span class="input-group-text">상품코드</span>
 			<input type="number" class="form-control" name="deleteGoodsNo" value="<%=deleteGoodsNo %>">
 			<input type="hidden" class="form-control" name="modify" value ="delete">
-			<button type="submit" value=""><span class="material-symbols-outlined">check</span></button>
+			<button type="submit" value="" style="margin-left: 0px;"><span class="material-symbols-outlined">check</span></button>
 	</div>
 	</form>
 	<form method="post" action="/shop/emp/deleteGoodsAction.jsp">
@@ -787,10 +787,7 @@ System.out.println("totalPage : " + totalPage);
 	
 	<%}}} 
 					
-					
-					
-					
-					
+		
 					
 					else if(modify.equals("insert")) {
 				%>

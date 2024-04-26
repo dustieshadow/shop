@@ -114,168 +114,196 @@
     	  border: 1px solid black;
     	}
     	
-    	button {
-text-decoration: none;
-color: white;
-}
+	    	button {
+	text-decoration: none;
+	color: white;
+	}
 
-    	
-    	
+	  .btn-outline-secondary:hover{
+	        background-color: #70b883 !important;
+	        color: white !important;
+	    }
+    
+     .btn-outline-secondary:checked{
+        background-color: #70b883 !important;
+        color: white !important;
+    }
+	
+	.btn-outline-secondary {
+	    transition: background-color .6s ease;
+	}
+	
+	input[type="radio"]:checked + label {
+	    background-color: #70b883; 
+	    color: white !important;
+	}
+
+
     	
   
 </style>
 </head>
 		<body>
-		
+		<div>
+						<a href="/shop/emp/loginForm.jsp" class="btn btn-light" style="margin-right: 1px; width: 270px; font-style: italic; color: #626670; " >Go to login</a>
+					</div>
 			<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
-			<div>
-				<a href="/shop/emp/addMemberForm.jsp?type=customer" class="btn btn-light" style="margin-right: 20px; width: 200px;">고객</a>
+	<%
+				if(type == null){
+	%> 
+					<div>
+						<a href="/shop/emp/addMemberForm.jsp?type=customer" class="btn btn-light" style="margin-right: 1px; width: 270px; font-style: italic; color: #626670; " >Customer</a>
+					</div>
+					<div>
+						<a href="/shop/emp/addMemberForm.jsp?type=employee" class="btn btn-light" style="margin-left: 1px; width: 270px; font-style: italic; color: #626670;">Employee</a>
+					</div>	
+	<%				}else if(type.equals("customer")){
+	%>
+						<div>
+							<a href="/shop/emp/addMemberForm.jsp?type=customer" class="btn btn-light" style="margin-right: 1px; width: 270px; font-style: italic; color: black; " >Customer</a>
+						</div>
+						<div>
+							<a href="/shop/emp/addMemberForm.jsp?type=employee" class="btn btn-light" style="margin-left: 1px; width: 270px; font-style: italic; color: #626670;">Employee</a>
+						</div>	
+	<% 				}else if(type.equals("employee")){
+	%>					<div>
+							<a href="/shop/emp/addMemberForm.jsp?type=customer" class="btn btn-light" style="margin-right: 1px; width: 270px; font-style: italic; color: #626670; " >Customer</a>
+						</div>
+						<div>
+							<a href="/shop/emp/addMemberForm.jsp?type=employee" class="btn btn-light" style="margin-left: 1px; width: 270px; font-style: italic; color: black;">Employee</a>
+						</div>	
+	<%				}
+	%>
 			</div>
-			<div>
-				<a href="/shop/emp/addMemberForm.jsp?type=employee" class="btn btn-light" style="margin-left: 20px; width: 200px;" >사원</a>
-			</div>	
-				</div>
-		
-			
-		
-			<%
-				if(type == null || type.equals("customer")){
-					%>
-					<form method="post" action="/shop/customer/customerCheckId.jsp">
-				<div class="container border rounded">
-					<% 
-					
-					if(request.getParameter("memberId")==null){
-						
-		
-			%>
-	
-					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person</span>
-					 			<span class="text">아이디</span>
-					 		</span>
-					 	</div>
-				
-	 	
-					 	<div class="col-7 border-left">
-					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" required>
-					 	</div>
-						<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
-					 		<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button>
-					 	
-					 	</div>
-					 </div>
+	<%
+					if(type == null || type.equals("customer")){
+	%>
+						<form method="post" action="/shop/customer/customerCheckId.jsp">
+							<div class="container border rounded">
+	<% 				
+						if(request.getParameter("memberId")==null){
+	%>	
+					 		<div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 			<div class="col-3">
+					 				<span style="margin-left: 10px;">
+					 					<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person</span>
+					 					<span class="text">아이디</span>
+					 				</span>
+					 			</div>
+					 		<div class="col-7 border-left">
+					 			<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" required>
+					 		</div>
+							<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
+					 			<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button> 	
+					 		</div>
+						</div>
 					  
 					 	<input type="hidden" name = type value="customer">
 					</form>
-					<%}else if(request.getParameter("memberId")!= null){
-						%>
-						<form method="post" action="/shop/emp/addMemberAction.jsp">
-						<div class="article border-bottom row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person</span>
-					 			<span class="text">아이디</span>
-					 		</span>
-					 	</div>
-				
+	<%					}else if(request.getParameter("memberId")!= null){
+	%>
+							<form method="post" action="/shop/emp/addMemberAction.jsp">
+								<div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 				<div class="col-3">
+					 					<span style="margin-left: 10px;">
+					 						<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person</span>
+					 						<span class="text">아이디</span>
+					 					</span>
+					 				</div>
 	 	
-					 	<div class="col-7 border-left">
-					 	<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId %>" required>
-					 	</div>
-						<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
-					 		<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button>
+					 				<div class="col-7 border-left">
+					 					<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" value="<%=memberId %>" required>
+					 				</div>
+									<div class="col-2 border-left" style="padding-left: 0px; padding-right: 0px;">
+					 					<button type="submit" style="background-color: #32a852; width: 100%; height: 100%;">중복확인</button>
 					 	
-					 	</div>
-					 </div>
-					 </form>
-						<% 
-					}
-					%>
-					<form method="post" action="/shop/emp/addMemberAction.jsp">
-						<input type="hidden" name="type" value="customer">
-						<input type="hidden" name="memberId" value="<%=memberId%>">
-					 	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">lock</span>
-					 			<span class="text">비밀번호</span>
-					 		</span>
-					 	</div>
-					 	<div class="col-9 border-left">
-					 	  <input name ="memberPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
-					 	</div> 	
-					 </div>
-					 
-				
-					 	
-				
-				 
-				 </div>
-					<!--  -->
-						<div class="container border rounded" style="margin-top: 10px; height: 200px; ">
-				
+					 				</div>
+					 			</div>
+					 		</form>
+	<% 
+						}
+	%>
+							<form method="post" action="/shop/emp/addMemberAction.jsp">
+								<input type="hidden" name="type" value="customer">
+								<input type="hidden" name="memberId" value="<%=memberId%>">
+					 	 		<div class="article border-bottom2 row"  style="position: relative; left: 11px;">
+					 				<div class="col-3">
+					 					<span style="margin-left: 10px;">
+					 						<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">lock</span>
+					 						<span class="text">비밀번호</span>
+					 					</span>
+					 				</div>
+					 				<div class="col-9 border-left">
+					 	  				<input name ="memberPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
+					 				</div> 	
+					 			</div>
+		 
+				 			</div>
 					
-					 <div class="article border-bottom row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_pin</span>
-					 			<span class="text">이름</span>
-					 		</span>
-					 	</div>
-					 	<div class="col-9 border-left">
-					 	<input name="memberName" type="text" class="input-field" placeholder="Name" style="font-style: italic;" required>
-					 	</div> 	
-					 </div>
+							<div class="container border rounded" style="margin-top: 10px; height: 200px; ">
+				
+					 			<div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 				<div class="col-3">
+					 					<span style="margin-left: 10px;">
+					 						<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_pin</span>
+					 						<span class="text">이름</span>
+					 					</span>
+					 				</div>
+					 			<div class="col-9 border-left">
+					 				<input name="memberName" type="text" class="input-field" placeholder="Name" style="font-style: italic;" required>
+					 			</div> 	
+								 </div>
 					 	
-					 	 <div class="article border-bottom row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">calendar_clock</span>
-					 			<span class="text">생년월일</span>
-					 		</span>
-					 	</div>
-					 	<div class="col-9 border-left">
-					 	  <input name="memberBirthDate" type="date" class="input-field" placeholder="Date of Birth" style="font-style: italic; color: #8C8C8C;" required>
-					 	</div> 	
-					 </div>
+					 	 		<div class="article border-bottom row"  style="position: relative; left: 11px;">
+					 				<div class="col-3">
+					 					<span style="margin-left: 10px;">
+					 						<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">calendar_clock</span>
+					 						<span class="text">생년월일</span>
+					 					</span>
+					 				</div>
+					 				<div class="col-9 border-left">
+					 	 				<input name="memberBirthDate" type="date" class="input-field" placeholder="Date of Birth" style="font-style: italic; color: #8C8C8C;" required>
+					 				</div> 	
+								</div>
 					 
-					  	 <div class="article border-bottom row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">wc</span>
-					 			<span class="text">성별</span>
-					 		</span>
-					 	</div>
-					 	<div class="col-9 border-left" style="display: flex;" >
-					 		
-							<div style="display: flex; justify-content: space-between;">
-					 			<a href="" class="btn btn-outline-primary" ></a>
-					 			<a href="" class="btn btn-outline-primary"></a>
-					 		</div>
-					 		
-					 	<!--   <input name="memberGender" type="text" class="input-field" placeholder="Gender" style="font-style: italic;"required>  -->
-					 	</div> 	
-					</div>
+		 
+								<div class="article border-bottom row" style="position: relative; left: 11px;">
+					    			<div class="col-3">
+					        			<span style="margin-left: 10px;">
+					   						<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">wc</span>
+					     					<span class="text">성별</span>
+					  					</span>
+									</div>
+								<div class="col-9 border-left" style="display: flex;">
+					       		
+					 			
+					 				<input  type="radio" class="btn btn-outline-secondary" id="남" name="memberGender" value="남" style="width: 100%; margin-right: 5px; color: #808080; " hidden>
+					      			<label  class="btn btn-outline-secondary checked" for="남" style="width: 100%; margin-right: 5px; color: #808080;">Male</label>
+					      		
+					            
+					            	<input type="radio" class="btn btn-outline-secondary" id="여" name="memberGender" value="여" style="width: 100%; margin-right: 5px; color: #808080;  " hidden>
+					      			<label class="btn btn-outline-secondary checked" for="여" style="width: 100%; margin-right: 5px; color: #808080;">Female</label>
+					   			 </div>
+								</div>
+					  
+
 					 
-					<div class="article border-bottom2 row"  style="position: relative; left: 11px;">
-						<div class="col-3">
-					 		<span style="margin-left: 10px;">
-					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">phone_iphone</span>
-					 			<span class="text">전화번호</span>
-					 		</span>
-					 	</div>
-					 	<div class="col-9 border-left">
-					 	
-					 	
-					 	  <input name="memberPhone" type="text" class="input-field" placeholder="Phone number" style="font-style: italic;"required>
-					 	</div> 	
-					 </div>
-					 
-				 </div>
-				 <!--  -->
+									<div class="article border-bottom2 row"  style="position: relative; left: 11px;">
+										<div class="col-3">
+									 		<span style="margin-left: 10px;">
+									 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">phone_iphone</span>
+									 			<span class="text">전화번호</span>
+									 		</span>
+									 	</div>
+									 	<div class="col-9 border-left">
+									 	
+									 	
+									 	  <input name="memberPhone" type="text" class="input-field" placeholder="Phone number" style="font-style: italic;"required>
+									 	</div> 	
+									 </div>
+									 
+								 </div>
+								
 				 
 				 <%
 				 
@@ -314,7 +342,7 @@ color: white;
 										}
 				 
 				 %>
-				 <!--  -->
+			
 				 
 				 <%
 				} else if(type.equals("employee")){
