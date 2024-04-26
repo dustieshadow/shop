@@ -72,6 +72,28 @@ public class EmpDAO {
 		return row;
 	}
 
+	public static int insertEmpPw(String memberId, String memberPw)
+			throws Exception {
+		int row = 0;
+		// DB 접근
+		Connection conn = DBHelper.getConnection(); 
+		
+		String sql = "insert into empPw(emp_id, emp_pw) values(?,password(?))";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, memberId);
+		stmt.setString(2, memberPw);
+	
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+	
+	
+	
+	
 	public static ArrayList<HashMap<String, Object>> empList() throws Exception {
 		ArrayList<HashMap<String, Object>> empList = new ArrayList<HashMap<String,Object>>();
 

@@ -41,12 +41,7 @@ if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") 
 	String memberId = null;
 	
 	System.out.println("[param]memberId : " + memberId);
-	
-	
-	
-	
 
-	
 	if(type.equals("customer")){
 		
 		
@@ -71,8 +66,12 @@ if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") 
 		System.out.println("memberPhone : "+memberPhone);
 		
 		int customerInsert = CustomerDAO.insertMember(memberId, memberPw, memberName, memberBirthDate, memberGender, memberPhone);
+		int customerInsertPw = CustomerDAO.insertCustomerPw(memberId, memberPw);
 		
-		if(customerInsert== 1){
+		System.out.println("고객 회원가입 기본정보 - customerInsert : "+customerInsert);
+		System.out.println("고객 회원가입 패스워드정보 - customerInsertPw : "+customerInsertPw);
+		
+		if(customerInsert== 1 && customerInsertPw==1 ){
 			System.out.println("신규 고객 가입에 성공하였습니다");
 			errMsg = URLEncoder.encode("신규 가입에 성공하였습니다.","UTF-8");
 			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);
@@ -111,8 +110,16 @@ if (session.getAttribute("loginEmp") == null && session.getAttribute("loginCs") 
 		
 		
 		int empInsert = EmpDAO.insertEmp(empId, empPw, empName, empJob, hireDate);
+		int empInsertPw = EmpDAO.insertEmpPw(empId, empPw);
 		
-		if(empInsert== 1){
+		System.out.println("사원 회원가입 기본정보 - empInsert : "+empInsert);
+		System.out.println("사원 회원가입 패스워드정보 - customerInsertPw : "+empInsertPw );
+		
+		
+		
+		
+		
+		if(empInsert== 1 && empInsertPw==1){
 			System.out.println("신규 사원 가입에 성공하였습니다");
 			errMsg = URLEncoder.encode("신규 사원 가입에 성공하였습니다.","UTF-8");
 			response.sendRedirect("/shop/emp/loginForm.jsp?errMsg="+errMsg);

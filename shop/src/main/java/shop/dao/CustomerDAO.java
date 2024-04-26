@@ -89,6 +89,7 @@ public class CustomerDAO {
 	}
 	*/
 	
+	/*
 	public static HashMap<String,Object> customerLogin(String id, String pw) throws Exception{
 		HashMap<String, Object> resultMap = null;
 		
@@ -113,6 +114,43 @@ public class CustomerDAO {
 		conn.close();
 		return resultMap;
 	}
+	*/
+	
+	
+	
+	public static HashMap<String,Object> customerLogin(String id, String pw) throws Exception{
+		HashMap<String, Object> resultMap = null;
+		
+		Connection conn = DBHelper.getConnection();
+		
+		//String sql = "select mail, pw, name, birth, gender, phone, update_date, create_date from customer where mail =? and pw = password(?)";
+		
+		String sql = "select t.mail mail, t.name name, gender, phone from(select customer.mail mail, customer.name NAME, customer.gender gender, customer.phone phone ,customerpw.pw pw, customerpw.history history from customer inner JOIN customerpw on customer.mail = customerpw.mail where customer.mail = ? order by history desc LIMIT 0 ,1) t WHERE t.pw = password(?)";
+		
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, id);
+		stmt.setString(2, pw);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			resultMap = new HashMap<String, Object>();
+			resultMap.put("csMail", rs.getString("mail"));
+			resultMap.put("csName", rs.getString("name"));
+			//resultMap.put("csBirthDate", rs.getString("birth"));
+			resultMap.put("csGender", rs.getString("gender"));
+			resultMap.put("csPhone", rs.getString("phone"));
+			//resultMap.put("updateDate", rs.getString("update_date"));
+			//resultMap.put("createDate", rs.getString("create_date"));
+		}
+		
+		conn.close();
+		return resultMap;
+	}
+	
+	
+	
+	
+	
 	
 	
 	// 회원가입 액션
@@ -163,6 +201,27 @@ public class CustomerDAO {
 		conn.close();
 		return row;
 	}
+	
+	
+	public static int insertCustomerPw(String memberId, String memberPw)
+			throws Exception {
+		int row = 0;
+		// DB 접근
+		Connection conn = DBHelper.getConnection(); 
+		
+		String sql = "insert into customerPw(mail, pw) values(?,password(?))";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, memberId);
+		stmt.setString(2, memberPw);
+	
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+	
 	
 	
 	// 회원가입시 mail 중복확인
