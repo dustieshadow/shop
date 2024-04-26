@@ -131,6 +131,7 @@
 	
 	.btn-outline-secondary {
 	    transition: background-color .6s ease;
+	
 	}
 	
 	input[type="radio"]:checked + label {
@@ -278,11 +279,11 @@
 					       		
 					 			
 					 				<input  type="radio" class="btn btn-outline-secondary" id="남" name="memberGender" value="남" style="width: 100%; margin-right: 5px; color: #808080; " hidden>
-					      			<label  class="btn btn-outline-secondary checked" for="남" style="width: 100%; margin-right: 5px; color: #808080;">Male</label>
+					      			<label  class="btn btn-outline-secondary" for="남" style="width: 100%; margin-right: 5px; color: #808080; padding-top: 10px;">Male</label>
 					      		
 					            
 					            	<input type="radio" class="btn btn-outline-secondary" id="여" name="memberGender" value="여" style="width: 100%; margin-right: 5px; color: #808080;  " hidden>
-					      			<label class="btn btn-outline-secondary checked" for="여" style="width: 100%; margin-right: 5px; color: #808080;">Female</label>
+					      			<label class="btn btn-outline-secondary" for="여" style="width: 100%; margin-right: 5px; color: #808080; padding-top: 10px;">Female</label>
 					   			 </div>
 								</div>
 					  
@@ -321,7 +322,7 @@
 												%> <%
 											} 
 						%>				
-											style="margin-top : 370px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+											style="font-weight:bold; margin-top : 370px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
 												<div>회원가입</div>
 											</button>
 						 
@@ -335,7 +336,7 @@
 													%> <%
 												} 
 						%>
-												style="margin-top : 425px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+												style="font-weight:bold;  margin-top : 425px; background-color: #32a852;  width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
 													<div>회원가입</div>
 											</button>
 						<%
@@ -535,7 +536,7 @@
 							%> <%
 						} 
 	%>				
-						style="margin-top : 420px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+						style="font-weight:bold; margin-top : 420px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
 							<div>회원가입</div>
 						</button>
 	 
@@ -549,7 +550,7 @@
 								%> <%
 							} 
 	%>
-							style="margin-top : 475px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+							style="font-weight:bold; margin-top : 475px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
 								<div>회원가입</div>
 						</button>
 	<%
