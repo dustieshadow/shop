@@ -126,13 +126,15 @@ color: white;
 </style>
 </head>
 		<body>
+		
+			<div style="display: flex; align-items: center; justify-content: center; margin-top: 20px;">
 			<div>
-				<a href="/shop/emp/addMemberForm.jsp?type=customer">고객</a>
+				<a href="/shop/emp/addMemberForm.jsp?type=customer" class="btn btn-light" style="margin-right: 20px; width: 200px;">고객</a>
 			</div>
 			<div>
-				<a href="/shop/emp/addMemberForm.jsp?type=employee">사원</a>
+				<a href="/shop/emp/addMemberForm.jsp?type=employee" class="btn btn-light" style="margin-left: 20px; width: 200px;" >사원</a>
 			</div>	
-		<%=msg %>
+				</div>
 		
 			
 		
@@ -212,7 +214,7 @@ color: white;
 				
 				 
 				 </div>
-					
+					<!--  -->
 						<div class="container border rounded" style="margin-top: 10px; height: 200px; ">
 				
 					
@@ -236,7 +238,7 @@ color: white;
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="memberBirthDate" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;" required>
+					 	  <input name="memberBirthDate" type="date" class="input-field" placeholder="Date of Birth" style="font-style: italic; color: #8C8C8C;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -247,19 +249,27 @@ color: white;
 					 			<span class="text">성별</span>
 					 		</span>
 					 	</div>
-					 	<div class="col-9 border-left">
-					 	  <input name="memberGender" type="text" class="input-field" placeholder="Gender" style="font-style: italic;"required>
+					 	<div class="col-9 border-left" style="display: flex;" >
+					 		
+							<div style="display: flex; justify-content: space-between;">
+					 			<a href="" class="btn btn-outline-primary" ></a>
+					 			<a href="" class="btn btn-outline-primary"></a>
+					 		</div>
+					 		
+					 	<!--   <input name="memberGender" type="text" class="input-field" placeholder="Gender" style="font-style: italic;"required>  -->
 					 	</div> 	
-					 </div>
+					</div>
 					 
-					  	 <div class="article border-bottom2 row"  style="position: relative; left: 11px;">
-					 	<div class="col-3">
+					<div class="article border-bottom2 row"  style="position: relative; left: 11px;">
+						<div class="col-3">
 					 		<span style="margin-left: 10px;">
 					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">phone_iphone</span>
 					 			<span class="text">전화번호</span>
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
+					 	
+					 	
 					 	  <input name="memberPhone" type="text" class="input-field" placeholder="Phone number" style="font-style: italic;"required>
 					 	</div> 	
 					 </div>
@@ -269,26 +279,39 @@ color: white;
 				 
 				 <%
 				 
-					if(check == null ||check.equals("1") ){
-						
-				
-					
-				  	%>
-					<button class="rounded" disabled style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
-					 	<div>회원가입</div>
-					 
-					 
-					 </button>
-					 <%
-					}else{
+				 if(msg!=null){
+						%>					
+											<div style="display: flex; align-items: center; justify-content: center; margin-top: 30px;">
+												<%=msg %>
+											</div>
+									  		<button class="rounded"
+												
+						<% 					if(check == null ||check.equals("1") ){
+												
+												%>disabled<%
+											}else{
+												%> <%
+											} 
+						%>				
+											style="margin-top : 370px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+												<div>회원가입</div>
+											</button>
+						 
+						<%				}else{
 						%>
-						<button class="rounded" style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
-						 	<div>회원가입</div>
-						 
-						 
-						 </button>
-						 <%
-					}
+											<button class="rounded" 
+						<% 	
+												if(check == null ||check.equals("1") ){
+													%>disabled<%
+												}else{
+													%> <%
+												} 
+						%>
+												style="margin-top : 425px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+													<div>회원가입</div>
+											</button>
+						<%
+										}
 				 
 				 %>
 				 <!--  -->
@@ -359,7 +382,7 @@ color: white;
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;" required>
+					 	  <input name="empJob" type="text" class="input-field" placeholder="Department" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -367,11 +390,11 @@ color: white;
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
 					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_apron</span>
-					 			<span class="text">입사날짜</span>
+					 			<span class="date">입사날짜</span>
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;" required>
+					 	  <input name="hireDate" type="date" class="input-field" placeholder="Enter date" style="font-style: italic; color: #8C8C8C;" required >
 					 	</div> 	
 					 </div>
 					 
@@ -448,7 +471,7 @@ color: white;
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="empJob" type="text" class="input-field" placeholder="Date of Birth" style="font-style: italic;" required>
+					 	  <input name="empJob" type="text" class="input-field" placeholder="Department" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 					 
@@ -460,49 +483,52 @@ color: white;
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="hireDate" type="text" class="input-field" placeholder="Gender" style="font-style: italic;" required>
+					 	  <input name="hireDate" type="text" class="input-field" placeholder="Enter date" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
-					 
-					  
-					  
-					
-					  
-					  
+			  
 				 </div>
-					
 				
-					
 					<% 
 					
-				
-				 
-				 
-				}
+					}
 					
-					if(check == null ||check.equals("1") ){
-						
-				
-					
-				  	%>
-					<button class="rounded" disabled style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
-					 	<div>회원가입</div>
-					 
-					 
-					 </button>
-					 <%
-					}else{
-						%>
-						<button class="rounded" style="margin-top : 480px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
-						 	<div>회원가입</div>
-						 
-						 
-						 </button>
-						 <%
+					 if(msg!=null){
+	%>					
+						<div style="display: flex; align-items: center; justify-content: center; margin-top: 30px;">
+							<%=msg %>
+						</div>
+				  		<button class="rounded"
+							
+	<% 					if(check == null ||check.equals("1") ){
+							
+							%>disabled<%
+						}else{
+							%> <%
+						} 
+	%>				
+						style="margin-top : 420px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+							<div>회원가입</div>
+						</button>
+	 
+	<%				}else{
+	%>
+						<button class="rounded" 
+	<% 	
+							if(check == null ||check.equals("1") ){
+								%>disabled<%
+							}else{
+								%> <%
+							} 
+	%>
+							style="margin-top : 475px; background-color: #32a852; width: 550px; height: 50px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+								<div>회원가입</div>
+						</button>
+	<%
 					}
 					 
-			}
-				 %>
+				}
+	%>
 					 
 				
 				
