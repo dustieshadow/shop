@@ -20,7 +20,7 @@ public class GoodsDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods order by goods_price desc limit ?,?";
+		String sql1 = "select category, goods_no, emp_id, goods_title, format(goods_price,0) goodsPrice, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods order by goods_price desc limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, limitStartPage);
@@ -34,7 +34,8 @@ public class GoodsDAO {
 			m.put("goods_no", rs.getInt("goods_no"));
 			m.put("emp_id", rs.getString("emp_id"));
 			m.put("goods_title", rs.getString("goods_title"));
-			m.put("goods_price", rs.getInt("goods_Price"));
+			m.put("goods_price", rs.getString("goodsPrice"));
+			m.put("goodsIntPrice", rs.getInt("goods_price"));
 			m.put("goods_amount", rs.getInt("goods_amount"));
 			m.put("goods_content", rs.getString("goods_content"));
 			m.put("filename", rs.getString("filename"));
@@ -60,7 +61,7 @@ public class GoodsDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods order by goods_no asc limit ?,?";
+		String sql1 = "select category, goods_no, emp_id, goods_title, format(goods_price,0) goods_price, goods_amount, goods_content, filename, update_date, create_date from goods order by goods_no asc limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, limitStartPage);
@@ -74,7 +75,7 @@ public class GoodsDAO {
 			m.put("goods_no", rs.getInt("goods_no"));
 			m.put("emp_id", rs.getString("emp_id"));
 			m.put("goods_title", rs.getString("goods_title"));
-			m.put("goods_price", rs.getInt("goods_Price"));
+			m.put("goods_price", rs.getString("goods_price"));
 			m.put("goods_amount", rs.getInt("goods_amount"));
 			m.put("goods_content", rs.getString("goods_content"));
 			m.put("filename", rs.getString("filename"));
@@ -214,7 +215,7 @@ public class GoodsDAO {
 // 긴 문자열 자동 줄바꿈 ctrl + enter
 
 //
-		String sql2 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category=? limit ?,?";
+		String sql2 = "select category, goods_no, emp_id, goods_title, format(goods_price,0) goodsPrice, goods_price goods_IntPrice, goods_amount, filename, update_date, create_date from goods where category=? limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql2);
 		stmt.setString(1, category);
@@ -229,7 +230,8 @@ public class GoodsDAO {
 			m.put("goods_no", rs.getInt("goods_no"));
 			m.put("emp_id", rs.getString("emp_id"));
 			m.put("goods_title", rs.getString("goods_title"));
-			m.put("goods_price", rs.getInt("goods_Price"));
+			m.put("goods_price", rs.getString("goodsPrice"));
+			m.put("goodsIntPrice", rs.getInt("goods_IntPrice"));
 			m.put("goods_amount", rs.getInt("goods_amount"));
 			m.put("filename", rs.getString("filename"));
 

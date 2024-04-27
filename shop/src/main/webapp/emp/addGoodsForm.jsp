@@ -939,7 +939,7 @@ System.out.println("totalPage : " + totalPage);
 							<th>카테고리</th>
 							<th>사원ID</th>
 							<th>상품명</th>
-							<th>단가</th>
+							<th>단가(원)</th>
 							<th>보유재고 수량</th>
 							<th>상품변동일자</th>
 							<th>최초입고날짜</th>
@@ -954,7 +954,7 @@ System.out.println("totalPage : " + totalPage);
 								<td><%=(String)(m3.get("category"))%></td>
 								<td><%=(String)(m3.get("emp_id"))%></td>
 								<td><%=(String)(m3.get("goods_title"))%></td>
-								<td><%=(Integer)(m3.get("goods_price"))%></td>
+								<td><%=(String)(m3.get("goods_price"))%></td>
 								<td><%=(Integer)(m3.get("goods_amount"))%></td>
 								<td><%=(String)(m3.get("update_date"))%></td>
 								<td><%=(String)(m3.get("create_date"))%></td>

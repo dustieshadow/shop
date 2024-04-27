@@ -197,13 +197,14 @@
 .bar2 {
     width: 20%; 
     background-color: #ff5e5e; 
-    color: #373f5c; 
+    color: white;
     text-align: center;
     margin: 0 5px; 
     transition: all 0.3s ease; 
     width: 35px;
     min-height: 21px;
     font-size: 13px;
+    
 }
 
 .bar3 {
@@ -515,7 +516,7 @@ pricefont{
 			%>	<div class="col">
 				<div style="display: flex; justify-content: center;">
 				   <div class="chart-wrapper">
-		<div class="chart-title">품목별 재고수량 차트</div>
+		<div class="chart-title"><%=category %> 재고수량 차트</div>
 		<div class="chart-container" style="margin-top: 10px;">
 		<% 
 		
@@ -535,7 +536,7 @@ pricefont{
 		</div>
 		
 		   <div class="chart-wrapper">
-		<div class="chart-title">품목별 총매출 차트(만원)</div>
+		<div class="chart-title"><%=category %> 총매출 차트(만원)</div>
 		<div class="chart-container " style="margin-top: 10px;">
 		<% for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
 		 
@@ -556,7 +557,7 @@ pricefont{
 		
 		
 		<div class="chart-wrapper">
-		<div class="chart-title">품목별 총주문량 차트</div>
+		<div class="chart-title"><%=category %> 총주문량 차트</div>
 		<div class="chart-container " style="margin-top: 10px;">
 		<% for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
 		 
