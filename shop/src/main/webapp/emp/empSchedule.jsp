@@ -252,7 +252,7 @@ a:hover {
 	color: blue;
 }
 .memo{
-	/*background-image: */
+	
 	background-size: cover;
 }
 

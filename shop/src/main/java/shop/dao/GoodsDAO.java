@@ -20,7 +20,7 @@ public class GoodsDAO {
 		// 긴 문자열 자동 줄바꿈 ctrl + enter
 
 		//
-		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods limit ?,?";
+		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods order by goods_price desc limit ?,?";
 
 		PreparedStatement stmt = conn.prepareStatement(sql1);
 		stmt.setInt(1, limitStartPage);
@@ -49,6 +49,53 @@ public class GoodsDAO {
 
 		return selectGoodsList;
 	}
+	
+	
+	public static ArrayList<HashMap<String, Object>> selectGoodsOrderByList(int limitStartPage, int rowPerPage)
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectGoodsOrderByList = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		String sql1 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, goods_content, filename, update_date, create_date from goods order by goods_no asc limit ?,?";
+
+		PreparedStatement stmt = conn.prepareStatement(sql1);
+		stmt.setInt(1, limitStartPage);
+		stmt.setInt(2, rowPerPage);
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			m.put("category", rs.getString("category"));
+			m.put("goods_no", rs.getInt("goods_no"));
+			m.put("emp_id", rs.getString("emp_id"));
+			m.put("goods_title", rs.getString("goods_title"));
+			m.put("goods_price", rs.getInt("goods_Price"));
+			m.put("goods_amount", rs.getInt("goods_amount"));
+			m.put("goods_content", rs.getString("goods_content"));
+			m.put("filename", rs.getString("filename"));
+			m.put("update_date", rs.getString("update_date"));
+			m.put("create_date", rs.getString("create_date"));
+
+			selectGoodsOrderByList.add(m);
+
+		}
+		System.out.println("selectGoodsOrderByList(리스트에 추가된 칼럼명 목록) : " + selectGoodsOrderByList);
+		conn.close();
+
+		return selectGoodsOrderByList;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	public static ArrayList<HashMap<String, Object>> selectGoodsNoList(String goodsNo)
 			throws Exception {
@@ -203,9 +250,13 @@ public class GoodsDAO {
 // 긴 문자열 자동 줄바꿈 ctrl + enter
 
 //
-		String sql2 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category=?";
+		//String sql2 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category=?";
 
-		PreparedStatement stmt = conn.prepareStatement(sql2);
+		String sql="SELECT g.category category, g.goods_no goodsNo, g.emp_id empId, g.goods_title goodsTitle, g.goods_price goodsPrice, g.goods_amount goodsAmount, g.filename, g.update_date, g.create_date, o.total_price totalPrice, o.order_quantity orderQuantity from goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE category = ?";
+
+		
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, category);
 	
 
@@ -239,8 +290,13 @@ public class GoodsDAO {
 		Connection conn = DBHelper.getConnection();
 
 		//
-		String sql = "select" + " category, count(*) cnt, goods_amount goodsAmount " + "from goods " + "group by category";
+		//String sql = "select" + " category, count(*) cnt, sum(goods_amount) goodsAmount " + "from goods " + "group by category";
 
+		String sql = " SELECT g.category category, COUNT(*) cnt, SUM(g.goods_amount) goodsAmount, sum(o.total_price) totalPrice, sum(o.order_quantity) orderQuantity FROM goods g INNER JOIN orders o ON g.goods_no = o.goods_no GROUP BY g.category";
+
+
+		
+		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 
 		ResultSet rs = stmt.executeQuery();
@@ -250,7 +306,9 @@ public class GoodsDAO {
 			m.put("category", rs.getString("category"));
 			m.put("cnt", rs.getInt("cnt"));
 			m.put("goodsAmount", rs.getInt("goodsAmount"));
-
+			m.put("totalPrice", rs.getInt("totalPrice"));
+			m.put("orderQuantity", rs.getInt("orderQuantity"));
+			
 			selectGroupByCategory.add(m);
 
 		}

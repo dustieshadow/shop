@@ -178,7 +178,7 @@
 	//페이지 변수
 	//전체행수 검색 변수설정 -------------------------
 	int totalRow = 0;			//조회쿼리 전체행수
-	int rowPerPage = 10; 		//페이지당 행수
+	int rowPerPage = 8; 		//페이지당 행수
 	int totalPage = 1;			//전체 페이지수
 
 	int currentPage = 1;		//현재 페이지수
@@ -461,7 +461,7 @@
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                    <a class="nav-link" href="">
 		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>
@@ -540,7 +540,7 @@
 											<div class="orderdatepayment col-2">				
 												<div class="orderdate">
 													<div style="margin-left: 10px;">결제일자</div>
-													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #8eb0bf;"><%=m2.get("year") %>-<%=m2.get("month") %>-<%=m2.get("day") %> &nbsp;<%=m2.get("hour") %>:<%=m2.get("minute") %></div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #8eb0bf;"><%=m2.get("year") %>-<%=m2.get("month") %>-<%=m2.get("day") %> &nbsp;<%=m2.get("hour") %>시 <%=m2.get("minute") %>분</div>
 												</div>
 												<div class="orderpayment">
 														<div style="margin-left: 10px;">결제금액</div>
@@ -639,7 +639,7 @@
     													}else if(listState.equals("출하지시")){
     %> 
     														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
-   															<div style="text-align: center;">배송준비단계</div>
+   															<div style="text-align: center;">날짜데이터</div>
     <%
     													}else if(listState.equals("배송시작")){
     %> 

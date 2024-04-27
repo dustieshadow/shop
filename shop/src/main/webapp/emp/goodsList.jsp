@@ -597,7 +597,7 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                    <a class="nav-link" href="">
 		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>

@@ -279,7 +279,7 @@ button:active {
 						class="material-symbols-outlined" style="margin-right: 8px;">support_agent</span>
 						<span>Customer</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="/shop/emp/empSchedule.jsp"> <span
+				<li class="nav-item"><a class="nav-link" href=""> <span
 						class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 						<span>Schedule</span>
 				</a></li>

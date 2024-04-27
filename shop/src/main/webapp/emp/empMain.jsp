@@ -64,8 +64,14 @@
 	
 	ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
 	ArrayList<String> categoryList = GoodsDAO.categoryList();
-	ArrayList<HashMap<String,Object>> chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
-
+	
+	ArrayList<HashMap<String,Object>> chartGoodsListCategory = null;
+	if(request.getParameter(category)!=null){
+		
+	
+	chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
+	System.out.println("chartGoodsListCategory : "+ chartGoodsListCategory );
+	}
 
 %>
 
@@ -186,6 +192,30 @@
     min-height: 21px;
 }
 
+.bar2 {
+    width: 20%; 
+    background-color: #ff5e5e; 
+    color: #373f5c; 
+    text-align: center;
+    margin: 0 5px; 
+    transition: all 0.3s ease; 
+    width: 35px;
+    min-height: 21px;
+    font-size: 13px;
+}
+
+.bar3 {
+    width: 20%; 
+    background-color: #c2d8ff; 
+    color: #373f5c; 
+    text-align: center;
+    margin: 0 5px; 
+    transition: all 0.3s ease; 
+    width: 35px;
+    min-height: 21px;
+    font-size: 13px;
+}
+
 .bar:hover {
     opacity: 0.8; 
 }
@@ -222,6 +252,12 @@ button:active {
     color: #000000;
  
 }
+
+pricefont{
+	color : black;
+}
+
+
 
 
 
@@ -285,7 +321,7 @@ button:active {
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                    <a class="nav-link" href="">
 		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>
@@ -351,16 +387,34 @@ button:active {
 		    	
 		    	
 		    	int maxAmount = 0;
+		    	int maxPrice = 0;
+		    	int maxQuantity = 0;
+		    	
 		    	for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
 		    		int currentAmount = (Integer) goodsAmountChart.get("goodsAmount");
+		    		int currentPrice = (Integer) goodsAmountChart.get("totalPrice");
+		    		int currentQuantity = (Integer) goodsAmountChart.get("orderQuantity");
+		    		
+		    		System.out.println("currentQuantity : "+currentQuantity);
+		    		System.out.println("maxQuantity : "+maxQuantity);
+		    		
 		    		if (currentAmount > maxAmount) {
 		    			maxAmount = currentAmount;
+		    			System.out.println("maxAmount : "+maxAmount);
 		    		}
-		    	}
-		    	
-	
-   
+		    		if(currentPrice > maxPrice){
+		    			maxPrice = currentPrice;
+		    			System.out.println("maxPrice : "+maxPrice);
+		    		}
+		    		if(currentQuantity > maxQuantity){
+		    			maxQuantity = currentQuantity;
+		    			System.out.println("maxQuantity : "+maxQuantity);
+		    		}
+		    			
+		    	} 
 %>								
+								<div class="col">
+								<div style="display: flex; justify-content: center;">
 								   <div class="chart-wrapper">
         <div class="chart-title">품목별 재고수량 차트</div>
         <div class="chart-container" style="margin-top: 10px;">
@@ -380,20 +434,46 @@ button:active {
     </div>
     
     					   <div class="chart-wrapper">
-        <div class="chart-title">매출 차트</div>
-        <div class="chart-container" style="margin-top: 10px;">
+        <div class="chart-title">품목별 총매출 차트(만원)</div>
+        <div class="chart-container " style="margin-top: 10px;">
             <% for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
-                int goodsAmount = (Integer) goodsAmountChart.get("goodsAmount");
+                int totalPrice = (Integer) goodsAmountChart.get("totalPrice");
                 String categoryName = (String) goodsAmountChart.get("category");
-                double maxHeight = (double) goodsAmount / maxAmount * 100;
+                double maxHeight = (double) totalPrice / maxPrice * 100;
+                String priceWon = Integer.toString(totalPrice);
+                int newLength = priceWon.length() - 4;
+           		String truncatedStr = priceWon.substring(0, newLength);
+                
             %>
-            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
+            <div class="bar2	" style="height:<%=maxHeight%>%;" ><%=truncatedStr%></div>
             <div class="category-label"><%=categoryName%></div>
             <% } %>
         </div>
     </div>
+    </div>
+    
+    
+      <div class="chart-wrapper">
+        <div class="chart-title">품목별 총주문량 차트</div>
+        <div class="chart-container " style="margin-top: 10px;">
+            <% for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+                int orderQuantity = (Integer) goodsAmountChart.get("orderQuantity");
+                String categoryName = (String) goodsAmountChart.get("category");
+                double maxHeight = (double) orderQuantity / maxQuantity * 100;
+          
+                
+            %>
+            <div class="bar3" style="height:<%=maxHeight%>%;" ><%=orderQuantity%></div>
+            <div class="category-label"><%=categoryName%></div>
+            <% } %>
+        </div>
+    </div>
+    </div>
+    
     
     <%}else{
+    	
+    	
     	
     	
     	int maxAmount = 0;

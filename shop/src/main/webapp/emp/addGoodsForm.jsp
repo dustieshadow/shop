@@ -126,7 +126,8 @@ stmt1.setInt(1,limitStartPage);
 stmt1.setInt(2,rowPerPage);
 rs1 = stmt1.executeQuery();
 */
-ArrayList<HashMap<String, Object>> selectGoodsList = GoodsDAO.selectGoodsList(limitStartPage, rowPerPage);
+//ArrayList<HashMap<String, Object>> selectGoodsList = GoodsDAO.selectGoodsList(limitStartPage, rowPerPage);
+ArrayList<HashMap<String, Object>> selectGoodsOrderByList = GoodsDAO.selectGoodsOrderByList(limitStartPage, rowPerPage);
 /*
 while (rs1.next()) {
 	HashMap<String, Object> m = new HashMap<String, Object>();
@@ -178,7 +179,8 @@ ArrayList<HashMap<String, Object>> selectGoodsNoList = GoodsDAO.selectGoodsNoLis
 ArrayList<HashMap<String, Object>> deleteGoodsNoList = GoodsDAO.deleteGoodsNoList(deleteGoodsNo);
 
 //디버깅 ArrayList는 문자열 디버깅 가능-주소가 아닌 값이 나오기 때문에
-System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
+//System.out.println("selectGoodsList(리스트에 추가된 칼럼명 목록) : "+selectGoodsList);
+System.out.println("selectGoodsOrderByList(리스트에 추가된 칼럼명 목록) : "+selectGoodsOrderByList);
 System.out.println("selectCountGroupByCategory(리스트에 추가된 카테고리 그룹별 행수 : "+selectCountGroupByCategory);
 System.out.println("selectGoodsNoList(검색에 필요한 굿즈리스트 : "+selectGoodsNoList);
 System.out.println("deleteGoodsNoList(삭제 검색에 필요한 굿즈리스트 : "+deleteGoodsNoList);
@@ -427,7 +429,7 @@ System.out.println("totalPage : " + totalPage);
 		                    </a>
 		                </li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="/shop/emp/empSchedule.jsp">
+		                    <a class="nav-link" href="">
 		                        <span class="material-symbols-outlined" style="margin-right: 8px;">account_circle</span>
 		                        <span>Schedule</span>
 		                    </a>
@@ -945,7 +947,7 @@ System.out.println("totalPage : " + totalPage);
 					</thead>
 					<tbody>
 	<%					//rs.getString이 아닌 HashMap으로 값을 뿌림
-						for(HashMap<String, Object> m3 : selectGoodsList) {
+						for(HashMap<String, Object> m3 : selectGoodsOrderByList) {
 	%>
 							<tr>
 								<td><%=(Integer)(m3.get("goods_no"))%></td>
