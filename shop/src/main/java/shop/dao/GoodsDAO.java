@@ -254,8 +254,9 @@ public class GoodsDAO {
 //
 		//String sql2 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category=?";
 
-		String sql="SELECT g.category category, g.goods_no goodsNo, g.emp_id empId, g.goods_title goodsTitle, g.goods_price goodsPrice, g.goods_amount goodsAmount, g.filename filename, g.update_date, g.create_date, o.total_price totalPrice, o.order_quantity orderQuantity from goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE category = ? GROUP BY g.goods_no";
-
+		//String sql="SELECT g.category category, g.goods_no goodsNo, g.emp_id empId, g.goods_title goodsTitle, g.goods_price goodsPrice, g.goods_amount goodsAmount, g.filename filename, g.update_date, g.create_date, o.total_price totalPrice, o.order_quantity orderQuantity from goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE category = ? GROUP BY g.goods_no";
+		String sql="SELECT  g.category category, g.goods_no goodsNo, g.emp_id empId, g.goods_title goodsTitle, g.goods_price goodsPrice, g.goods_amount goodsAmount, g.filename filename, g.update_date, g.create_date, SUM(o.total_price) totalPrice, SUM(o.order_quantity) orderQuantity FROM goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE g.category = ? GROUP BY g.goods_no";
+				
 		
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);

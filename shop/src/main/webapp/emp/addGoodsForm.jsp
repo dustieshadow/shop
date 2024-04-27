@@ -857,7 +857,7 @@ System.out.println("totalPage : " + totalPage);
 					<button type="submit">신규 추가</button>
 				</div>
 		
-			<!-- --------------------------------------------------------- -->
+			
 		
 				<%}%>
 	
@@ -873,7 +873,7 @@ System.out.println("totalPage : " + totalPage);
 			<div class="col">
 			
 
-			<div>
+			<!-- <div>
 				<a href="/shop/emp/goodsList.jsp">전체</a>
 	<%
 				for (HashMap m2 : selectCountGroupByCategory) {
@@ -884,8 +884,8 @@ System.out.println("totalPage : " + totalPage);
 	<%
 				}
 	%>
-			</div>
-			<h1>상품 목록</h1>
+			</div> -->
+			<h1 style="margin-top: 10px;">상품 목록</h1>
 			
 			<!-- 페이징 버튼 -->	
 					<div>
