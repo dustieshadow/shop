@@ -66,7 +66,9 @@
 	ArrayList<String> categoryList = GoodsDAO.categoryList();
 	
 	ArrayList<HashMap<String,Object>> chartGoodsListCategory = null;
-	if(request.getParameter(category)!=null){
+	ArrayList<HashMap<String,Object>> selectGroupByCategoryGoodsAmount = GoodsDAO.selectGroupByCategoryGoodsAmount();
+	
+	if(request.getParameter("category")!=null){
 		
 	
 	chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
@@ -390,18 +392,25 @@ pricefont{
 		    	int maxPrice = 0;
 		    	int maxQuantity = 0;
 		    	
-		    	for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+		    	
+		    	for (HashMap<String,Object> goodsAmountChart : selectGroupByCategoryGoodsAmount) {
 		    		int currentAmount = (Integer) goodsAmountChart.get("goodsAmount");
+	
+		    		if (currentAmount > maxAmount) {
+		    			maxAmount = currentAmount;
+		    			System.out.println("maxAmount : "+maxAmount);
+		    		}    			
+		    	} 
+		    	
+		    	for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+		    
 		    		int currentPrice = (Integer) goodsAmountChart.get("totalPrice");
 		    		int currentQuantity = (Integer) goodsAmountChart.get("orderQuantity");
 		    		
 		    		System.out.println("currentQuantity : "+currentQuantity);
 		    		System.out.println("maxQuantity : "+maxQuantity);
 		    		
-		    		if (currentAmount > maxAmount) {
-		    			maxAmount = currentAmount;
-		    			System.out.println("maxAmount : "+maxAmount);
-		    		}
+		    	
 		    		if(currentPrice > maxPrice){
 		    			maxPrice = currentPrice;
 		    			System.out.println("maxPrice : "+maxPrice);
@@ -422,7 +431,7 @@ pricefont{
             
             
             
-            for (HashMap<String,Object> goodsAmountChart : selectGroupByCategory) {
+            for (HashMap<String,Object> goodsAmountChart : selectGroupByCategoryGoodsAmount) {
                 int goodsAmount = (Integer) goodsAmountChart.get("goodsAmount");
                 String categoryName = (String) goodsAmountChart.get("category");
                 double maxHeight = (double) goodsAmount / maxAmount * 100;
@@ -473,47 +482,98 @@ pricefont{
     
     <%}else{
     	
-    	
-    	
-    	
     	int maxAmount = 0;
+    	int maxPrice = 0;
+    	int maxQuantity = 0;
+    	
     	for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
     		int currentAmount = (Integer) goodsAmountChart.get("goodsAmount");
+    		int currentPrice = (Integer) goodsAmountChart.get("totalPrice");
+    		int currentQuantity = (Integer) goodsAmountChart.get("orderQuantity");
+    		
+    		System.out.println("currentQuantity : "+currentQuantity);
+    		System.out.println("maxQuantity : "+maxQuantity);
+    		
     		if (currentAmount > maxAmount) {
     			maxAmount = currentAmount;
+    			System.out.println("maxAmount : "+maxAmount);
     		}
-    	}
-    	%>
+    		if(currentPrice > maxPrice){
+    			maxPrice = currentPrice;
+    			System.out.println("maxPrice : "+maxPrice);
+    		}
+    		if(currentQuantity > maxQuantity){
+    			maxQuantity = currentQuantity;
+    			System.out.println("maxQuantity : "+maxQuantity);
+    		}
+    			
+    	} 
     	
-    			   <div class="chart-wrapper">
-        <div class="chart-title">품목별 재고수량 차트</div>
-        <div class="chart-container" style="margin-top: 10px;">
-            <% for (HashMap<String,Object> chartList : chartGoodsListCategory) {
-                int goodsAmount = (Integer) chartList.get("goodsAmount");
-                String goodsTitle = (String) chartList.get("goodsTitle");
-                double maxHeight = (double) goodsAmount / maxAmount * 100;
-            %>
-          
-            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
-            <div class="category-label"><%=goodsTitle%></div>
-          
-            <% } %>
-        </div>
-    </div>
-    
-    					   <div class="chart-wrapper">
-        <div class="chart-title">매출 차트</div>
-        <div class="chart-container" style="margin-top: 10px;">
-            <% for (HashMap<String,Object> chartList : chartGoodsListCategory) {
-                int goodsAmount = (Integer) chartList.get("goodsAmount");
-                String goodsTitle = (String) chartList.get("goodsTitle");
-                double maxHeight = (double) goodsAmount / maxAmount * 100;
-            %>
-            <div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
-            <div class="category-label"><%=goodsTitle%></div>
-            <% } %>
-        </div>
-    </div>
+    	
+   
+    	
+			%>	<div class="col">
+				<div style="display: flex; justify-content: center;">
+				   <div class="chart-wrapper">
+		<div class="chart-title">품목별 재고수량 차트</div>
+		<div class="chart-container" style="margin-top: 10px;">
+		<% 
+		
+		
+		
+		for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
+		
+			
+		int goodsAmount = (Integer) goodsAmountChart.get("goodsAmount");
+		String goodsName = (String) goodsAmountChart.get("goodsTitle");
+		double maxHeight = (double) goodsAmount / maxAmount * 100;
+		%>
+		<div class="bar" style="height:<%=maxHeight%>%;"><%=goodsAmount%></div>
+		<div class="category-label"><%=goodsName%></div>
+		<% } %>
+		</div>
+		</div>
+		
+		   <div class="chart-wrapper">
+		<div class="chart-title">품목별 총매출 차트(만원)</div>
+		<div class="chart-container " style="margin-top: 10px;">
+		<% for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
+		 
+		int totalPrice = (Integer) goodsAmountChart.get("totalPrice");
+		String goodsName = (String) goodsAmountChart.get("goodsTitle");
+		double maxHeight = (double) totalPrice / maxPrice * 100;
+		String priceWon = Integer.toString(totalPrice);
+		int newLength = priceWon.length() - 4;
+		String truncatedStr = priceWon.substring(0, newLength);
+		
+		%>
+		<div class="bar2	" style="height:<%=maxHeight%>%;" ><%=truncatedStr%></div>
+		<div class="category-label"><%=goodsName%></div>
+		<% } %>
+		</div>
+		</div>
+		</div>
+		
+		
+		<div class="chart-wrapper">
+		<div class="chart-title">품목별 총주문량 차트</div>
+		<div class="chart-container " style="margin-top: 10px;">
+		<% for (HashMap<String,Object> goodsAmountChart : chartGoodsListCategory) {
+		 
+		int orderQuantity = (Integer) goodsAmountChart.get("orderQuantity");
+		String goodsName = (String) goodsAmountChart.get("goodsTitle");
+		double maxHeight = (double) orderQuantity / maxQuantity * 100;
+		
+		
+		%>
+		<div class="bar3" style="height:<%=maxHeight%>%;" ><%=orderQuantity%></div>
+		<div class="category-label"><%=goodsName%></div>
+		<% } %>
+		</div>
+		</div>
+		</div>
+
+    	
 
     <%  } %>
 		</body>

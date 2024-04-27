@@ -252,7 +252,7 @@ public class GoodsDAO {
 //
 		//String sql2 = "select category, goods_no, emp_id, goods_title, goods_price, goods_amount, filename, update_date, create_date from goods where category=?";
 
-		String sql="SELECT g.category category, g.goods_no goodsNo, g.emp_id empId, g.goods_title goodsTitle, g.goods_price goodsPrice, g.goods_amount goodsAmount, g.filename, g.update_date, g.create_date, o.total_price totalPrice, o.order_quantity orderQuantity from goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE category = ?";
+		String sql="SELECT g.category category, g.goods_no goodsNo, g.emp_id empId, g.goods_title goodsTitle, g.goods_price goodsPrice, g.goods_amount goodsAmount, g.filename filename, g.update_date, g.create_date, o.total_price totalPrice, o.order_quantity orderQuantity from goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE category = ? GROUP BY g.goods_no";
 
 		
 		
@@ -265,12 +265,15 @@ public class GoodsDAO {
 			HashMap<String, Object> m = new HashMap<String, Object>();
 
 			m.put("category", rs.getString("category"));
-			m.put("goodsNo", rs.getInt("goods_no"));
-			m.put("empId", rs.getString("emp_id"));
-			m.put("goodsTitle", rs.getString("goods_title"));
-			m.put("goodsPrice", rs.getInt("goods_Price"));
-			m.put("goodsAmount", rs.getInt("goods_amount"));
+			m.put("goodsNo", rs.getInt("goodsNo"));
+			m.put("empId", rs.getString("empId"));
+			m.put("goodsTitle", rs.getString("goodsTitle"));
+			m.put("goodsPrice", rs.getInt("goodsPrice"));
+			m.put("goodsAmount", rs.getInt("goodsAmount"));
 			m.put("filename", rs.getString("filename"));
+			m.put("totalPrice", rs.getInt("totalPrice"));
+			m.put("orderQuantity", rs.getInt("orderQuantity"));
+			
 
 			chartGoodsListCategory.add(m);
 
@@ -317,6 +320,41 @@ public class GoodsDAO {
 
 		return selectGroupByCategory;
 	}
+	
+	
+	public static ArrayList<HashMap<String, Object>> selectGroupByCategoryGoodsAmount() throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectGroupByCategoryGoodsAmount = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+
+		//
+		//String sql = "select" + " category, count(*) cnt, sum(goods_amount) goodsAmount " + "from goods " + "group by category";
+
+		String sql = "SELECT sum(goods_amount) goodsAmount, category FROM goods GROUP BY category;";
+
+		
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			m.put("goodsAmount", rs.getInt("goodsAmount"));
+			m.put("category", rs.getString("category"));
+			
+			
+			selectGroupByCategoryGoodsAmount.add(m);
+
+		}
+		System.out.println("selectGroupByCategoryGoodsAmount(카테고리별 총 재고량 : " + selectGroupByCategoryGoodsAmount);
+		conn.close();
+
+		return selectGroupByCategoryGoodsAmount;
+	}
+	
+	
 	/*
 	public static ArrayList<HashMap<String, Object>> selectGoodsAmountGroupByCategory() throws Exception {
 
