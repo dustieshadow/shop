@@ -278,11 +278,11 @@
 								<div class="col-9 border-left" style="display: flex;">
 					       		
 					 			
-					 				<input  type="radio" class="btn btn-outline-secondary" id="남" name="memberGender" value="남" style="width: 100%; margin-right: 5px; color: #808080; " hidden>
+					 				<input  type="radio" id="남" name="memberGender" value="남" hidden>
 					      			<label  class="btn btn-outline-secondary" for="남" style="width: 100%; margin-right: 5px; color: #808080; padding-top: 10px;">Male</label>
 					      		
 					            
-					            	<input type="radio" class="btn btn-outline-secondary" id="여" name="memberGender" value="여" style="width: 100%; margin-right: 5px; color: #808080;  " hidden>
+					            	<input type="radio" id="여" name="memberGender" value="여" hidden>
 					      			<label class="btn btn-outline-secondary" for="여" style="width: 100%; margin-right: 5px; color: #808080; padding-top: 10px;">Female</label>
 					   			 </div>
 								</div>

@@ -54,6 +54,7 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;1,700&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
 
+
 <title>loginForm</title>
 <style>
 
@@ -153,12 +154,28 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
   font-style: normal;
 }
 
+.member{
+	text-decoration : none;
+	color: #626670;
+	font-style: italic;
+	text-decoration: underline;
+}
+ 
+
+input[type="radio"]:checked + label {
+     transition: color 1s ease;
+    color: #363636 !important;
+	}
+
+
 
 
 </style>
 </head>
 	<body>
+	
 		
+		<form method="post" action="/shop/emp/loginAction.jsp">
 		<div class="homepluss" style="margin-top: 100px;">
 				<a href="">HomePluss Inc.</a>
 			</div>
@@ -173,7 +190,7 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 						 	</span>
 						</div>
 						<div class="col border-left">
-							<input name = "memberId" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" required>
+							<input name = "id" type="text" class="input-field" placeholder="Email address" style="font-style: italic;" required>
 						</div>		
 					</div>
 				
@@ -185,22 +202,37 @@ System.out.println("로그인 액션에서 넘겨받은 errMsg값 : "+request.ge
 						 	</span>
 						</div>
 						<div class="col-9 border-left">
-							<input name ="empPw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
+							<input name ="pw" type="password" class="input-field" placeholder="Password" style="font-style: italic;" required>
 						</div> 	
 					</div>
 				</div>
 				<div style="display: flex; justify-content: center; margin-top: 20px;" >
+				
+
 			<div>
-				<a href="" class="btn btn-basic rajdhani-medium" style="margin-right: 1px; width: 270px; font-style: italic; color: #626670; " >Customer</a>
+				<input  type="radio" id="customer" name="type" value="customer" hidden required >
+				<label  for="customer" class="btn btn-basic rajdhani-medium" style="margin-right: 1px; width: 270px; font-style: italic; color: #9e9e9e; " >Customer</label>
 			</div>
 			<div>
-				<a href="" class="btn btn-basic rajdhani-medium" style="margin-left: 1px; width: 270px; font-style: italic; color: #626670;">Employee</a>
+				<input  type="radio" id="employee" name="type" value="employee" hidden required>
+				<label  for="employee" class="btn btn-basic rajdhani-medium" style=" margin-left: 1px; width: 270px; font-style: italic; color: #9e9e9e;" >Employee</label>
 			</div>	
 		</div>
-					<button class="rounded" style="font-weight:bold;  font-size:25px;  border :  1px solid grey;  margin-top : 20px; background-color: #32a852; width: 550px; height: 60px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
+					<button type="submit"  class="rounded" style="font-weight:bold;  font-size:25px;  border :  1px solid grey;  margin-top : 20px; background-color: #32a852; width: 550px; height: 60px; display: flex; justify-content: center; align-items: center; margin-left: auto; margin-right: auto;" >
 						<div style="color: white;">로그인</div>
 					</button>
 			</div>			
 		</div>
+		<div   style="display: flex; justify-content: center; margin-top: 20px;">
+			<a class="btn btn-basic  member rajdhani-medium" href="/shop/emp/addMemberForm.jsp" style="margin-left: 1px; width: 270px; color: #8c8c8c;">Sign up</a>
+			
+		</div>
+		<div style="display: flex; justify-content: center; margin-top: 200px; color: #6e6d6d;">
+			<%if(errMsg != null){
+				
+				 %> <%=errMsg %>
+		<% 	} %>
+		</div>
+		</form>
 	</body>
 </html>

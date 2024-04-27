@@ -7,7 +7,7 @@
 
 <%
 	//인증분기 세션 변수 이름 loginEmp
-	System.out.println("---------------LoginAction2.jsp");
+	System.out.println("---------------loginAction.jsp");
 
 	System.out.println("로그인 타입(사원or고객) : "+request.getParameter("type"));
 	System.out.println("loginForm에서 받은 id값 : "+request.getParameter("id"));
