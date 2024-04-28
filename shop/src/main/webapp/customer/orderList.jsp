@@ -332,6 +332,7 @@
 	width: 1800px;
 }
 
+
 .ordercolumn{
 	margin-top: 10px;
 }
@@ -548,21 +549,69 @@
 	%>
 										<li class="floatLeft a_textColor2"  >
 											<span class="a_marginRight"><a class="page-link"
-												href="/shop/customer/orderList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span></li>
+												href="/shop/customer/orderList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>
+												<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+												
+												">처음페이지</a></span></li>
 										<li class="floatLeft a_textColor2">
 											<span class="a_marginRight"><a class="page-link"
-												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">이전페이지</a></span>
 										</li>
 	<%									//현재 페이지가 1보다 작을때
 									} else {
 	%>
 										<li class="page-item floatLeft" style="color: gray;">
 											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-												href="/shop/customer/orderList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span>
+												href="/shop/customer/orderList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">처음페이지</a></span>
 										</li>
 										<li class="page-item floatLeft" style="color: gray;">
 											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">이전페이지</a></span>
 										</li>
 	<%
 									}		
@@ -571,20 +620,68 @@
 	%>
 										<li class="floatLeft">
 											<span class="a_marginRight"><a class="page-link"
-												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span>
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">다음페이지</a></span>
 										</li>
 										<li class="floatLeft">
 											<span class="a_marginRight"><a class="page-link"
-												href="/shop/customer/orderList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
+												href="/shop/customer/orderList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">마지막페이지</a></span></li>
 	<%								//현재 페이지가 최종페이지보다 같거나 클 때
 									} else {
 	%>
 										<li class="page-item floatLeft" style="color: gray;">
 											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span></li>
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">다음페이지</a></span></li>
 										<li class="page-item floatLeft" style="color: gray;">
 											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
-												href="/shop/customer/orderList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
+												href="/shop/customer/orderList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>
+																	<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								
+								%>
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%>&stateChange=ON
+						
+					<%	} %>
+									
+												">마지막페이지</a></span></li>
 	<%
 									}
 	
@@ -625,8 +722,6 @@
 					
 					
 				
-					
-					
 					
 					
 					
@@ -717,7 +812,20 @@
 											<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 0px; padding-left: 20px;">
 											
     											<div>
-    												<a href="" class="material-symbols-outlined btn
+    												<a 
+    													<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/statePurchaseAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+    												
+    												class="material-symbols-outlined btn
 	<%													if(listState.equals("결제완료")){
     %>														btn-primary
     <% 													}else{
@@ -733,11 +841,13 @@
    													<a 
    													<%
    														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
-   															System.out.println("비활테스트");
-   															%>
+   														
+   															%> href=""
+   															
    													<%	}else if(stateChange.equals("ON")){
-   														System.out.println("활성화테스트");
-   													%>
+   														
+   													%> href="/shop/customer/stateDispatchAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
    												<%	}
    													%>
    													 
@@ -754,7 +864,19 @@
    												</div>
    												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
   													<div>
-  														<a href="" class="material-symbols-outlined btn 
+  														<a 
+  														<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateDeliveryAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+  														class="material-symbols-outlined btn 
   	<%														if(listState.equals("배송시작")){
     %>															btn-primary
     <% 														}else{
@@ -766,7 +888,19 @@
    													</div>
   													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
   													<div>
-  														<a href="" class="material-symbols-outlined btn 
+  														<a 
+  														<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateArrivedAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+  														class="material-symbols-outlined btn 
   	<%														if(listState.equals("배송완료")){
     %>															btn-primary
    	<% 														}else{
@@ -778,7 +912,19 @@
    													</div>
  													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
   													<div>
-  														<a href="" class="material-symbols-outlined btn 
+  														<a 
+  														<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateCompletedAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+  														 class="material-symbols-outlined btn 
   	<%														if(listState.equals("구매승인")){
     %>															btn-primary
     <% 														}else{
