@@ -5,6 +5,10 @@ import java.util.*;
 
 public class OrderDAO {
 	
+	
+	
+	
+	
 	public static int insertOrder(String mail, int goodsNo, int totalPrice, int orderQuantity, String name, String filename) throws Exception {
 		int insertOrder = 0;
 		// DB 접근
@@ -84,6 +88,66 @@ public class OrderDAO {
 
 		return selectOrderList;
 	}
+	
+	
+	
+	public static ArrayList<HashMap<String, Object>> selectSearchMail(String searchMail)
+			throws Exception {
+
+		ArrayList<HashMap<String, Object>> selectSearchMail = new ArrayList<HashMap<String, Object>>();
+
+		Connection conn = DBHelper.getConnection();
+		// 긴 문자열 자동 줄바꿈 ctrl + enter
+
+		//
+		//String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, EXTRACT(year from order_date) year, EXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) hour, EXTRACT(minute from order_date) minute from orders order by order_date desc limit ?,?";
+
+		
+		String sql = "SELECT o.mail mail, o.orders_no orders_no ,o.goods_no goods_no, format(o.total_price,0) total_price, o.state state , o.filename filename, o.order_quantity order_quantity, o.NAME name, EXTRACT(year from order_date) YEAR, eXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) HOUR, EXTRACT(minute from order_date) MINUTE, g.goods_title goods_title, o.order_date order_date, o.dispatch_date dispatch_date, o.delivery_date delivery_date, DATE(o.arrived_date) arrived_date, o.completed_date completed_date, DATE(o.dispatch_date + INTERVAL 2 DAY) etaDispatch, DATE(o.delivery_date + INTERVAL 1 DAY) etaDelivery from orders o INNER JOIN goods g on o.goods_no = g.goods_no where o.mail = ? order by order_date desc";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, searchMail);
+		
+
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) {
+			HashMap<String, Object> m = new HashMap<String, Object>();
+
+			m.put("mail", rs.getString("mail"));
+			m.put("ordersNo", rs.getInt("orders_no"));
+			m.put("goodsNo", rs.getInt("goods_no"));
+			m.put("totalPrice", rs.getString("total_price"));
+			m.put("state", rs.getString("state"));
+			m.put("filename", rs.getString("filename"));
+			m.put("orderQuantity", rs.getString("order_quantity"));
+			m.put("listName", rs.getString("name"));
+			m.put("year", rs.getString("YEAR"));
+			m.put("month", rs.getString("MONTH"));
+			m.put("day", rs.getString("DAY"));
+			m.put("hour", rs.getString("HOUR"));
+			m.put("minute", rs.getString("MINUTE"));
+			m.put("goodsTitle", rs.getString("goods_title"));
+			
+			m.put("orderDate", rs.getString("order_date"));
+			m.put("dispatchDate", rs.getString("dispatch_date"));
+			m.put("deliveryDate", rs.getString("delivery_date"));
+			m.put("arrivedDate", rs.getString("arrived_date"));
+			m.put("completedDate", rs.getString("completed_date"));
+			m.put("etaDispatch", rs.getString("etaDispatch"));
+			m.put("etaDelivery", rs.getString("etaDelivery"));
+			
+			
+
+			selectSearchMail.add(m);
+
+		}
+		System.out.println("selectSearchMail(회원 메일 검색 주문리스트 출력) : " + selectSearchMail);
+		conn.close();
+
+		return selectSearchMail;
+	}
+	
+	
 	
 
 	public static int selectCountOrders() throws Exception {

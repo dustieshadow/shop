@@ -11,9 +11,11 @@
 	
 	System.out.println("[param]stateChange : " +request.getParameter("stateChange"));
 	System.out.println("[param]msg : " +request.getParameter("msg"));
+	 System.out.println("[param]searchMail : "+request.getParameter("searchMail"));
 	
 	String stateChange = null;
 	String msg = null;
+	String searchMail = null;
 	
 	if(request.getParameter("stateChange")!= null){
 		stateChange = request.getParameter("stateChange");
@@ -24,6 +26,11 @@
 		msg = request.getParameter("msg");
 		System.out.println("msg : " + msg);
 	}
+	
+	  if(request.getParameter("searchMail")!= null){
+	    	searchMail = request.getParameter("searchMail");
+	    	System.out.println("searchMail : "+searchMail);
+	    }
 	
 	
 	
@@ -236,6 +243,25 @@
 	System.out.println("totalRow % rowPerPage : " + totalRow % rowPerPage);
 	System.out.println("[오더리스트 최종페이지]totalPage : " + totalPage);
 	
+	
+	ArrayList<HashMap<String, Object>> selectSearchMail = null;
+	
+	if(searchMail != null){
+	
+	selectSearchMail = OrderDAO.selectSearchMail(searchMail);
+	 
+	 System.out.println("selectSearchMail :" +selectSearchMail);
+	}
+	
+	if(selectSearchMail != null && !selectSearchMail.isEmpty()){
+		 System.out.println("메일 주문리스트 조회 성공");
+	}else{
+		System.out.println("메일 주문리스트 조회 실패");
+	}
+	
+	
+	
+
 	//ArrayList<HashMap<String,Object>> selectGroupByCategory = GoodsDAO.selectGroupByCategory();
 	//ArrayList<String> categoryList = GoodsDAO.categoryList();
 	//ArrayList<HashMap<String,Object>> chartGoodsListCategory = GoodsDAO.chartGoodsListCategory(category);
@@ -500,7 +526,7 @@
 					
 						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;"><span class="material-symbols-outlined" style="margin-right: 10px;">quick_reorder</span>주문 내역</h2>
 						
-						
+						<!-- 
 						<div style="margin-bottom: 50px;">
 							<form method="post" action="/shop/customer/orderList.jsp">
 							배송상태 :
@@ -533,8 +559,18 @@
 								</span>
 							</form>
 						</div>
-						
+						 -->
+					<!--  ///////////////////////// -->	
 				
+					<form method="post" action="/shop/customer/orderList.jsp">
+					<div class="input-group" style="margin-bottom: 50px;">
+  					<span class="input-group-text">ID</span>
+  					<input type="text" class="form-control" name="searchMail" style="font-size: 14px;" required>
+  					
+  					<button type="submit" style="margin-left: 0px;"><span class="material-symbols-outlined">check</span></button>
+				</div>
+					</form>
+					
 					
 					
 					<!-- ////////////////////////페이지네이션//////////////////////// -->
@@ -739,11 +775,9 @@
 					
 				
 					
-					
-					
-					
-					
-					<div class="col-10" style="margin-left: 10px; margin-top: 10px;">
+	<% 		if(selectSearchMail != null && !selectSearchMail.isEmpty()){
+	%>
+			<div class="col-10" style="margin-left: 10px; margin-top: 10px;">
 						<div class="ordercontainer">
 							
 							<div class="orderbanner">
@@ -757,7 +791,10 @@
 									</div>
 								</div>
 							</div>
-	<% 						for(HashMap<String, Object> m2 : selectOrderList){
+	<% 						
+	
+						
+								for(HashMap<String, Object> m2 : selectSearchMail){
 								String listState =	(String)m2.get("state");
 								System.out.println("listState : "+listState);										
 	%>
@@ -983,6 +1020,275 @@
 						</div>
 
 					</div>
+					
+	
+	
+	<% 		
+	
+			}else{
+	%>		
+				<div class="col-10" style="margin-left: 10px; margin-top: 10px;">
+						<div class="ordercontainer">
+							
+							<div class="orderbanner">
+								<div class="row">
+									<div class="ordercolumn col-2" style="margin-left: 150px;">결제
+									</div>
+									<div class="ordercolumn col-4" style="margin-left: 160px;">상품명/상품번호
+									</div>
+									
+									<div class="ordercolumn col" style="margin-left: 120px;">주문상태
+									</div>
+								</div>
+							</div>
+	<% 						
+	
+						
+								for(HashMap<String, Object> m2 : selectOrderList){
+								String listState =	(String)m2.get("state");
+								System.out.println("listState : "+listState);										
+	%>
+									<div class="orderlist">
+										<div class="row">
+										
+										
+										<div class="orderdatepayment col-1">				
+												<div class="orderdate">
+													<div style="margin-left: 10px;">고객성함</div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #8eb0bf;">'<%=m2.get("listName") %>'님</div>
+												</div>
+												<div class="orderpayment">
+														<div style="margin-left: 10px;">주문수량</div>
+														<div style="text-align: right; font-size: 22px; color: #F361A6;"><%=m2.get("orderQuantity") %></div>
+												</div>
+											</div>
+										
+										
+											<div class="orderdatepayment col-2">				
+												<div class="orderdate">
+													<div style="margin-left: 10px;">결제일자</div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #8eb0bf;"><%=m2.get("year") %>-<%=m2.get("month") %>-<%=m2.get("day") %> &nbsp;<%=m2.get("hour") %>시 <%=m2.get("minute") %>분</div>
+												</div>
+												<div class="orderpayment">
+														<div style="margin-left: 10px;">결제금액</div>
+														<div style="text-align: right; font-size: 25px; color: #F361A6;"><%=m2.get("totalPrice") %>원</div>
+												</div>
+											</div>
+											<div class="col-3 row" style="border-right: 1px solid #EAEAEA;">
+												<div class="divimg col"  style="margin-bottom: 2px;">
+								    				<img class = "img" src="/shop/upload/<%=m2.get("filename") %>">
+								    			</div>
+								   				<div class="col-6" style="font-size: 15px; text-align: center; align-items: center; justify-content: center; display: flex; color: #5c5c5c; padding-left: 0px; padding-right: 0px;">
+													<%=m2.get("goodsTitle") %>
+								    			</div>
+								  		    
+											</div>
+									  		<div class="orderdatepayment col-1">							
+												<div class="orderdate">
+													<div style="margin-left: 10px;">상품번호</div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #5c5c5c;"><%=m2.get("goodsNo") %></div>
+												</div>
+												<div class="orderpayment">
+													<div style="margin-left: 10px;">주문번호</div>
+													<div style="text-align: right;  font-size: 20px; color: #5c5c5c;"><%=m2.get("ordersNo") %></div>
+										
+												</div>
+											</div>
+											
+											
+											<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 0px; padding-left: 20px;">
+											
+    											<div>
+    												<a 
+    													<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/statePurchaseAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+    												
+    												class="material-symbols-outlined btn
+	<%													if(listState.equals("결제완료")){
+    %>														btn-primary
+    <% 													}else{
+    %>														btn-light<%
+    													}
+    %>
+    									 				purchase-button" style="font-size: 60px;">credit_card</a>
+   													<div style="margin-left: 13px;">결제완료</div>
+   												</div>
+   										
+   												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+   												<div>
+   													<a 
+   													<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   														
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateDispatchAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+   													 
+   													
+   													class="material-symbols-outlined btn 
+   	<%													if(listState.equals("출하지시")){
+    %>														btn-primary
+    <% 													}else{
+    %>														btn-light<%
+    													}
+    %>
+   										 					purchase-button" style="font-size: 60px;">chat_paste_go</a>
+   													<div style="margin-left: 13px;">출하지시</div>
+   												</div>
+   												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  													<div>
+  														<a 
+  														<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateDeliveryAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+  														class="material-symbols-outlined btn 
+  	<%														if(listState.equals("배송시작")){
+    %>															btn-primary
+    <% 														}else{
+   	%>															btn-light<%
+    														}
+    %>
+  										 						purchase-button" style="font-size: 60px;">conveyor_belt</a>
+  														<div style="margin-left: 13px;">배송시작</div>
+   													</div>
+  													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  													<div>
+  														<a 
+  														<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateArrivedAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+  														class="material-symbols-outlined btn 
+  	<%														if(listState.equals("배송완료")){
+    %>															btn-primary
+   	<% 														}else{
+    %>															btn-light<%
+    														}
+    %>
+    									 						purchase-button" style="font-size: 60px;">approval_delegation</a>
+ 														<div style="margin-left: 13px;">배송완료</div>
+   													</div>
+ 													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
+  													<div>
+  														<a 
+  														<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															
+   															%> href=""
+   															
+   													<%	}else if(stateChange.equals("ON")){
+   														
+   													%> href="/shop/customer/stateCompletedAction.jsp?ordersNo=<%=m2.get("ordersNo")%>&currentPage=<%=currentPage %>"
+   													
+   												<%	}
+   													%>
+  														 class="material-symbols-outlined btn 
+  	<%														if(listState.equals("구매승인")){
+    %>															btn-primary
+    <% 														}else{
+   	%>															btn-light<%
+    														}
+    %>
+    															purchase-button" style="font-size: 60px;">trackpad_input</a>
+														<div style="margin-left: 13px;">구매승인</div>
+   													</div>
+   													
+   										<!--    ////////////////////////                -->
+   													
+   													<!-- ///////////////////////// -->
+												</div>
+												
+												
+												
+												<div class="col-1" style="margin-top: 23px; padding-left: 0px; padding-right: 0px;">
+   	<%													if(listState.equals("결제완료")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
+   															<div style="text-align: center;">상품준비단계</div>
+    <%
+    													}else if(listState.equals("출하지시")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일(예상)</div>
+   															<div style="text-align: center; color: #85b8ff;"><%=m2.get("etaDispatch") %></div>
+    <%
+    													}else if(listState.equals("배송시작")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일(예상)</div>
+   															<div style="text-align: center; color: #85b8ff;"><%=m2.get("etaDelivery") %></div>
+    <%
+    													}else if(listState.equals("배송완료")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송완료</div>
+   															<div style="text-align: center; color: #4775ff;"><%=m2.get("arrivedDate") %></div>
+    <%
+    													}else if(listState.equals("구매승인")){
+    %> 
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송완료</div>
+   															<div style="text-align: center; color: #ff6b80;">구매확정</div>
+    <%
+    													}
+    %>
+   													</div>
+
+											</div>
+								
+										</div>
+							
+	<%
+								} 
+	%>
+
+						</div>
+
+					</div>
+					
+	
+	<%		}
+	%>					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 				</div>
 		</body>
 	

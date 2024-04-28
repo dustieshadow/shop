@@ -508,11 +508,11 @@
 					 	<div class="col-3">
 					 		<span style="margin-left: 10px;">
 					 			<span class="material-symbols-outlined icon p-0" style="margin-right: 4px;">person_apron</span>
-					 			<span class="text">입사날짜</span>
+					 			<span class="date">입사날짜</span>
 					 		</span>
 					 	</div>
 					 	<div class="col-9 border-left">
-					 	  <input name="hireDate" type="text" class="input-field" placeholder="Enter date" style="font-style: italic;" required>
+					 	  <input name="hireDate" type="date" class="input-field" placeholder="Enter date" style="font-style: italic;" required>
 					 	</div> 	
 					 </div>
 			  
