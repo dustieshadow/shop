@@ -9,11 +9,28 @@
 	
 	System.out.println("세션 ID: " + session.getId());
 	
+	System.out.println("[param]stateChange : " +request.getParameter("stateChange"));
+	System.out.println("[param]msg : " +request.getParameter("msg"));
+	
+	String stateChange = null;
+	String msg = null;
+	
+	if(request.getParameter("stateChange")!= null){
+		stateChange = request.getParameter("stateChange");
+		System.out.println("stateChange : " + stateChange);
+	}
+	
+	if(request.getParameter("msg")!= null){
+		msg = request.getParameter("msg");
+		System.out.println("msg : " + msg);
+	}
+	
+	
 	
 	//배너 - 세션값에서 주입할 변수
 	//고객
 	String type = null;
-	String msg = null;
+	
 	String mail = null;
 	String name = null;
 
@@ -579,9 +596,26 @@
 						
 						<!-- /////////강제 상태변경//////////// -->
 						
-						<span class="btn btn-primary purchase-button" style="font-size: 20px; margin-top: 50px; margin-left: 25px;">강제상태변경 OFF</span>
+						<%
+							if(stateChange == null || stateChange.equals("OFF")){
+								msg = URLEncoder.encode("강제상태변경이 활성화되었습니다.","UTF-8");
+								%><a href="/shop/customer/orderList.jsp?stateChange=ON&msg=<%=msg %>&currentPage=<%=currentPage %>" class="btn btn-primary purchase-button" style="font-size: 20px; margin-top: 50px; margin-left: 20px;">강제상태변경 OFF</a>
+								
+								
+								
+						<%	}else if(stateChange.equals("ON")){
+							%><a href="/shop/customer/orderList.jsp?stateChange=OFF&currentPage=<%=currentPage %>" class="btn btn-danger purchase-button" style="font-size: 20px; margin-top: 50px; margin-left: 15px;">강제상태변경 활성화</a>
 						
+					<%	}
+						%>
 						
+						<%
+									if(request.getParameter("msg")==null){
+										
+									}else if(request.getParameter("msg")!=null){
+										%><div style="margin-top: 20px; font-size: 15px; margin-left: 11px;"><%=msg %></div>
+								<%	}
+								%>
 						
 						
 						
@@ -614,7 +648,7 @@
 					
 					
 					
-					<div class="col-10">
+					<div class="col-10" style="margin-left: 10px; margin-top: 10px;">
 						<div class="ordercontainer">
 							
 							<div class="orderbanner">
@@ -634,6 +668,20 @@
 	%>
 									<div class="orderlist">
 										<div class="row">
+										
+										
+										<div class="orderdatepayment col-1">				
+												<div class="orderdate">
+													<div style="margin-left: 10px;">고객성함</div>
+													<div style="margin-top:8px;  text-align: right; font-size: 20px; color: #8eb0bf;">'<%=m2.get("listName") %>'님</div>
+												</div>
+												<div class="orderpayment">
+														<div style="margin-left: 10px;">주문수량</div>
+														<div style="text-align: right; font-size: 22px; color: #F361A6;"><%=m2.get("orderQuantity") %></div>
+												</div>
+											</div>
+										
+										
 											<div class="orderdatepayment col-2">				
 												<div class="orderdate">
 													<div style="margin-left: 10px;">결제일자</div>
@@ -648,7 +696,7 @@
 												<div class="divimg col"  style="margin-bottom: 2px;">
 								    				<img class = "img" src="/shop/upload/<%=m2.get("filename") %>">
 								    			</div>
-								   				<div class="col-6" style="font-size: 15px; text-align: center; align-items: center; display: flex; color: #5c5c5c; padding-left: 0px; padding-right: 0px;">
+								   				<div class="col-6" style="font-size: 15px; text-align: center; align-items: center; justify-content: center; display: flex; color: #5c5c5c; padding-left: 0px; padding-right: 0px;">
 													<%=m2.get("goodsTitle") %>
 								    			</div>
 								  		    
@@ -664,70 +712,91 @@
 										
 												</div>
 											</div>
-									
-											<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 20px;">
+											
+											
+											<div class="col" style="display: flex; align-items: center; justify-content: space-between; padding-right: 0px; padding-left: 20px;">
+											
     											<div>
-    												<span class="material-symbols-outlined btn
+    												<a href="" class="material-symbols-outlined btn
 	<%													if(listState.equals("결제완료")){
     %>														btn-primary
     <% 													}else{
     %>														btn-light<%
     													}
     %>
-    									 				purchase-button" style="font-size: 60px;">credit_card</span>
+    									 				purchase-button" style="font-size: 60px;">credit_card</a>
    													<div style="margin-left: 13px;">결제완료</div>
    												</div>
    										
    												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
    												<div>
-   													<span class="material-symbols-outlined btn 
+   													<a 
+   													<%
+   														if((request.getParameter("stateChange")==null||stateChange.equals("OFF")) ){
+   															System.out.println("비활테스트");
+   															%>
+   													<%	}else if(stateChange.equals("ON")){
+   														System.out.println("활성화테스트");
+   													%>
+   												<%	}
+   													%>
+   													 
+   													
+   													class="material-symbols-outlined btn 
    	<%													if(listState.equals("출하지시")){
     %>														btn-primary
     <% 													}else{
     %>														btn-light<%
     													}
     %>
-   										 					purchase-button" style="font-size: 60px;">chat_paste_go</span>
+   										 					purchase-button" style="font-size: 60px;">chat_paste_go</a>
    													<div style="margin-left: 13px;">출하지시</div>
    												</div>
    												<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
   													<div>
-  														<span class="material-symbols-outlined btn 
+  														<a href="" class="material-symbols-outlined btn 
   	<%														if(listState.equals("배송시작")){
     %>															btn-primary
     <% 														}else{
    	%>															btn-light<%
     														}
     %>
-  										 						purchase-button" style="font-size: 60px;">conveyor_belt</span>
+  										 						purchase-button" style="font-size: 60px;">conveyor_belt</a>
   														<div style="margin-left: 13px;">배송시작</div>
    													</div>
   													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
   													<div>
-  														<span class="material-symbols-outlined btn 
+  														<a href="" class="material-symbols-outlined btn 
   	<%														if(listState.equals("배송완료")){
     %>															btn-primary
    	<% 														}else{
     %>															btn-light<%
     														}
     %>
-    									 						purchase-button" style="font-size: 60px;">approval_delegation</span>
+    									 						purchase-button" style="font-size: 60px;">approval_delegation</a>
  														<div style="margin-left: 13px;">배송완료</div>
    													</div>
  													<div style="height: 2px; width: 20px; background-color: grey; margin-bottom: 20px;"></div>
   													<div>
-  														<span class="material-symbols-outlined btn 
+  														<a href="" class="material-symbols-outlined btn 
   	<%														if(listState.equals("구매승인")){
     %>															btn-primary
     <% 														}else{
    	%>															btn-light<%
     														}
     %>
-    															purchase-button" style="font-size: 60px;">trackpad_input</span>
+    															purchase-button" style="font-size: 60px;">trackpad_input</a>
 														<div style="margin-left: 13px;">구매승인</div>
    													</div>
-   										
-   													<div>
+   													
+   										<!--    ////////////////////////                -->
+   													
+   													<!-- ///////////////////////// -->
+												</div>
+												
+												
+												
+												<div class="col-1" style="margin-top: 23px; padding-left: 0px; padding-right: 0px;">
    	<%													if(listState.equals("결제완료")){
     %> 
     														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
@@ -756,7 +825,6 @@
     													}
     %>
    													</div>
-												</div>
 
 											</div>
 								
