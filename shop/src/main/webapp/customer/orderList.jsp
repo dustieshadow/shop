@@ -479,6 +479,7 @@
 		    
 		    		<div class="row">
 					<div class="col-2" style="background-color: #EBF7FF; height: 1000px; width: 250px">		
+					
 						<h2 style="margin-bottom: 30px; margin-top: 78px; margin-left: 10px;"><span class="material-symbols-outlined" style="margin-right: 10px;">quick_reorder</span>주문 내역</h2>
 						
 						
@@ -514,8 +515,104 @@
 								</span>
 							</form>
 						</div>
-
-					</div>	
+						
+				
+					
+					
+					<!-- ////////////////////////페이지네이션//////////////////////// -->
+					
+				
+						<div>
+							<nav class="nav a_textColor1" aria-label="Page navigation" style="margin-top: 15px; margin-bottom:100px; height:30px;">
+								<ul class="justify-content-center">			
+	<%		
+									//현재 페이지가 1 이상일때
+									if (currentPage > 1) {
+	%>
+										<li class="floatLeft a_textColor2"  >
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/customer/orderList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span></li>
+										<li class="floatLeft a_textColor2">
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
+										</li>
+	<%									//현재 페이지가 1보다 작을때
+									} else {
+	%>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/customer/orderList.jsp?currentPage=1&rowPerPage=<%=rowPerPage%>">처음페이지</a></span>
+										</li>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage - 1%>&rowPerPage=<%=rowPerPage%>">이전페이지</a></span>
+										</li>
+	<%
+									}		
+										//현재 페이지가 최종페이지가 작을 때
+									if (currentPage < totalPage) {
+	%>
+										<li class="floatLeft">
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span>
+										</li>
+										<li class="floatLeft">
+											<span class="a_marginRight"><a class="page-link"
+												href="/shop/customer/orderList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
+	<%								//현재 페이지가 최종페이지보다 같거나 클 때
+									} else {
+	%>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/customer/orderList.jsp?currentPage=<%=currentPage + 1%>&rowPerPage=<%=rowPerPage%>">다음페이지</a></span></li>
+										<li class="page-item floatLeft" style="color: gray;">
+											<span class="a_marginRight disabled"><a class="page-link" style="color: gray;"
+												href="/shop/customer/orderList.jsp?currentPage=<%=totalPage%>&rowPerPage=<%=rowPerPage%>">마지막페이지</a></span></li>
+	<%
+									}
+	
+	%>
+								</ul>
+							</nav>
+						</div>
+							<!-- ////////////////////////페이지네이션///////////////////////// -->
+						
+						<!-- /////////강제 상태변경//////////// -->
+						
+						<span class="btn btn-primary purchase-button" style="font-size: 20px; margin-top: 50px; margin-left: 25px;">강제상태변경 OFF</span>
+						
+						
+						
+						
+						
+						
+						<!-- /////////강제 상태변경//////////// -->
+					</div>
+					
+					
+				
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				
+					
+					
+					
+					
 					
 					<div class="col-10">
 						<div class="ordercontainer">
