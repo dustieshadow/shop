@@ -734,7 +734,16 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 								   		<div class="row">
 								    		<div class="col-5">
 								  				<div class="box" style="font-style: italic; font-size: 14px;">
-								    				상품코드 : <%=m4.get("goods_no")%>
+								    				<span>상품코드 : <%=m4.get("goods_no")%></span>
+								    				
+								    				<%
+								    					if((Integer)(m4.get("goods_amount")) <= 10){
+								    					%>	<span style="margin-left: 18px; color: red;">
+										    				<span class="material-symbols-outlined">alarm
+										    				</span> 품절임박</span>
+								    				<%	}
+								    				%>
+								    				
 								   				</div>      
 												<div class="box" style="font-weight: 300;">
 								  				<%=m4.get("goods_title")%>
@@ -812,7 +821,16 @@ ArryaList<HashMap<String,Object>> goodsList> = GoodsDAO.selectGoodsList(startRow
 								    <div class="row">
 								    <div class="col-5">
 								    <div class="box" style="font-style: italic; font-size: 14px;">
-								    	상품코드 : <%=m4.get("goods_no")%>
+								    	<span>상품코드 : <%=m4.get("goods_no")%></span>
+								    	<%
+								    					if((Integer)(m4.get("goods_amount")) <= 10){
+								    					%>	<span style="margin-left: 18px; color: red;">
+										    				<span class="material-symbols-outlined">alarm
+										    				</span> 품절임박</span>
+								    				<%	}
+								    				%>
+								    	
+								    	
 								    </div>      
 								    <div class="box" style="font-weight: 300;">
 								    	<%=m4.get("goods_title")%>

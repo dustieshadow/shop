@@ -41,8 +41,7 @@ public class OrderDAO {
 		//String sql = "select mail, goods_no, total_price, state , filename, order_quantity, name, EXTRACT(year from order_date) year, EXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) hour, EXTRACT(minute from order_date) minute from orders order by order_date desc limit ?,?";
 
 		
-		String sql = "SELECT o.mail mail, o.orders_no orders_no ,o.goods_no goods_no, format(o.total_price,0) total_price, o.state state , o.filename filename, o.order_quantity order_quantity, o.NAME name, EXTRACT(year from order_date) YEAR, eXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) HOUR, EXTRACT(minute from order_date) MINUTE, g.goods_title goods_title from orders o INNER JOIN goods g on o.goods_no = g.goods_no order by order_date desc limit ?,?";
-
+		String sql = "SELECT o.mail mail, o.orders_no orders_no ,o.goods_no goods_no, format(o.total_price,0) total_price, o.state state , o.filename filename, o.order_quantity order_quantity, o.NAME name, EXTRACT(year from order_date) YEAR, eXTRACT(month from order_date) MONTH, EXTRACT(day from order_date) DAY, EXTRACT(hour from order_date) HOUR, EXTRACT(minute from order_date) MINUTE, g.goods_title goods_title, o.order_date order_date, o.dispatch_date dispatch_date, o.delivery_date delivery_date, DATE(o.arrived_date) arrived_date, o.completed_date completed_date, DATE(o.dispatch_date + INTERVAL 2 DAY) etaDispatch, DATE(o.delivery_date + INTERVAL 1 DAY) etaDelivery from orders o INNER JOIN goods g on o.goods_no = g.goods_no order by order_date desc limit ?,?";
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, limitStartPage);
@@ -66,6 +65,16 @@ public class OrderDAO {
 			m.put("hour", rs.getString("HOUR"));
 			m.put("minute", rs.getString("MINUTE"));
 			m.put("goodsTitle", rs.getString("goods_title"));
+			
+			m.put("orderDate", rs.getString("order_date"));
+			m.put("dispatchDate", rs.getString("dispatch_date"));
+			m.put("deliveryDate", rs.getString("delivery_date"));
+			m.put("arrivedDate", rs.getString("arrived_date"));
+			m.put("completedDate", rs.getString("completed_date"));
+			m.put("etaDispatch", rs.getString("etaDispatch"));
+			m.put("etaDelivery", rs.getString("etaDelivery"));
+			
+			
 
 			selectOrderList.add(m);
 

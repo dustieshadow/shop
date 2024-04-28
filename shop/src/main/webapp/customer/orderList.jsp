@@ -748,9 +748,9 @@
 							
 							<div class="orderbanner">
 								<div class="row">
-									<div class="ordercolumn col-2" style="margin-left: 130px;">결제
+									<div class="ordercolumn col-2" style="margin-left: 150px;">결제
 									</div>
-									<div class="ordercolumn col-4" style="margin-left: 120px;">상품명/상품번호
+									<div class="ordercolumn col-4" style="margin-left: 160px;">상품명/상품번호
 									</div>
 									
 									<div class="ordercolumn col" style="margin-left: 120px;">주문상태
@@ -950,23 +950,23 @@
     <%
     													}else if(listState.equals("출하지시")){
     %> 
-    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
-   															<div style="text-align: center;">날짜데이터</div>
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일(예상)</div>
+   															<div style="text-align: center; color: #85b8ff;"><%=m2.get("etaDispatch") %></div>
     <%
     													}else if(listState.equals("배송시작")){
     %> 
-    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일</div>
-   															<div style="text-align: center;">날짜데이터</div>
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">도착예정일(예상)</div>
+   															<div style="text-align: center; color: #85b8ff;"><%=m2.get("etaDelivery") %></div>
     <%
     													}else if(listState.equals("배송완료")){
     %> 
-    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송상태</div>
-   															<div style="text-align: center;">배송완료</div>
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송완료</div>
+   															<div style="text-align: center; color: #4775ff;"><%=m2.get("arrivedDate") %></div>
     <%
     													}else if(listState.equals("구매승인")){
     %> 
-    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송상태</div>
-   															<div style="text-align: center;">구매확정</div>
+    														<div style="margin-bottom: 20px; text-align: center; color: #5e5e5e; font-size: 15px;">배송완료</div>
+   															<div style="text-align: center; color: #ff6b80;">구매확정</div>
     <%
     													}
     %>
